@@ -57,6 +57,7 @@ body{
 .sync-dot.err{background:#AE3B33;}
 .sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite;}
 @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes spin{to{transform:rotate(360deg);}}
 
 .sidebar-modules{padding:8px 0;flex:1;}
 .mod-btn{
@@ -183,6 +184,51 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .status-btn.sel-weak{border-color:var(--hanko);background:var(--hanko);color:#fff;}
 .status-btn.sel-known{border-color:var(--seal);background:var(--seal);color:#fff;}
 .status-btn.sel-unseen{border-color:var(--unseen);background:var(--unseen);color:#fff;}
+.status-btn.edit-btn{border-color:var(--gold);color:var(--gold);}
+.status-btn.edit-btn:hover{background:var(--gold);color:#fff;}
+
+/* EDIT/ADD FACT MODAL */
+.edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1100;align-items:center;justify-content:center;padding:16px;}
+.edit-modal-overlay.show{display:flex;}
+.edit-modal{background:var(--paper);border:2px solid var(--ink);border-radius:6px;padding:24px 22px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;}
+.edit-modal h3{font-family:'Shippori Mincho',serif;font-size:18px;margin-bottom:6px;}
+.edit-modal p.hint{font-size:12px;color:var(--ink-soft);margin-bottom:12px;line-height:1.7;}
+.edit-modal label{font-size:12px;font-weight:700;display:block;margin-bottom:4px;margin-top:10px;}
+.edit-modal textarea{width:100%;min-height:80px;padding:9px 10px;border:1.5px solid var(--line);border-radius:3px;font-family:inherit;font-size:13px;background:#fff;resize:vertical;}
+.edit-modal input[type=text]{width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:3px;font-family:inherit;font-size:13px;background:#fff;}
+.edit-modal textarea:focus,.edit-modal input:focus{outline:none;border-color:var(--ink);}
+.edit-modal select{width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:3px;font-family:inherit;font-size:13px;background:#fff;}
+.edit-modal .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
+.edit-modal .danger-link{font-size:11px;color:var(--hanko);text-decoration:underline;background:none;border:none;cursor:pointer;font-family:inherit;margin-top:10px;}
+.edit-modal .gen-status{font-size:12px;color:var(--ink-soft);margin-top:10px;display:flex;align-items:center;gap:6px;}
+.edit-modal .gen-spinner{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
+.edit-modal .preview-q{background:#fff;border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-top:8px;font-size:12.5px;}
+.edit-modal .preview-q .pq-stmt{font-weight:700;margin-bottom:4px;}
+.edit-modal .preview-q .pq-meta{font-size:11px;color:var(--ink-soft);}
+.edit-modal .q-field-block{background:#fff;border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-top:10px;}
+.edit-modal .q-field-block label{margin-top:6px;}
+.edit-modal .q-field-block label:first-child{margin-top:0;}
+
+/* WEAK EXPORT */
+.exp-total{font-size:13px;color:var(--ink-soft);margin:6px 0 12px;}
+.exp-total strong{color:var(--hanko);font-size:16px;}
+.exp-list{max-height:55vh;overflow-y:auto;border:1px solid var(--line);border-radius:4px;background:#fff;}
+.exp-section{padding:12px 14px;border-bottom:1px solid var(--line);}
+.exp-section:last-child{border-bottom:none;}
+.exp-section-head{font-weight:700;font-size:13px;padding-left:10px;margin-bottom:8px;color:var(--ink);}
+.exp-fact-row{display:flex;gap:8px;font-size:12.5px;padding:5px 0;border-bottom:1px dashed var(--line);line-height:1.6;}
+.exp-fact-row:last-child{border-bottom:none;}
+.exp-num{flex-shrink:0;width:22px;text-align:right;color:var(--unseen);font-size:11px;padding-top:2px;}
+
+/* EXPORT MODAL */
+#exportModalBox h3{font-family:'Shippori Mincho',serif;font-size:18px;margin-bottom:10px;}
+#exportModalBox .export-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+#exportModalBox .export-tab{font-size:12px;font-weight:700;padding:6px 12px;border:1.5px solid var(--line);border-radius:2px;background:#fff;cursor:pointer;font-family:inherit;color:var(--ink-soft);}
+#exportModalBox .export-tab.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+#exportModalBox .export-count{font-size:12px;color:var(--ink-soft);margin-bottom:8px;}
+#exportModalBox .export-count strong{color:var(--hanko);}
+#exportModalBox textarea.export-text{width:100%;min-height:280px;padding:10px 12px;border:1.5px solid var(--line);border-radius:3px;font-family:'Noto Sans JP',sans-serif;font-size:12px;background:#fff;resize:vertical;line-height:1.8;}
+#exportModalBox .empty-export{text-align:center;padding:30px;color:var(--ink-soft);font-size:13px;}
 
 /* QUIZ */
 .quiz-progress{font-size:11px;color:var(--ink-soft);margin-bottom:4px;letter-spacing:.04em;}
@@ -254,14 +300,11 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
     <div class="sidebar-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場</div>
       <div class="app-sub">全科目版</div>
-      <div class="sync-status" id="sidebarSyncStatus">
-        <span class="sync-dot" id="syncDot"></span>
-        <span id="syncLabel">未接続</span>
-      </div>
+    
     </div>
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
-      <button id="setupBtn">☁ クラウド接続済み</button>
+      <button id="exportWeakBtn">📋 苦手項目を書き出す</button>
       <button id="resetAllBtn">全科目の進捗をリセット</button>
     </div>
   </aside>
@@ -270,7 +313,7 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   <nav class="topnav">
     <div class="topnav-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
-      <div class="topnav-sync" id="topnavSync"><span class="sync-dot" id="syncDotM"></span><span id="syncLabelM">未接続</span></div>
+      
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
   </nav>
@@ -279,51 +322,17 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   <main class="main" id="mainArea"></main>
 </div>
 
-<!-- SUPABASE SETUP MODAL -->
-<div class="modal-overlay" id="setupModal">
-  <div class="modal">
-    <h2>☁ クラウド同期：接続済み</h2>
-    <p>設定すると、どのデバイスからでも同じ進捗を共有できます。</p>
-
-    <div class="step">
-      <strong>① Supabaseでプロジェクトを作成</strong>
-      <a href="https://supabase.com" target="_blank" style="font-size:12px;color:var(--gold);">supabase.com</a> で無料アカウントを作成し、新しいプロジェクトを作成してください。
-    </div>
-
-    <div class="step">
-      <strong>② SQL Editorで以下を実行</strong>
-      左メニューの「SQL Editor」を開いて下のSQLを貼り付けて実行してください。
-      <div class="sql-block" id="sqlBlock">create table if not exists quiz_progress (
-  id text primary key,
-  status_map jsonb not null default '{}',
-  wrong_pool jsonb not null default '[]',
-  updated_at timestamptz default now()
-);
-
-alter table quiz_progress enable row level security;
-
-create policy "allow all" on quiz_progress
-  for all using (true) with check (true);</div>
-      <button class="copy-btn" onclick="copySql()">コピー</button>
-    </div>
-
-    <div class="step">
-      <strong>③ APIキーを入力</strong>
-      「Settings」→「API」から以下をコピーして入力してください。
-    </div>
-
-    <label>Project URL</label>
-    <input type="text" id="inputUrl" placeholder="https://xxxxxxxxxxxxxx.supabase.co">
-    <label>anon public key</label>
-    <input type="text" id="inputKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-
-    <div class="btn-row">
-      <button class="btn-primary" id="saveSupabaseBtn">接続して保存</button>
-      <button class="btn-secondary" id="closeModalBtn">キャンセル</button>
-    </div>
-    <p class="note">※ APIキーはこのHTMLファイル内のlocalStorageにのみ保存されます。サーバーには送信されません。</p>
-  </div>
+<!-- EDIT/ADD FACT MODAL -->
+<div class="edit-modal-overlay" id="factModalOverlay">
+  <div class="edit-modal" id="factModalBox"></div>
 </div>
+
+<!-- WEAK EXPORT MODAL -->
+<div class="edit-modal-overlay" id="exportModalOverlay">
+  <div class="edit-modal" id="exportModalBox" style="max-width:600px;"></div>
+</div>
+
+
 
 <script>
 /* ============================================================
@@ -5239,121 +5248,71 @@ const ALL_MODULES = {
 };
 
 /* ============================================================
-   SUPABASE CONFIG & SYNC
+   PER-MODULE STATE
    ============================================================ */
-let SUPABASE_URL = 'https://jazrluimdllasjchnhnm.supabase.co';
-let SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphenJsdWltZGxsYXNqY2huaG5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI1MTM2MTUsImV4cCI6MjA5ODA4OTYxNX0.ZO0P65olAXZ8VqHFCfzMr3ZLFu_fOHP7_DLMXWixcRQ';
-const PROGRESS_ID = 'takken-quiz-v1'; // single row stores all progress
+let globalStatusMap = {};
+let globalWrongPool = [];
 
-function loadSupabaseConfig(){
-  // credentials are hard-coded; no-op
+const moduleState = {}; // key -> {currentQuiz, lastResults, currentView}
+function initModuleState(key){
+  if(moduleState[key]) return;
+  moduleState[key]={currentQuiz:null,lastResults:null,currentView:'dashboard'};
 }
-function saveSupabaseConfig(url, key){
-  // credentials are hard-coded; no-op
+
+function getStatus(key, factId){
+  return globalStatusMap[key+':'+factId]||'unseen';
+}
+function setStatus(key, factId, val){
+  globalStatusMap[key+':'+factId]=val;
+}
+
+/* ============================================================
+   LOCAL STORAGE
+   ============================================================ */
+// customStore構造: { [moduleKey]: { edits:{factId:text}, addedFacts:[{id,ch,text}], addedQuestions:[{factId,ch,statement,isTrue,explanation}] } }
+let customStore = {};
+
+function emptyCustomModule(){
+  return { edits:{}, addedFacts:[], addedQuestions:[] };
+}
+function getCustomModule(key){
+  if(!customStore[key]) customStore[key]=emptyCustomModule();
+  return customStore[key];
+}
+function getCustomEdit(key, factId){
+  const m=customStore[key];
+  if(!m || !m.edits) return null;
+  return Object.prototype.hasOwnProperty.call(m.edits, factId) ? m.edits[factId] : null;
+}
+function getCustomFacts(key){
+  const m=customStore[key];
+  return (m && m.addedFacts) ? m.addedFacts : [];
+}
+function getCustomQuestions(key){
+  const m=customStore[key];
+  return (m && m.addedQuestions) ? m.addedQuestions : [];
 }
 
 function saveLocal(){
   try{
     localStorage.setItem('quiz_status_map', JSON.stringify(globalStatusMap));
     localStorage.setItem('quiz_wrong_pool', JSON.stringify(globalWrongPool));
+    localStorage.setItem('quiz_custom_store', JSON.stringify(customStore));
   }catch(e){}
 }
 function loadLocal(){
   try{
     const sm = localStorage.getItem('quiz_status_map');
     const wp = localStorage.getItem('quiz_wrong_pool');
+    const cs = localStorage.getItem('quiz_custom_store');
     if(sm) globalStatusMap = JSON.parse(sm);
     if(wp) globalWrongPool = JSON.parse(wp);
+    if(cs) customStore = JSON.parse(cs);
   }catch(e){}
 }
-function hasSupabase(){ return !!(SUPABASE_URL && SUPABASE_KEY); }
 
-function setSyncStatus(state, msg){
-  ['syncDot','syncDotM'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el)return;
-    el.className='sync-dot'+(state==='ok'?' ok':state==='err'?' err':state==='syncing'?' syncing':'');
-  });
-  ['syncLabel','syncLabelM'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(el) el.textContent=msg;
-  });
-}
-
-async function sbFetch(path, options={}){
-  const res = await fetch(SUPABASE_URL+'/rest/v1/'+path, {
-    headers:{
-      'apikey': SUPABASE_KEY,
-      'Authorization': 'Bearer '+SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      ...options.headers
-    },
-    ...options
-  });
-  if(!res.ok){
-    const txt = await res.text();
-    throw new Error(res.status+': '+txt);
-  }
-  const txt = await res.text();
-  return txt ? JSON.parse(txt) : null;
-}
-
-async function loadFromSupabase(){
-  if(!hasSupabase()) return null;
-  setSyncStatus('syncing','同期中…');
-  try{
-    const rows = await sbFetch(`quiz_progress?id=eq.${PROGRESS_ID}&select=status_map,wrong_pool`);
-    if(rows && rows.length>0){
-      setSyncStatus('ok','クラウド同期済み');
-      return rows[0];
-    }
-    setSyncStatus('ok','クラウド接続済み');
-    return {status_map:{}, wrong_pool:[]};
-  }catch(e){
-    setSyncStatus('err','同期エラー');
-    console.error('Supabase load error',e);
-    return null;
-  }
-}
-
-async function saveToSupabase(statusMap, wrongPool){
-  if(!hasSupabase()) return;
-  setSyncStatus('syncing','保存中…');
-  const headers = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': 'Bearer '+SUPABASE_KEY,
-    'Content-Type': 'application/json',
-    'Prefer': 'return=minimal'
-  };
-  const payload = JSON.stringify({
-    id: PROGRESS_ID,
-    status_map: statusMap,
-    wrong_pool: wrongPool,
-    updated_at: new Date().toISOString()
-  });
-  try{
-    // Delete existing row then insert fresh (most reliable upsert)
-    await fetch(SUPABASE_URL+'/rest/v1/quiz_progress?id=eq.'+PROGRESS_ID, {
-      method:'DELETE', headers
-    });
-    const res = await fetch(SUPABASE_URL+'/rest/v1/quiz_progress', {
-      method:'POST', headers, body: payload
-    });
-    if(!res.ok){
-      const t = await res.text();
-      throw new Error(res.status+': '+t);
-    }
-    setSyncStatus('ok','クラウド保存済み');
-  }catch(e){
-    setSyncStatus('err','保存エラー');
-    console.error('Supabase save error', e);
-  }
-}
-
-
-async function persistProgress(){
+function persistProgress(){
   saveLocal();
-  await saveToSupabase(globalStatusMap, globalWrongPool);
 }
 
 /* ============================================================
@@ -5363,8 +5322,15 @@ function getFacts(key){
   const facts=[];
   ALL_MODULES[key].rawData.forEach((chap,ci)=>{
     chap.facts.forEach((text,fi)=>{
-      facts.push({id:chap.ch+'-'+fi,ch:chap.ch,chIndex:ci,text});
+      const id=chap.ch+'-'+fi;
+      const editedText=getCustomEdit(key,id);
+      facts.push({id, ch:chap.ch, chIndex:ci, text: editedText!==null ? editedText : text});
     });
+  });
+  // カスタムで追加された項目も末尾に加える
+  const custom=getCustomFacts(key);
+  custom.forEach(c=>{
+    facts.push({id:c.id, ch:c.ch, chIndex:9999, text:c.text, isCustom:true});
   });
   return facts;
 }
@@ -5399,6 +5365,190 @@ function showView(key, name){
   if(name==='browse') renderBrowse(key);
 }
 function renderView(key,name){showView(key,name);}
+
+/* ============================================================
+   FACT EDIT / ADD — 自分で問題文を入力する機能
+   ============================================================ */
+function closeFactModal(){
+  document.getElementById('factModalOverlay').classList.remove('show');
+}
+
+// 入力フォームのHTML片を作る（1問分）
+function questionFieldsHtml(idx, prefill){
+  prefill = prefill || {};
+  const stmt = (prefill.statement||'').replace(/</g,'&lt;');
+  const exp = (prefill.explanation||'').replace(/</g,'&lt;');
+  const isTrueVal = prefill.isTrue===false ? 'false' : 'true';
+  return `
+    <div class="q-field-block" data-qidx="${idx}">
+      <label>問題文 ${idx+1}</label>
+      <textarea class="q-stmt-input" placeholder="例：宅建士証の有効期間は5年である。">${stmt}</textarea>
+      <label>正解</label>
+      <select class="q-istrue-input">
+        <option value="true" ${isTrueVal==='true'?'selected':''}>○（正しい）</option>
+        <option value="false" ${isTrueVal==='false'?'selected':''}>×（誤り）</option>
+      </select>
+      <label>解説（任意）</label>
+      <input type="text" class="q-exp-input" placeholder="例：宅建士証の有効期間は5年。" value="${exp}">
+    </div>
+  `;
+}
+
+function collectQuestionFields(box){
+  const blocks = box.querySelectorAll('.q-field-block');
+  const out = [];
+  blocks.forEach(b=>{
+    const stmt = b.querySelector('.q-stmt-input').value.trim();
+    const isTrue = b.querySelector('.q-istrue-input').value === 'true';
+    const exp = b.querySelector('.q-exp-input').value.trim() || '（解説なし）';
+    if(stmt) out.push({statement:stmt, isTrue, explanation:exp});
+  });
+  return out;
+}
+
+// 新規項目追加モーダル
+function openAddFactModal(key){
+  const overlay=document.getElementById('factModalOverlay');
+  const box=document.getElementById('factModalBox');
+  overlay.classList.add('show');
+
+  const meta=MODULE_META.find(m=>m.key===key);
+  box.innerHTML=`
+    <h3>新しい項目を追加（${meta.label}）</h3>
+    <p class="hint">覚えたい知識を入力し、その内容に対する○×問題を1問以上作成してください。</p>
+    <label>所属する章（任意・省略可）</label>
+    <select id="newFactCh">
+      <option value="">章を指定しない</option>
+      ${ALL_MODULES[key].rawData.map(c=>`<option value="${c.ch}">${c.ch}</option>`).join('')}
+    </select>
+    <label>新しい知識項目</label>
+    <textarea id="newFactText" placeholder="例：宅建士証の有効期間は5年である"></textarea>
+    <h4 style="margin-top:16px;font-size:13px;">○×問題</h4>
+    <div id="qFieldsArea">
+      ${questionFieldsHtml(0)}
+      ${questionFieldsHtml(1)}
+    </div>
+    <button class="btn-secondary" id="addQFieldBtn" style="margin-top:8px;font-size:11px;padding:6px 14px;">＋ 問題をもう1問追加</button>
+    <div id="genStatusArea"></div>
+    <div class="btn-row">
+      <button class="btn-primary" id="saveFactBtn">保存する</button>
+      <button class="btn-secondary" id="addCancelBtn">キャンセル</button>
+    </div>
+  `;
+  let qCount = 2;
+  box.querySelector('#addQFieldBtn').addEventListener('click',()=>{
+    box.querySelector('#qFieldsArea').insertAdjacentHTML('beforeend', questionFieldsHtml(qCount));
+    qCount++;
+  });
+  box.querySelector('#addCancelBtn').addEventListener('click', closeFactModal);
+  box.querySelector('#saveFactBtn').addEventListener('click', ()=>{
+    const text=box.querySelector('#newFactText').value.trim();
+    const ch=box.querySelector('#newFactCh').value || 'CUSTOM';
+    if(!text){ alert('知識項目を入力してください。'); return; }
+    const questions = collectQuestionFields(box);
+    if(!questions.length){ alert('問題文を少なくとも1問入力してください。'); return; }
+    saveNewFact(key, ch, text, questions, box);
+  });
+}
+
+// 既存項目編集モーダル
+function openEditFactModal(key, fact){
+  const overlay=document.getElementById('factModalOverlay');
+  const box=document.getElementById('factModalBox');
+  overlay.classList.add('show');
+
+  const meta=MODULE_META.find(m=>m.key===key);
+  const existingQuestions = getAllQuestionsForFact(key, fact.id);
+
+  box.innerHTML=`
+    <h3>項目を編集（${meta.label} / ${fact.ch}）</h3>
+    <p class="hint">内容や問題を書き換えて保存してください。</p>
+    <label>知識項目の内容</label>
+    <textarea id="editFactText">${fact.text.replace(/</g,'&lt;')}</textarea>
+    <h4 style="margin-top:16px;font-size:13px;">○×問題</h4>
+    <div id="qFieldsArea">
+      ${existingQuestions.length ? existingQuestions.map((q,i)=>questionFieldsHtml(i,q)).join('') : questionFieldsHtml(0)+questionFieldsHtml(1)}
+    </div>
+    <button class="btn-secondary" id="addQFieldBtn" style="margin-top:8px;font-size:11px;padding:6px 14px;">＋ 問題をもう1問追加</button>
+    <div id="genStatusArea"></div>
+    <div class="btn-row">
+      <button class="btn-primary" id="saveFactBtn">保存する</button>
+      <button class="btn-secondary" id="editCancelBtn">キャンセル</button>
+    </div>
+    ${fact.isCustom ? `<button class="danger-link" id="deleteCustomBtn">この項目を削除する</button>` : ''}
+  `;
+  let qCount = Math.max(existingQuestions.length, 2);
+  box.querySelector('#addQFieldBtn').addEventListener('click',()=>{
+    box.querySelector('#qFieldsArea').insertAdjacentHTML('beforeend', questionFieldsHtml(qCount));
+    qCount++;
+  });
+  box.querySelector('#editCancelBtn').addEventListener('click', closeFactModal);
+  box.querySelector('#saveFactBtn').addEventListener('click', ()=>{
+    const text=box.querySelector('#editFactText').value.trim();
+    if(!text){ alert('内容を入力してください。'); return; }
+    const questions = collectQuestionFields(box);
+    if(!questions.length){ alert('問題文を少なくとも1問入力してください。'); return; }
+    saveEditedFact(key, fact, text, questions, box);
+  });
+  const delBtn = box.querySelector('#deleteCustomBtn');
+  if(delBtn){
+    delBtn.addEventListener('click', ()=>{
+      if(!confirm('この項目を削除します。よろしいですか？')) return;
+      const m=getCustomModule(key);
+      m.addedFacts = m.addedFacts.filter(f=>f.id!==fact.id);
+      m.addedQuestions = m.addedQuestions.filter(q=>q.factId!==fact.id);
+      delete m.edits[fact.id];
+      persistProgress();
+      closeFactModal();
+      renderBrowse(key);
+      renderDashboard(key);
+    });
+  }
+}
+
+// 組み込み問題＋カスタム問題から、ある項目に紐づく全問題を取得（編集フォームの初期値表示用）
+function getAllQuestionsForFact(key, factId){
+  const builtIn = (ALL_MODULES[key].questionBank||[]).filter(q=>q.factId===factId);
+  const custom = getCustomQuestions(key).filter(q=>q.factId===factId);
+  return builtIn.concat(custom).map(q=>({statement:q.statement, isTrue:q.isTrue, explanation:q.explanation}));
+}
+
+function saveNewFact(key, ch, text, questions, box){
+  const statusArea=box.querySelector('#genStatusArea');
+  const factId = 'CUSTOM-' + Date.now();
+  const m=getCustomModule(key);
+  m.addedFacts.push({id:factId, ch, text});
+  questions.forEach(q=>{
+    m.addedQuestions.push({factId, ch, statement:q.statement, isTrue:q.isTrue, explanation:q.explanation});
+  });
+  persistProgress();
+  statusArea.innerHTML=`<div class="gen-status" style="color:var(--seal)">✓ 保存しました（${questions.length}問登録）</div>`;
+  closeFactModal();
+  renderBrowse(key);
+  renderDashboard(key);
+}
+
+function saveEditedFact(key, fact, text, questions, box){
+  const statusArea=box.querySelector('#genStatusArea');
+  const m=getCustomModule(key);
+  if(fact.isCustom){
+    const target=m.addedFacts.find(f=>f.id===fact.id);
+    if(target) target.text=text;
+  } else {
+    m.edits[fact.id]=text;
+  }
+  // この項目に紐づく既存のカスタム問題をクリアしてから新しいセットを登録
+  // （組み込みの元のquestionBankは書き換えず、カスタム側で「上書き」として優先表示する）
+  m.addedQuestions = m.addedQuestions.filter(q=>q.factId!==fact.id);
+  questions.forEach(q=>{
+    m.addedQuestions.push({factId:fact.id, ch:fact.ch, statement:q.statement, isTrue:q.isTrue, explanation:q.explanation});
+  });
+  persistProgress();
+  statusArea.innerHTML=`<div class="gen-status" style="color:var(--seal)">✓ 保存しました（${questions.length}問登録）</div>`;
+  closeFactModal();
+  renderBrowse(key);
+  renderDashboard(key);
+}
 
 /* ============================================================
    BUILD MODULE PANEL
@@ -5441,12 +5591,12 @@ function buildModulePanel(key){
   panel.querySelectorAll('nav.tabs button').forEach(b=>{
     b.addEventListener('click',()=>showView(key,b.dataset.view));
   });
-  panel.querySelector(`[data-reset="${key}"]`).addEventListener('click',async()=>{
+  panel.querySelector(`[data-reset="${key}"]`).addEventListener('click',()=>{
     if(!confirm(`「${meta.label}」の進捗をリセットします。よろしいですか？`)) return;
     const FACTS=getFacts(key);
     FACTS.forEach(f=>{ delete globalStatusMap[key+':'+f.id]; });
     globalWrongPool=globalWrongPool.filter(w=>w.moduleKey!==key);
-    await persistProgress();
+    persistProgress();
     renderDashboard(key);
   });
   return panel;
@@ -5527,6 +5677,8 @@ function renderBrowse(key){
   const FACTS=getFacts(key);
   const container=document.getElementById(`${key}-browseList`);
   container.innerHTML='';
+
+  // 既存の章ごとの項目
   ALL_MODULES[key].rawData.forEach(chap=>{
     const items=FACTS.filter(f=>f.ch===chap.ch);
     const known=items.filter(f=>getStatus(key,f.id)==='known').length;
@@ -5536,28 +5688,63 @@ function renderBrowse(key){
     sum.innerHTML=`<span>${chap.ch}</span><span class="ch-tally">${known}/${items.length} 既習</span>`;
     det.appendChild(sum);
     items.forEach(f=>{
-      const s=getStatus(key,f.id);
-      const row=document.createElement('div');
-      row.className='fact-row';
-      row.innerHTML=`
-        <div class="fact-text">${f.text}</div>
-        <div class="fact-controls">
-          <button class="status-btn ${s==='weak'?'sel-weak':''}" data-action="weak">苦手</button>
-          <button class="status-btn ${s==='known'?'sel-known':''}" data-action="known">分かった</button>
-          <button class="status-btn ${s==='unseen'?'sel-unseen':''}" data-action="unseen">未学習に戻す</button>
-        </div>
-      `;
-      row.querySelectorAll('.status-btn').forEach(btn=>{
-        btn.addEventListener('click',async()=>{
-          setStatus(key,f.id,btn.dataset.action);
-          await persistProgress();
-          renderBrowse(key);
-        });
-      });
-      det.appendChild(row);
+      det.appendChild(buildFactRow(key, f));
     });
     container.appendChild(det);
   });
+
+  // カスタムで追加した項目（章なし）
+  const customFacts = FACTS.filter(f=>f.isCustom);
+  if(customFacts.length){
+    const det=document.createElement('details');
+    det.className='chapter-block';
+    det.open=true;
+    const known=customFacts.filter(f=>getStatus(key,f.id)==='known').length;
+    const sum=document.createElement('summary');
+    sum.innerHTML=`<span>追加した項目</span><span class="ch-tally">${known}/${customFacts.length} 既習</span>`;
+    det.appendChild(sum);
+    customFacts.forEach(f=>{
+      det.appendChild(buildFactRow(key, f));
+    });
+    container.appendChild(det);
+  }
+
+  // 新規項目追加ボタン
+  const addWrap=document.createElement('div');
+  addWrap.style.marginTop='14px';
+  const addBtn=document.createElement('button');
+  addBtn.className='btn-secondary';
+  addBtn.textContent='＋ 新しい項目を追加';
+  addBtn.addEventListener('click',()=>openAddFactModal(key));
+  addWrap.appendChild(addBtn);
+  container.appendChild(addWrap);
+}
+
+function buildFactRow(key, f){
+  const s=getStatus(key,f.id);
+  const row=document.createElement('div');
+  row.className='fact-row';
+  row.innerHTML=`
+    <div class="fact-text">${f.text}</div>
+    <div class="fact-controls">
+      <button class="status-btn ${s==='weak'?'sel-weak':''}" data-action="weak">苦手</button>
+      <button class="status-btn ${s==='known'?'sel-known':''}" data-action="known">分かった</button>
+      <button class="status-btn ${s==='unseen'?'sel-unseen':''}" data-action="unseen">未学習に戻す</button>
+      <button class="status-btn edit-btn" data-action="edit">✏️ 編集</button>
+    </div>
+  `;
+  row.querySelectorAll('.status-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      if(btn.dataset.action==='edit'){
+        openEditFactModal(key, f);
+        return;
+      }
+      setStatus(key,f.id,btn.dataset.action);
+      persistProgress();
+      renderBrowse(key);
+    });
+  });
+  return row;
 }
 
 /* ============================================================
@@ -5567,7 +5754,12 @@ function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=
 
 function generateQuiz(key, factsPool, total){
   const ids=new Set(factsPool.map(f=>f.id));
-  const cands=ALL_MODULES[key].questionBank.filter(q=>ids.has(q.factId));
+  const m=getCustomModule(key);
+  const editedIds=new Set(Object.keys(m.edits||{}));
+  // 編集済みの項目は組み込み問題を除外し、カスタム（編集後）問題のみを使う
+  const builtIn=ALL_MODULES[key].questionBank.filter(q=>ids.has(q.factId) && !editedIds.has(q.factId));
+  const custom=getCustomQuestions(key).filter(q=>ids.has(q.factId));
+  const cands=builtIn.concat(custom);
   return shuffle(cands).slice(0,total).map((q,i)=>({
     id:'q'+Date.now()+'_'+i,
     factId:q.factId, statement:q.statement, isTrue:!!q.isTrue,
@@ -5651,17 +5843,17 @@ function answer(key, userAnswer, isSkip){
   document.getElementById(`${key}-nextBtn`).addEventListener('click',()=>nextQuestion(key));
 }
 
-async function nextQuestion(key){
+function nextQuestion(key){
   const state=moduleState[key];
   state.currentQuiz.index++;
   if(state.currentQuiz.index<state.currentQuiz.questions.length){
     renderQuestion(key);
   } else {
-    await finishQuiz(key);
+    finishQuiz(key);
   }
 }
 
-async function finishQuiz(key){
+function finishQuiz(key){
   const {answers}=moduleState[key].currentQuiz;
   let correctCount=0;
 
@@ -5686,7 +5878,7 @@ async function finishQuiz(key){
     }
   });
 
-  await persistProgress();
+  persistProgress();
   moduleState[key].lastResults={answers,correctCount,total:answers.length};
   renderResults(key);
 }
@@ -5731,63 +5923,145 @@ function renderResults(key){
 }
 
 /* ============================================================
-   SUPABASE SETUP MODAL
+   WEAK EXPORT
    ============================================================ */
-function copySql(){
-  const sql=document.getElementById('sqlBlock').textContent;
-  navigator.clipboard.writeText(sql).then(()=>{
-    const btn=document.querySelector('.copy-btn');
-    btn.textContent='コピーしました！';
-    setTimeout(()=>btn.textContent='コピー',2000);
+function buildWeakText(filterKey){
+  // filterKey: 'all' または科目key
+  const lines = [];
+  MODULE_META.forEach(meta=>{
+    if(filterKey !== 'all' && filterKey !== meta.key) return;
+    const key = meta.key;
+    const FACTS = getFacts(key);
+    const weakFacts = FACTS.filter(f=>getStatus(key, f.id)==='weak');
+    if(!weakFacts.length) return;
+    lines.push(`■ ${meta.label}（${weakFacts.length}項目）`);
+    lines.push('');
+    weakFacts.forEach((f, i)=>{
+      lines.push(`${i+1}. ${f.text}`);
+    });
+    lines.push('');
+    lines.push('');
   });
+  return lines.join('\n').trim();
 }
 
-document.getElementById('setupBtn').addEventListener('click',()=>{
-  alert('Supabaseは設定済みです。クラウド同期が有効になっています。');
-});
-document.getElementById('closeModalBtn').addEventListener('click',()=>{
-  document.getElementById('setupModal').classList.remove('show');
-});
-document.getElementById('setupModal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('setupModal'))
-    document.getElementById('setupModal').classList.remove('show');
-});
-document.getElementById('saveSupabaseBtn').addEventListener('click',async()=>{
-  const url=document.getElementById('inputUrl').value.trim().replace(/\/$/,'');
-  const key=document.getElementById('inputKey').value.trim();
-  if(!url||!key){alert('URLとkeyの両方を入力してください。');return;}
-  SUPABASE_URL=url; SUPABASE_KEY=key;
-  saveSupabaseConfig(url,key);
-  document.getElementById('setupModal').classList.remove('show');
-  // Try to load from cloud
-  const remote=await loadFromSupabase();
-  if(remote){
-    if(remote.status_map) globalStatusMap=remote.status_map;
-    if(remote.wrong_pool) globalWrongPool=remote.wrong_pool;
-    saveLocal();
+function countWeak(filterKey){
+  let count = 0;
+  MODULE_META.forEach(meta=>{
+    if(filterKey !== 'all' && filterKey !== meta.key) return;
+    const FACTS = getFacts(meta.key);
+    count += FACTS.filter(f=>getStatus(meta.key, f.id)==='weak').length;
+  });
+  return count;
+}
+
+function openExportModal(){
+  const overlay = document.getElementById('exportModalOverlay');
+  const box = document.getElementById('exportModalBox');
+  overlay.classList.add('show');
+  renderExportModal(box, 'all');
+}
+
+function renderExportModal(box, activeFilter){
+  const tabs = [
+    {key:'all', label:'全科目'},
+    ...MODULE_META.map(m=>({key:m.key, label:m.label}))
+  ];
+  const text = buildWeakText(activeFilter);
+  const count = countWeak(activeFilter);
+
+  box.innerHTML = `
+    <h3>📋 苦手項目の書き出し</h3>
+    <div class="export-tabs" id="exportTabsRow">
+      ${tabs.map(t=>`<button class="export-tab${t.key===activeFilter?' active':''}" data-ekey="${t.key}">${t.label}</button>`).join('')}
+    </div>
+    <div class="export-count">
+      ${count > 0
+        ? `苦手項目が <strong>${count}件</strong> あります`
+        : `苦手項目は <strong>0件</strong> です`}
+    </div>
+    ${count > 0 ? `
+      <textarea class="export-text" id="exportTextarea" readonly>${text}</textarea>
+      <div class="btn-row">
+        <button class="btn-primary" id="copyExportBtn">📋 コピーする</button>
+        <button class="btn-primary" id="dlExportBtn" style="background:var(--seal);">📥 TXTで保存</button>
+        <button class="btn-secondary" id="closeExportBtn">閉じる</button>
+      </div>
+      <p style="font-size:10.5px;color:var(--unseen);margin-top:8px;">テキストエリアを直接選択してコピーすることもできます。</p>
+    ` : `
+      <div class="empty-export">この科目にはまだ苦手項目がありません。<br>クイズを解いて「苦手」をつけていきましょう。</div>
+      <div class="btn-row"><button class="btn-secondary" id="closeExportBtn">閉じる</button></div>
+    `}
+  `;
+
+  box.querySelectorAll('.export-tab').forEach(btn=>{
+    btn.addEventListener('click',()=>renderExportModal(box, btn.dataset.ekey));
+  });
+
+  const copyBtn = box.querySelector('#copyExportBtn');
+  if(copyBtn){
+    copyBtn.addEventListener('click',()=>{
+      const ta = box.querySelector('#exportTextarea');
+      ta.select();
+      try{
+        navigator.clipboard.writeText(ta.value).then(()=>{
+          copyBtn.textContent='✓ コピーしました！';
+          setTimeout(()=>copyBtn.textContent='📋 コピーする', 2000);
+        });
+      }catch(e){
+        document.execCommand('copy');
+        copyBtn.textContent='✓ コピーしました！';
+        setTimeout(()=>copyBtn.textContent='📋 コピーする', 2000);
+      }
+    });
   }
-  // Re-render current module
-  renderDashboard(currentModule);
-  alert('Supabaseへの接続が完了しました！進捗がクラウドで同期されます。');
-});
+  const dlBtn = box.querySelector('#dlExportBtn');
+  if(dlBtn){
+    dlBtn.addEventListener('click',()=>{
+      let txt = '宅建 暗記道場 — 苦手項目リスト\n';
+      txt += '出力日時: ' + new Date().toLocaleString('ja-JP') + '\n';
+      txt += '='.repeat(50) + '\n\n';
+      MODULE_META.forEach(meta=>{
+        if(activeFilter !== 'all' && activeFilter !== meta.key) return;
+        const FACTS = getFacts(meta.key);
+        const weakFacts = FACTS.filter(f=>getStatus(meta.key, f.id)==='weak');
+        if(!weakFacts.length) return;
+        txt += '【' + meta.label + '】（' + weakFacts.length + '項目）\n';
+        txt += '-'.repeat(40) + '\n';
+        weakFacts.forEach((f,i)=>{ txt += (i+1) + '. ' + f.text + '\n'; });
+        txt += '\n';
+      });
+      const blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const label = activeFilter==='all' ? '全科目' : (MODULE_META.find(m=>m.key===activeFilter)||{}).label||activeFilter;
+      a.download = '苦手項目リスト_' + label + '_' + new Date().toLocaleDateString('ja-JP').replace(/\//g,'-') + '.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+  box.querySelector('#closeExportBtn').addEventListener('click',()=>{
+    document.getElementById('exportModalOverlay').classList.remove('show');
+  });
+}
 
 /* ============================================================
    GLOBAL RESET
    ============================================================ */
-document.getElementById('resetAllBtn').addEventListener('click',async()=>{
+document.getElementById('resetAllBtn').addEventListener('click',()=>{
   if(!confirm('全科目の進捗をリセットします。よろしいですか？')) return;
   globalStatusMap={};
   globalWrongPool=[];
-  await persistProgress();
+  persistProgress();
   switchModule(currentModule);
 });
 
 /* ============================================================
    INIT
    ============================================================ */
-(async function init(){
-  loadSupabaseConfig();
-  loadLocal(); // まずローカルから読む（即時表示）
+(function init(){
+  loadLocal();
 
   const mainArea=document.getElementById('mainArea');
   const sidebarModules=document.getElementById('sidebarModules');
@@ -5815,19 +6089,17 @@ document.getElementById('resetAllBtn').addEventListener('click',async()=>{
 
   switchModule('takken');
 
-  // クラウドから非同期で最新データを取得してマージ
-  if(hasSupabase()){
-    setSyncStatus('syncing','同期中…');
-    const remote=await loadFromSupabase();
-    if(remote){
-      if(remote.status_map) globalStatusMap=remote.status_map;
-      if(remote.wrong_pool) globalWrongPool=remote.wrong_pool;
-      saveLocal();
-      renderDashboard(currentModule);
-    }
-  } else {
-    setSyncStatus('','localのみ');
-  }
+  // モーダルの外側クリックで閉じる
+  document.getElementById('factModalOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='factModalOverlay') closeFactModal();
+  });
+  document.getElementById('exportModalOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='exportModalOverlay')
+      document.getElementById('exportModalOverlay').classList.remove('show');
+  });
+
+  // 苦手項目書き出しボタン
+  document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
 })();
 </script>
 </body>
