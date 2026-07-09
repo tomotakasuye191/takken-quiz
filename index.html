@@ -49,15 +49,6 @@ body{
   transform:rotate(-8deg);flex-shrink:0;
 }
 .sidebar-head .app-sub{font-size:10px;color:var(--ink-soft);margin-top:3px;}
-.sync-status{
-  font-size:9.5px;margin-top:6px;display:flex;align-items:center;gap:4px;
-}
-.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--unseen);flex-shrink:0;}
-.sync-dot.ok{background:#3F6E5E;}
-.sync-dot.err{background:#AE3B33;}
-.sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
-@keyframes spin{to{transform:rotate(360deg);}}
 
 .sidebar-modules{padding:8px 0;flex:1;}
 .mod-btn{
@@ -78,51 +69,11 @@ body{
 .sidebar-footer{padding:10px 12px;border-top:1px solid var(--line);}
 .sidebar-footer button{font-size:10px;color:var(--ink-soft);text-decoration:underline;background:none;border:none;cursor:pointer;font-family:inherit;display:block;margin-bottom:4px;}
 
-/* SETUP MODAL */
-.modal-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;
-  align-items:center;justify-content:center;
-}
-.modal-overlay.show{display:flex;}
-.modal{
-  background:var(--paper);border:2px solid var(--ink);border-radius:6px;
-  padding:28px 24px;max-width:480px;width:90%;max-height:90vh;overflow-y:auto;
-}
-.modal h2{font-family:'Shippori Mincho',serif;font-size:20px;margin-bottom:8px;}
-.modal p{font-size:13px;color:var(--ink-soft);margin-bottom:14px;line-height:1.8;}
-.modal label{font-size:12px;font-weight:700;display:block;margin-bottom:4px;}
-.modal input{
-  width:100%;padding:9px 10px;border:1.5px solid var(--line);border-radius:3px;
-  font-family:inherit;font-size:13px;margin-bottom:12px;background:#fff;
-}
-.modal input:focus{outline:none;border-color:var(--ink);}
-.modal .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
-.modal .note{font-size:11px;color:var(--unseen);margin-top:10px;line-height:1.7;}
-.modal .step{
-  background:#fff;border:1px solid var(--line);border-radius:4px;
-  padding:10px 12px;margin-bottom:10px;font-size:12px;
-}
-.modal .step strong{display:block;font-size:13px;margin-bottom:4px;}
-.modal code{
-  background:var(--paper-deep);padding:2px 6px;border-radius:3px;
-  font-size:11px;font-family:monospace;word-break:break-all;
-}
-.modal .sql-block{
-  background:var(--ink);color:#E8F0C8;padding:10px 12px;border-radius:4px;
-  font-family:monospace;font-size:11px;line-height:1.6;margin:6px 0;
-  white-space:pre-wrap;word-break:break-all;
-}
-.copy-btn{
-  font-size:10px;padding:2px 8px;background:var(--gold);color:#fff;
-  border:none;border-radius:3px;cursor:pointer;font-family:inherit;margin-left:6px;
-}
-
 /* MOBILE TOP NAV */
 .topnav{display:none;background:#fff;border-bottom:2px solid var(--line);position:sticky;top:0;z-index:100;}
 .topnav-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);}
 .topnav-head .app-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;}
 .topnav-head .logo-stamp{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--hanko);color:var(--hanko);font-size:8px;font-weight:900;font-family:'Shippori Mincho',serif;transform:rotate(-8deg);flex-shrink:0;}
-.topnav-sync{font-size:9px;color:var(--ink-soft);display:flex;align-items:center;gap:4px;}
 .topnav-tabs{display:flex;overflow-x:auto;scrollbar-width:none;}
 .topnav-tabs::-webkit-scrollbar{display:none;}
 .topnav-tab{flex-shrink:0;padding:7px 12px;border:none;background:none;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:11px;font-weight:700;color:var(--ink-soft);border-bottom:3px solid transparent;white-space:nowrap;}
@@ -201,24 +152,9 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .edit-modal .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;}
 .edit-modal .danger-link{font-size:11px;color:var(--hanko);text-decoration:underline;background:none;border:none;cursor:pointer;font-family:inherit;margin-top:10px;}
 .edit-modal .gen-status{font-size:12px;color:var(--ink-soft);margin-top:10px;display:flex;align-items:center;gap:6px;}
-.edit-modal .gen-spinner{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
-.edit-modal .preview-q{background:#fff;border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-top:8px;font-size:12.5px;}
-.edit-modal .preview-q .pq-stmt{font-weight:700;margin-bottom:4px;}
-.edit-modal .preview-q .pq-meta{font-size:11px;color:var(--ink-soft);}
 .edit-modal .q-field-block{background:#fff;border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-top:10px;}
 .edit-modal .q-field-block label{margin-top:6px;}
 .edit-modal .q-field-block label:first-child{margin-top:0;}
-
-/* WEAK EXPORT */
-.exp-total{font-size:13px;color:var(--ink-soft);margin:6px 0 12px;}
-.exp-total strong{color:var(--hanko);font-size:16px;}
-.exp-list{max-height:55vh;overflow-y:auto;border:1px solid var(--line);border-radius:4px;background:#fff;}
-.exp-section{padding:12px 14px;border-bottom:1px solid var(--line);}
-.exp-section:last-child{border-bottom:none;}
-.exp-section-head{font-weight:700;font-size:13px;padding-left:10px;margin-bottom:8px;color:var(--ink);}
-.exp-fact-row{display:flex;gap:8px;font-size:12.5px;padding:5px 0;border-bottom:1px dashed var(--line);line-height:1.6;}
-.exp-fact-row:last-child{border-bottom:none;}
-.exp-num{flex-shrink:0;width:22px;text-align:right;color:var(--unseen);font-size:11px;padding-top:2px;}
 
 /* EXPORT MODAL */
 #exportModalBox h3{font-family:'Shippori Mincho',serif;font-size:18px;margin-bottom:10px;}
@@ -342,7 +278,7 @@ const MODULE_META = [
 ];
 
 /* ============================================================
-   ALL_MODULES DATA — injected below
+   ALL_MODULES DATA
    ============================================================ */
 const ALL_MODULES = {
   "takken": {
@@ -365,953 +301,533 @@ const ALL_MODULES = {
         "合併により消滅した場合の廃業届は、合併後に消滅した会社の代表者であった者が行う",
         "免許取消しに関する聴聞の公示の日前60日以内にその法人の役員であった者は、取消しの日から5年間は免許を受けられない",
         "免許取消処分を受けると再取得に5年間のペナルティがあるが、業務停止処分にはそのようなペナルティはない"
-      ]},
-      { ch:"CH3", facts:[
-        "宅建試験を不正受験した者に対しては、3年を上限として再受験を禁止できる",
-        "宅建士の資格登録には、2年以上の実務経験があること、または国土交通大臣の登録実務講習を修了することが必要",
-        "宅建士証の交付を受けるには、試験合格後1年以内であること、または都道府県知事の法定講習を受けることが必要（有効期間は5年）",
-        "宅建士証の記載事項のうち住所のみ変更があった場合は、裏書（記載事項の変更）で対応できる",
-        "宅建士証は、登録消除処分を受けたときは「返納」、事務禁止処分を受けたときは「提出」しなければならない"
-      ]},
-      { ch:"CH4", facts:[
-        "宅建業者は、宅建業者でない相手方に対し、売買契約が成立するまでの間に、営業保証金を供託した供託所とその所在地を説明しなければならない",
-        "営業保証金を供託した場合は、その旨を免許権者に届け出なければならない",
-        "免許権者は、免許を与えた日から3か月以内に営業保証金を供託した旨の届出がない場合は、届出をすべきことを催告しなければならない。その催告が到達した日から1か月以内に届出をしない場合、免許を取り消すことができる",
-        "営業保証金を公告（届出）不要で取り戻せるのは、「保証協会の社員となったとき」または「有価証券で供託していて、本店移転に伴い供託所を変更したとき」のみ",
-        "免許取消処分を受けた場合でも、営業保証金は取り戻せる",
-        "営業保証金を変換（有価証券を現金に換えるなど）したときは、遅滞なくその旨を免許権者に届け出なければならない"
-      ]},
-      { ch:"CH5", facts:[
-        "保証協会は、宅建業者が新たに社員として加入したとき、または社員が脱退したときは、加入（脱退）後直ちに免許権者に報告しなければならない",
-        "保証協会からの弁済業務保証金の追加納付の通知（催告）から2週間以内に納付をせず、なお宅建業を継続する場合は、保証協会の社員の地位を失った日から1週間以内に営業保証金を供託しなければならない",
-        "保証協会の必須業務は「苦情の解決」「弁済業務」「宅建業に関する研修」の3つ",
-        "弁済業務保証金分担金は、一部の支店を廃止した場合に限り、公告なしで取り戻せる"
-      ]},
-      { ch:"CH6", facts:[
-        "法第31条の3第1項の国土交通省令で定める場所とは、宅建士を置くべき案内所等のことで、業務開始の10日前までに免許権者と現地の都道府県知事の双方に届出をしなければならない",
-        "事務所には標識および報酬額を掲示し、従業者名簿と帳簿を備え付けなければならない",
-        "専任の宅建士が法定数に不足した場合は、2週間以内に補充しなければならない",
-        "事務所には標識・専任の宅建士の両方が必要。申込み・契約を行う案内所等には標識と専任の宅建士が必要。その他の案内所等には標識のみ必要",
-        "従業者名簿と帳簿は「事務所ごと」に備え付けなければならない",
-        "従業者名簿の保存期間は、最後の記載をした日から10年間"
-      ]},
-      { ch:"CH7", facts:[
-        "一般媒介契約はレインズへの登録は不要だが、その旨を媒介契約書に記載しなければならない",
-        "専任媒介契約：有効期間は3か月、報告義務は2週間に1回以上、レインズへの登録義務は休業日を除く7日以内",
-        "専属専任媒介契約：有効期間は3か月、報告義務は1週間に1回以上、レインズへの登録義務は休業日を除く5日以内",
-        "媒介契約書は依頼者が宅建業者であるかどうかにかかわらず交付しなければならない",
-        "媒介契約書に記載する建物状況調査（インスペクション）のあっせんを行う者は、国土交通省令で定める者でなければならない",
-        "媒介契約書には、契約違反があった場合の措置（違約金等）も明記しなければならない",
-        "開発許可（または都市計画法上の許可）が出る前の土地について、契約できるのは「賃借」の契約のみ（売買・交換は不可）",
-        "宅建業法34条＝媒介契約に関する規定、35条＝重要事項説明、37条＝契約成立時の書面（契約書）",
-        "昭和56年6月1日以降に新築の工事に着手した建物については、耐震診断の内容を説明する必要はない（35条）",
-        "マンションの計画的な維持修繕のための費用について、特定の者にのみ減免する旨の規定がある場合は、買主がその対象者かどうかにかかわらず説明しなければならない（35条）",
-        "賃貸マンションの重要事項説明では、管理を行う者については「氏名」と「住所」のみ説明すれば足りる（法人の場合は商号・名称と主たる事務所の所在地）（35条）",
-        "売買・交換の場合、金銭の貸借のあっせん（ローンあっせん）の内容や、当該あっせんが成立しないときの措置は重要事項として記載必須（35条）",
-        "37条の契約書（書面）は、相手方が宅建業者であるかどうかにかかわらず、両当事者に交付しなければならない",
-        "37条の契約書を電磁的方法（電子的方法）で提供する場合には、その内容の作成に関与した宅建士が明示される（識別できる）ものであることが必要"
-      ]},
-      { ch:"CH8", facts:[
-        "クーリング・オフができる旨を宅建業者から書面で告げられた日から8日間を経過すると、クーリング・オフはできなくなる",
-        "買主が宅地建物の引渡しを受け、かつ代金全額を支払った場合は、クーリング・オフはできない",
-        "クーリング・オフができる旨の告知は、書面（一定の場合は電磁的方法も可）で行わなければならない",
-        "買主が自ら指定した自宅または勤務先で契約した場合は、クーリング・オフについて書面で告げられていなくても、クーリング・オフによる解除はできない",
-        "担保責任（契約不適合責任）について、売主が引渡しの際にその不適合を知っていた、または重大な過失によって知らなかった場合を除き、買主は不適合を知った時から1年以内に売主に通知しないと、その契約不適合を理由とする責任を追及できなくなる",
-        "上記について、宅建業法では「不適合を知った時から1年」という民法上のルールよりも買主に不利な特約は無効だが、「引渡しの日から2年以上」とする特約は例外として有効に定めることができる",
-        "8種制限は、買主が「宅建業者でない者」で、売主が「宅建業者」である場合にのみ、買主を保護する目的で適用される",
-        "損害賠償額の予定（違約金を含む）は、代金（取引額）の20%が上限。それを超える部分についてのみ無効となる",
-        "手付金等の保全措置が不要となるのは、①買主への所有権移転の登記がされたとき、②未完成物件で手付金等の額が代金の5%以下かつ1,000万円以下のとき、③完成物件で手付金等の額が代金の10%以下かつ1,000万円以下のときのいずれか",
-        "自己の所有に属しない物件（他人物）の売買は原則として禁止だが、宅建業者が将来確実にその物件を取得できる場合は例外的に契約してよい。停止条件付きの契約（取得できるか不確定なもの）は不可",
-        "8種制限において、割賦販売契約の場合、30日以上の期間を定めて書面で支払いを催告したにもかかわらず支払いがないときでなければ、売主は契約を解除（または期限の利益を失わせること）ができない",
-        "宅建業者は引渡しまでに登記の移転をしなければならないが、代金の3/10以下しか受領していない場合はその例外。なお、代金の3/10を超える額を受領した後は、担保の目的でその宅地建物を譲り受けてはならない"
-      ]},
-      { ch:"CH9", facts:[
-        "売買・交換の媒介報酬の上限は、取引価格200万円以下の部分は5%、200万円超400万円以下の部分は4%＋2万円（消費税抜き）、400万円を超える部分は3%＋6万円",
-        "土地や居住用建物の「賃借」の媒介・代理に関する報酬は消費税の課税対象だが、土地の賃借そのものには消費税はかからない（建物の貸借も住宅は非課税）",
-        "賃貸借の媒介の場合、報酬の合計額は借賃（家賃）の1か月分（＋消費税）を超えてはならない。依頼者双方からの承諾を得ていない場合、貸主・借主それぞれから受け取れる報酬の上限は借賃の1か月分の1/2",
-        "居住用建物以外の賃貸借の媒介で権利金の授受があるときは、借賃の1か月分を基準に算出した金額と、権利金を売買代金とみなして算出した金額とを比較し、いずれか高い方を上限とすることができる",
-        "低廉な空家等の売買・交換における特例のポイント：①売買・交換の媒介・代理であること（賃貸借は対象外）②対象物件の取引価格（税抜き）が800万円以下であること③媒介の場合は通常の計算による報酬額に現地調査等の費用を加えても33万円（税込み）を超えないこと④代理の場合は通常の報酬額の2倍を超えないこと",
-        "宅建業者が課税事業者でない（消費税の納税義務が免除される）場合、報酬額の計算において消費税分は1.04を乗じる"
-      ]},
-      { ch:"CH10", facts:[
-        "宅建士証の返納・提出義務に違反した場合、または重要事項説明の際に宅建士証を提示しなかった場合は、10万円以下の罰金に処せられることがある",
-        "宅建業者に対する監督処分の段階は、軽い順に「指示処分」「業務停止処分」「免許取消処分」",
-        "国土交通大臣または都道府県知事は、免許を受けた宅建業者・宅建士の事務所等の所在地を確知できない場合、その事実を公告し、その公告の日から30日を経過しても申出がないときは、その免許を取り消すことができる",
-        "監督処分のうち、必ず公告（公示）しなければならないのは「宅建業者」に対する「業務停止処分」と「免許取消処分」のみ（宅建士に対する処分は公告不要）",
-        "免許取消処分・登録消除処分は免許権者・登録をした都道府県知事のみが行えるが、それ以外（指示処分・業務停止処分・指示等）は免許権者でない都道府県知事や国土交通大臣も行うことができる",
-        "業務停止処分の期間は1年以内",
-        "国土交通大臣が監督処分を行う場合、都道府県知事への報告は不要。ただし、宅建業者に対して指示処分や業務停止処分等を行うときは、内閣総理大臣と協議しなければならない（特定の場合）",
-        "契約の勧誘の際に重要な事実を告げなかった場合（不実告知等）、法人に対しては1億円以下の罰金が科されることがある",
-        "免許権者は、免許を与えてから1年以内に宅建業者が事業を開始しない場合（または引き続き1年以上事業を休止した場合）、免許を取り消さなければならない",
-        "業務に関する報告を求められたにもかかわらずこれに従わなかった場合、50万円以下の罰金に処せられることがある",
-        "免許権者による事務所等への立入検査を拒否・妨害・忌避した場合も、50万円以下の罰金に処せられることがある"
-      ]},
-      { ch:"CH11", facts:[
-        "新築住宅の売主（宅建業者）は、引渡しから10年間、住宅の構造耐力上主要な部分等についての瑕疵（契約不適合）について責任を負わなければならない（住宅品質確保法）",
-        "供託所の所在地等の説明は、契約を締結するまでに行わなければならない。これは35条（重要事項説明）の記載事項でもある",
-        "宅建業者は、基準日（毎年3月31日）ごとに、その状況を「免許権者」に「3週間以内」に届け出なければならない。届出をしないまま基準日から50日を経過した場合は、新たに自ら売主となる新築住宅の売買契約を締結してはならない",
-        "住宅販売瑕疵担保責任保険契約に基づく保険金額は、住宅の床面積に応じた算定額の2倍以上であり、かつ2,000万円以上である必要がある",
-        "住宅販売瑕疵担保保証金の算定において、新築住宅の床面積が55㎡以下のものは、2戸をもって1戸と数える"
       ]}
     ],
     questionBank: [
       { "factId": "CH1-0", "ch": "CH1", "statement": "現に道路として使用されている土地は、宅建業法上の宅地には該当しない。", "isTrue": true, "explanation": "道路・公園・河川・広場は宅建業法上の宅地ではない。" },
       { "factId": "CH1-0", "ch": "CH1", "statement": "都市計画法上の用途地域内にある土地であれば、現に公園として利用されていても宅建業法上の宅地に該当する。", "isTrue": false, "explanation": "公園として現に利用されている土地は宅地に該当しない。" },
       { "factId": "CH1-1", "ch": "CH1", "statement": "取引の対象となる施設であれば、公共的な施設であっても宅建業法上の「建物」に該当する場合がある。", "isTrue": true, "explanation": "取引対象の施設は、公共的なものでも宅建業法上の建物となる。" },
-      { "factId": "CH1-1", "ch": "CH1", "statement": "公共的な施設は、取引の対象であっても宅建業法上の「建物」には一切該当しない。", "isTrue": false, "explanation": "取引対象であれば公共的施設も建物に該当しうる。" },
-      { "factId": "CH1-2", "ch": "CH1", "statement": "信託会社が宅建業を営む場合、宅建業の免許を受ける必要はないが、国土交通大臣への届出が必要である。", "isTrue": true, "explanation": "信託会社は免許不要だが国土交通大臣への届出が必要。" },
-      { "factId": "CH1-2", "ch": "CH1", "statement": "信託会社が宅建業を営む場合、都道府県知事の免許を受けなければならない。", "isTrue": false, "explanation": "信託会社は免許不要で、国土交通大臣への届出のみ必要。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "自己の所有する建物を賃貸する行為は宅建業に該当しないため、免許は不要である。", "isTrue": true, "explanation": "自ら貸借（賃貸・転貸）は宅建業に該当せず免許不要。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "自己の所有する建物を不特定多数に反復して賃貸する行為は、宅建業の免許が必要である。", "isTrue": false, "explanation": "自ら貸借は反復継続しても宅建業に該当しない。" },
-      { "factId": "CH2-1", "ch": "CH2", "statement": "宅建業者が死亡した場合、その相続人は、進行中の取引を結了する目的の範囲内において、宅建業者とみなされる。", "isTrue": true, "explanation": "相続人は取引結了の範囲でみなし宅建業者として無免許で業務可。" },
-      { "factId": "CH2-1", "ch": "CH2", "statement": "宅建業者が死亡した場合、その相続人は新たに宅建業の免許を取得しない限り、進行中の取引を完了させることもできない。", "isTrue": false, "explanation": "相続人は取引結了までみなし宅建業者として活動できる。" },
-      { "factId": "CH2-2", "ch": "CH2", "statement": "宅建業の免許の更新の申請は、有効期間満了の日の90日前から30日前までの間にしなければならない。", "isTrue": true, "explanation": "免許更新の申請期間は満了日の90日前から30日前まで。" },
-      { "factId": "CH2-2", "ch": "CH2", "statement": "宅建業の免許の更新の申請は、有効期間満了の日の60日前から10日前までの間にしなければならない。", "isTrue": false, "explanation": "正しくは満了日の90日前から30日前まで。" },
-      { "factId": "CH2-3", "ch": "CH2", "statement": "宅建業の免許の有効期間は5年である。", "isTrue": true, "explanation": "宅建業免許の有効期間は5年。" },
-      { "factId": "CH2-3", "ch": "CH2", "statement": "宅建業の免許の有効期間は3年である。", "isTrue": false, "explanation": "宅建業免許の有効期間は5年。" },
-      { "factId": "CH2-4", "ch": "CH2", "statement": "一の都道府県知事の免許を受けた宅建業者は、他の都道府県内でも宅建業を営むことができる。", "isTrue": true, "explanation": "免許は事務所単位であり、知事免許でも他県で営業可能。" },
-      { "factId": "CH2-4", "ch": "CH2", "statement": "一の都道府県知事の免許を受けた宅建業者は、その都道府県内でのみ宅建業を営むことができ、他の都道府県で取引を行うことは一切できない。", "isTrue": false, "explanation": "免許はあくまで事務所単位で、他県での営業も可能。" },
-      { "factId": "CH2-5", "ch": "CH2", "statement": "宅建業者である個人が死亡した場合、その相続人は、死亡の事実を知った日から30日以内にその旨を免許権者に届け出なければならない。", "isTrue": true, "explanation": "死亡を知った日から30日以内に届出が必要。" },
-      { "factId": "CH2-5", "ch": "CH2", "statement": "宅建業者である個人が死亡した場合、その相続人は、死亡の事実を知った日から14日以内にその旨を届け出なければならない。", "isTrue": false, "explanation": "正しくは死亡を知った日から30日以内。" },
-      { "factId": "CH2-6", "ch": "CH2", "statement": "宅建業者である法人が合併により消滅した場合の廃業の届出は、消滅した法人の代表者であった者が行う。", "isTrue": true, "explanation": "合併消滅時の廃業届は消滅会社の代表者であった者が行う。" },
-      { "factId": "CH2-6", "ch": "CH2", "statement": "宅建業者である法人が合併により消滅した場合の廃業の届出は、合併後に存続する法人の代表者が行う。", "isTrue": false, "explanation": "届出は消滅した側の会社の代表者であった者が行う。" },
-      { "factId": "CH2-7", "ch": "CH2", "statement": "宅建業者である法人が免許を取り消された場合、その取消しに係る聴聞の公示日前60日以内にその法人の役員であった者は、取消しの日から5年間、宅建業の免許を受けることができない。", "isTrue": true, "explanation": "聴聞公示日前60日以内の役員は取消日から5年間免許を受けられない。" },
-      { "factId": "CH2-7", "ch": "CH2", "statement": "宅建業者である法人が免許を取り消された場合、聴聞の公示日前60日以内にその法人の役員であった者でも、取消しの日からすぐに新たに免許を受けることができる。", "isTrue": false, "explanation": "該当する役員は取消日から5年間免許を受けられない。" },
-      { "factId": "CH2-8", "ch": "CH2", "statement": "宅建業の免許取消処分を受けた場合には一定期間免許を受けられないという制限があるが、業務停止処分にはそのような再取得の制限はない。", "isTrue": true, "explanation": "免許取消処分には再取得制限があるが業務停止処分にはない。" },
-      { "factId": "CH2-8", "ch": "CH2", "statement": "業務停止処分を受けた場合、免許取消処分と同様に5年間は新たに免許を受けることができない。", "isTrue": false, "explanation": "業務停止処分には再取得のペナルティはない。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "宅建士試験において不正な行為があった場合、都道府県知事はその試験の合格を取り消し、3年以内の期間を定めて受験を禁止することができる。", "isTrue": true, "explanation": "不正受験者は3年を上限に受験禁止にできる。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "宅建士試験において不正な行為があった場合、都道府県知事は5年を上限として受験を禁止することができる。", "isTrue": false, "explanation": "正しくは3年を上限とする受験禁止。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "宅建士の登録を受けるには、2年以上の実務経験を有すること、または国土交通大臣の登録を受けた登録実務講習を修了することが必要である。", "isTrue": true, "explanation": "宅建士登録には2年以上の実務経験または登録実務講習修了が必要。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "宅建士の登録を受けるには、実務経験の有無にかかわらず、必ず1年以上の実務経験が必要であり、講習による代替はできない。", "isTrue": false, "explanation": "実務経験は2年以上、または登録実務講習修了で代替可能。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "宅建士証の交付を受けるには、都道府県知事が指定する法定講習を受講しなければならないが、試験合格後1年以内に交付を受ける場合はこの講習が免除される。", "isTrue": true, "explanation": "宅建士証交付には法定講習が必要だが合格後1年以内は免除。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "宅建士証の有効期間は10年であり、更新の際には法定講習を受ける必要はない。", "isTrue": false, "explanation": "宅建士証の有効期間は5年で、更新時に法定講習が必要。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "宅建士証の記載事項のうち住所について変更があった場合、宅建士証の裏書によって変更の記載をすることができる。", "isTrue": true, "explanation": "住所変更のみの場合は裏書で対応できる。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "宅建士証の記載事項に変更があった場合は、住所の変更であっても必ず新しい宅建士証の交付を受けなければならず、裏書での対応は認められない。", "isTrue": false, "explanation": "住所のみの変更は裏書で対応可能。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "宅建士の登録が消除されたときは宅建士証を「返納」しなければならず、事務の禁止処分を受けたときは宅建士証を「提出」しなければならない。", "isTrue": true, "explanation": "登録消除時は返納、事務禁止処分時は提出。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "宅建士証は、登録消除処分を受けたときも事務禁止処分を受けたときも、いずれも「提出」すれば足り、返納の必要はない。", "isTrue": false, "explanation": "登録消除時は返納、事務禁止処分時は提出と区別される。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "宅建業者は、宅建業者でない者と契約を締結するまでに、営業保証金を供託している供託所およびその所在地について説明するようにしなければならない。", "isTrue": true, "explanation": "宅建業者でない相手には契約成立までに供託所等を説明する。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "宅建業者は、相手方が宅建業者であるか否かにかかわらず、営業保証金を供託した供託所の説明を必ず行わなければならない。", "isTrue": false, "explanation": "説明が必要なのは相手方が宅建業者でない場合のみ。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "宅建業者は、営業保証金を供託したときは、その旨を免許権者に届け出なければならない。", "isTrue": true, "explanation": "営業保証金を供託した旨は免許権者へ届出が必要。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "宅建業者は、営業保証金を供託したことを免許権者に届け出る必要はなく、供託した時点で自動的に事業を開始できる。", "isTrue": false, "explanation": "供託した旨を免許権者に届け出る必要がある。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "免許権者は、免許を与えた日から3か月以内に営業保証金を供託した旨の届出がないときは、宅建業者に対し届出をすべきことを催告しなければならない。", "isTrue": true, "explanation": "3か月以内に届出がない場合は免許権者が催告する。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "免許権者からの届出の催告が到達した日から3か月以内に届出をしない場合、免許権者は免許を取り消すことができる。", "isTrue": false, "explanation": "正しくは催告到達日から1か月以内に届出がない場合。" },
-      { "factId": "CH4-3", "ch": "CH4", "statement": "宅建業者が保証協会の社員となったときは、公告をすることなく営業保証金を取り戻すことができる。", "isTrue": true, "explanation": "保証協会加入時は公告不要で営業保証金を取り戻せる。" },
-      { "factId": "CH4-3", "ch": "CH4", "statement": "宅建業者が一部の支店を廃止したときは、公告をすることなく営業保証金を取り戻すことができる。", "isTrue": false, "explanation": "公告不要で取り戻せるのは保証協会加入等の場合のみ。" },
-      { "factId": "CH4-4", "ch": "CH4", "statement": "宅建業の免許が取り消された場合であっても、宅建業者であった者は営業保証金を取り戻すことができる。", "isTrue": true, "explanation": "免許取消処分後でも営業保証金は取り戻せる。" },
-      { "factId": "CH4-4", "ch": "CH4", "statement": "宅建業の免許が取り消された場合、営業保証金は国庫に帰属し、取り戻すことはできない。", "isTrue": false, "explanation": "免許取消後でも営業保証金は取り戻せる。" },
-      { "factId": "CH4-5", "ch": "CH4", "statement": "営業保証金として供託している有価証券を現金に変換するなど、保管替え等を行ったときは、遅滞なくその旨を免許権者に届け出なければならない。", "isTrue": true, "explanation": "営業保証金の変換時は遅滞なく免許権者に届出が必要。" },
-      { "factId": "CH4-5", "ch": "CH4", "statement": "営業保証金の変換（保管替え等）を行った場合、免許権者への届出は不要である。", "isTrue": false, "explanation": "変換した場合は遅滞なく免許権者に届出が必要。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "保証協会は、宅建業者が新たにその社員として加入したとき、または社員がその地位を失ったときは、その旨を直ちに当該宅建業者の免許権者に報告しなければならない。", "isTrue": true, "explanation": "加入・脱退時は直ちに免許権者へ報告が必要。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "保証協会は、社員の加入・脱退について、四半期ごとにまとめて免許権者に報告すれば足りる。", "isTrue": false, "explanation": "加入・脱退時は直ちに免許権者へ報告が必要。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "保証協会の社員が、弁済業務保証金の還付に伴う通知を受けてから2週間以内に弁済業務保証金分担金を納付しないと、その地位を失う。社員の地位を失った者が宅建業を継続するときは、地位を失った日から1週間以内に営業保証金を供託しなければならない。", "isTrue": true, "explanation": "2週間以内に納付しないと社員資格を失い、1週間以内に営業保証金を供託する必要がある。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "保証協会の社員が弁済業務保証金分担金の追加納付を怠り社員の地位を失った場合でも、営業保証金の供託をすることなく宅建業を継続することができる。", "isTrue": false, "explanation": "地位失効後1週間以内に営業保証金の供託が必要。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "保証協会が必ず行わなければならない業務（必須業務）は、苦情の解決、弁済業務、宅建業に関する研修の3つである。", "isTrue": true, "explanation": "保証協会の必須業務は苦情の解決・弁済業務・研修の3つ。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "保証協会の必須業務には、宅地建物の価格の評価業務も含まれる。", "isTrue": false, "explanation": "価格評価業務は必須業務に含まれない。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "保証協会の社員が一部の支店を廃止したことにより弁済業務保証金分担金の額に超過が生じた場合、その超過額については公告をすることなく取り戻すことができる。", "isTrue": true, "explanation": "支店廃止による分担金の超過分は公告不要で取り戻せる。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "保証協会の社員が一部の支店を廃止した場合、弁済業務保証金分担金の超過額を取り戻すには、必ず公告をしなければならない。", "isTrue": false, "explanation": "支店廃止の場合は公告なしで取り戻せる。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "専任の宅建士を置くべき案内所等を設置する場合、業務を開始する日の10日前までに、免許権者および当該案内所等の所在地を管轄する都道府県知事の両方にその旨を届け出なければならない。", "isTrue": true, "explanation": "案内所設置時は業務開始の10日前までに免許権者・知事双方に届出。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "専任の宅建士を置くべき案内所等を設置する場合の届出は、業務開始後10日以内に行えばよい。", "isTrue": false, "explanation": "届出は業務開始の10日前までに行う必要がある。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "宅建業者は、事務所ごとに、標識および報酬額を掲示し、従業者名簿と帳簿を備え付けなければならない。", "isTrue": true, "explanation": "事務所には標識・報酬額の掲示と名簿・帳簿の備付けが必要。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "標識と報酬額の掲示は事務所のみで必要であり、従業者名簿と帳簿は本店にまとめて備え付ければ足りる。", "isTrue": false, "explanation": "従業者名簿と帳簿は事務所ごとに備え付ける必要がある。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "事務所等において専任の宅建士の数が法定数に満たなくなったときは、2週間以内に必要な措置をとって補充しなければならない。", "isTrue": true, "explanation": "専任の宅建士が不足した場合は2週間以内に補充する。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "専任の宅建士の数が法定数に満たなくなった場合、補充までの期間に法律上の制限はない。", "isTrue": false, "explanation": "不足が生じたら2週間以内に補充しなければならない。" },
-      { "factId": "CH6-3", "ch": "CH6", "statement": "契約の申込みや締結を行う案内所等には、標識の掲示に加え、専任の宅建士を1名以上置かなければならない。", "isTrue": true, "explanation": "申込み・契約を行う案内所には標識と専任宅建士が必要。" },
-      { "factId": "CH6-3", "ch": "CH6", "statement": "契約の申込みや締結を行わない案内所等であっても、標識の掲示に加えて専任の宅建士を置かなければならない。", "isTrue": false, "explanation": "申込み・契約を行わない案内所は標識のみで足りる。" },
-      { "factId": "CH6-4", "ch": "CH6", "statement": "宅建業者は、従業者名簿および帳簿を事務所ごとに備え付けなければならない。", "isTrue": true, "explanation": "従業者名簿・帳簿は事務所ごとの備付けが必要。" },
-      { "factId": "CH6-4", "ch": "CH6", "statement": "宅建業者は、従業者名簿および帳簿を本店に一括して備え付ければよく、各事務所への備え付けは不要である。", "isTrue": false, "explanation": "従業者名簿・帳簿は事務所ごとに備え付ける必要がある。" },
-      { "factId": "CH6-5", "ch": "CH6", "statement": "従業者名簿は、最後の記載をした日から10年間保存しなければならない。", "isTrue": true, "explanation": "従業者名簿の保存期間は最後の記載から10年間。" },
-      { "factId": "CH6-5", "ch": "CH6", "statement": "従業者名簿の保存期間は、最後の記載をした日から5年間である。", "isTrue": false, "explanation": "正しくは最後の記載から10年間。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "一般媒介契約においては、指定流通機構（レインズ）への登録は義務付けられていないが、登録しない場合はその旨を媒介契約書に記載しなければならない。", "isTrue": true, "explanation": "一般媒介契約はレインズ登録不要だがその旨を契約書に記載。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "一般媒介契約であっても、専任媒介契約と同様にレインズへの登録は必ず行わなければならない。", "isTrue": false, "explanation": "一般媒介契約はレインズへの登録義務はない。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "専任媒介契約の有効期間は3か月、業務処理状況の報告は2週間に1回以上、指定流通機構への登録は契約締結日から休業日を除き7日以内に行わなければならない。", "isTrue": true, "explanation": "専任媒介契約は有効期間3か月・報告2週間に1回・登録7日以内。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "専任媒介契約の業務処理状況の報告は、1週間に1回以上行わなければならない。", "isTrue": false, "explanation": "専任媒介契約の報告義務は2週間に1回以上。" },
-      { "factId": "CH7-2", "ch": "CH7", "statement": "専属専任媒介契約の業務処理状況の報告は1週間に1回以上、指定流通機構への登録は休業日を除き5日以内に行わなければならない。", "isTrue": true, "explanation": "専属専任媒介契約は報告1週間に1回・登録5日以内。" },
-      { "factId": "CH7-2", "ch": "CH7", "statement": "専属専任媒介契約の指定流通機構への登録は、休業日を除き7日以内に行えばよい。", "isTrue": false, "explanation": "専属専任媒介契約の登録義務は休業日を除き5日以内。" },
-      { "factId": "CH7-3", "ch": "CH7", "statement": "媒介契約書は、依頼者が宅建業者であるか一般人であるかにかかわらず、依頼者に交付しなければならない。", "isTrue": true, "explanation": "媒介契約書は依頼者が宅建業者か否かにかかわらず交付が必要。" },
-      { "factId": "CH7-3", "ch": "CH7", "statement": "依頼者が宅建業者である場合には、媒介契約書を交付する必要はない。", "isTrue": false, "explanation": "依頼者が宅建業者でも媒介契約書の交付は必要。" },
-      { "factId": "CH7-4", "ch": "CH7", "statement": "媒介契約書に建物状況調査を実施する者のあっせんに関する事項を記載する場合、そのあっせんを行う者は国土交通省令で定める者でなければならない。", "isTrue": true, "explanation": "建物状況調査のあっせん者は国土交通省令で定める者に限られる。" },
-      { "factId": "CH7-4", "ch": "CH7", "statement": "媒介契約書における建物状況調査のあっせんを行う者については、特に資格等の定めはなく、宅建業者が自由に選定できる。", "isTrue": false, "explanation": "あっせん者は国土交通省令で定める者でなければならない。" },
-      { "factId": "CH7-5", "ch": "CH7", "statement": "媒介契約書には、依頼者が契約に違反した場合の措置についても記載しなければならない。", "isTrue": true, "explanation": "契約違反時の措置は媒介契約書への記載が必須。" },
-      { "factId": "CH7-5", "ch": "CH7", "statement": "媒介契約書には、契約違反時の措置についての記載は任意であり、記載しなくても契約は有効である。", "isTrue": false, "explanation": "契約違反時の措置の記載は媒介契約書に必須。" },
-      { "factId": "CH7-6", "ch": "CH7", "statement": "都市計画法上の開発許可等を受ける前の土地については、賃借権の設定に関する契約は締結できるが、売買や交換の契約を締結することはできない。", "isTrue": true, "explanation": "開発許可等が出る前は賃借の契約のみ締結できる。" },
-      { "factId": "CH7-6", "ch": "CH7", "statement": "開発許可等を受ける前の土地であっても、賃借だけでなく売買や交換の契約も自由に締結できる。", "isTrue": false, "explanation": "開発許可前にできるのは賃借の契約のみ。" },
-      { "factId": "CH7-7", "ch": "CH7", "statement": "宅建業法において、媒介契約に関する規定は34条、重要事項の説明は35条、契約成立時の書面の交付は37条で規定されている。", "isTrue": true, "explanation": "34条＝媒介契約、35条＝重要事項説明、37条＝契約書。" },
-      { "factId": "CH7-7", "ch": "CH7", "statement": "宅建業法において、重要事項の説明は37条で、契約成立時の書面の交付は35条で規定されている。", "isTrue": false, "explanation": "正しくは35条＝重要事項説明、37条＝契約書。" },
-      { "factId": "CH7-8", "ch": "CH7", "statement": "昭和56年6月1日以降に新築の工事に着手した建物については、重要事項説明において耐震診断の内容を説明する必要はない。", "isTrue": true, "explanation": "新耐震基準（昭和56年6月以降着工）の建物は耐震診断の説明不要。" },
-      { "factId": "CH7-8", "ch": "CH7", "statement": "昭和56年6月1日以降に新築の工事に着手した建物であっても、必ず耐震診断の結果を取得して説明しなければならない。", "isTrue": false, "explanation": "昭和56年6月以降着工の建物は耐震診断の説明自体が不要。" },
-      { "factId": "CH7-9", "ch": "CH7", "statement": "マンションの計画的な維持修繕のための費用について、特定の者に対してのみ減免する旨の規定があるときは、買主がその減免の対象者であるかどうかにかかわらず、その内容を説明しなければならない。", "isTrue": true, "explanation": "特定者への減免規定は買主が対象者か否かに関わらず説明が必要。" },
-      { "factId": "CH7-9", "ch": "CH7", "statement": "マンションの計画的な維持修繕のための費用の減免規定については、買主がその対象者である場合に限り説明すればよい。", "isTrue": false, "explanation": "対象者かどうかにかかわらず説明が必要。" },
-      { "factId": "CH7-10", "ch": "CH7", "statement": "賃貸住宅（マンション）の重要事項説明において、管理を行う者が個人である場合は、その氏名と住所を説明すれば足りる。", "isTrue": true, "explanation": "賃貸マンションの管理者については氏名と住所のみ説明で足りる。" },
-      { "factId": "CH7-10", "ch": "CH7", "statement": "賃貸住宅（マンション）の重要事項説明において、管理を行う者については、その者が行う具体的な管理業務の内容まで詳細に説明しなければならない。", "isTrue": false, "explanation": "管理者については氏名・住所のみで足りる。" },
-      { "factId": "CH7-11", "ch": "CH7", "statement": "売買または交換の媒介において、金銭の貸借のあっせんがある場合は、その内容およびあっせんが成立しないときの措置について重要事項として説明しなければならない。", "isTrue": true, "explanation": "売買・交換ではローンあっせんの内容と不成立時の措置の説明が必要。" },
-      { "factId": "CH7-11", "ch": "CH7", "statement": "賃貸借の媒介においても、金銭の貸借のあっせんに関する事項は重要事項として説明しなければならない。", "isTrue": false, "explanation": "この説明事項は売買・交換の場合に必要なもの。" },
-      { "factId": "CH7-12", "ch": "CH7", "statement": "37条に基づく契約書は、相手方が宅建業者であるかどうかにかかわらず、契約の両当事者に交付しなければならない。", "isTrue": true, "explanation": "37条の契約書は相手方が宅建業者でも両者に交付が必要。" },
-      { "factId": "CH7-12", "ch": "CH7", "statement": "相手方が宅建業者である場合は、37条の契約書を交付する必要はない。", "isTrue": false, "explanation": "相手方が宅建業者でも37条の契約書の交付は必要。" },
-      { "factId": "CH7-13", "ch": "CH7", "statement": "37条の契約書を電磁的方法により提供する場合には、その内容の作成に関与した宅建士が識別できるものでなければならない。", "isTrue": true, "explanation": "電磁的提供の場合も関与した宅建士が明示される必要がある。" },
-      { "factId": "CH7-13", "ch": "CH7", "statement": "37条の契約書を電磁的方法で提供する場合には、宅建士の関与を示す情報を含める必要はない。", "isTrue": false, "explanation": "電磁的提供でも関与した宅建士の明示が必要。" },
-      { "factId": "CH8-0", "ch": "CH8", "statement": "クーリング・オフについて宅建業者から書面で告げられた日から8日を経過すると、クーリング・オフによる契約の解除はできなくなる。", "isTrue": true, "explanation": "書面で告げられた日から8日経過でクーリング・オフ不可。" },
-      { "factId": "CH8-0", "ch": "CH8", "statement": "クーリング・オフについて宅建業者から書面で告げられた日から14日を経過すると、クーリング・オフによる契約の解除はできなくなる。", "isTrue": false, "explanation": "正しくは書面で告げられた日から8日経過で不可となる。" },
-      { "factId": "CH8-1", "ch": "CH8", "statement": "買主が宅地建物の引渡しを受け、かつ代金の全額を支払った場合には、クーリング・オフによる契約の解除をすることができなくなる。", "isTrue": true, "explanation": "引渡しと代金全額支払いの両方が完了するとクーリング・オフ不可。" },
-      { "factId": "CH8-1", "ch": "CH8", "statement": "買主が代金の一部を支払っただけでも、宅地建物の引渡しを受けていれば、クーリング・オフによる契約の解除はできなくなる。", "isTrue": false, "explanation": "引渡しと代金全額支払いの両方が必要。" },
-      { "factId": "CH8-2", "ch": "CH8", "statement": "クーリング・オフができる旨の告知は、口頭では足りず、書面で行わなければならない。", "isTrue": true, "explanation": "クーリング・オフの告知は書面で行う必要がある。" },
-      { "factId": "CH8-2", "ch": "CH8", "statement": "クーリング・オフができる旨の告知は、口頭で行えば十分であり、書面による必要はない。", "isTrue": false, "explanation": "クーリング・オフの告知は書面によることが必要。" },
-      { "factId": "CH8-3", "ch": "CH8", "statement": "買主が自ら指定した自宅または勤務先において契約を締結した場合は、クーリング・オフについて書面で告げられていなくても、クーリング・オフによる契約の解除をすることができない。", "isTrue": true, "explanation": "買主指定の自宅・勤務先での契約はクーリング・オフ対象外。" },
-      { "factId": "CH8-3", "ch": "CH8", "statement": "買主が自ら指定した自宅で契約を締結した場合でも、クーリング・オフについて書面で告げられていなければ、いつでもクーリング・オフによる契約の解除をすることができる。", "isTrue": false, "explanation": "買主指定の自宅・勤務先での契約はクーリング・オフできない。" },
-      { "factId": "CH8-4", "ch": "CH8", "statement": "売主が引渡しの際に契約不適合を知っていた場合を除き、買主が契約不適合を知った時から1年以内にその旨を売主に通知しなければ、契約不適合を理由とする責任を追及することができなくなる。", "isTrue": true, "explanation": "買主が不適合を知った時から1年以内の通知が必要（売主が知っていた場合等を除く）。" },
-      { "factId": "CH8-4", "ch": "CH8", "statement": "売主が引渡しの際に契約不適合を知っていた場合であっても、買主は不適合を知った時から1年以内に通知しなければ、責任を追及することができなくなる。", "isTrue": false, "explanation": "売主が知っていた場合は1年の通知期限の例外となる。" },
-      { "factId": "CH8-5", "ch": "CH8", "statement": "宅建業者が自ら売主となる場合、契約不適合責任に関する通知期間について、買主に不利な特約は原則として無効であるが、「引渡しの日から2年以上」とする特約は例外として有効である。", "isTrue": true, "explanation": "原則買主に不利な特約は無効だが「引渡しから2年以上」は例外的に有効。" },
-      { "factId": "CH8-5", "ch": "CH8", "statement": "宅建業者が自ら売主となる場合、契約不適合責任に関する通知期間を「引渡しの日から1年」とする特約も有効に定めることができる。", "isTrue": false, "explanation": "買主に不利な特約は無効。例外は「引渡しから2年以上」のみ。" },
-      { "factId": "CH8-6", "ch": "CH8", "statement": "いわゆる8種制限は、売主が宅建業者であり、買主が宅建業者でない者である場合にのみ適用される。", "isTrue": true, "explanation": "8種制限は売主が宅建業者・買主が一般人の場合のみ適用。" },
-      { "factId": "CH8-6", "ch": "CH8", "statement": "8種制限は、売主・買主の双方が宅建業者である場合にも適用される。", "isTrue": false, "explanation": "8種制限は買主が宅建業者でない場合のみ適用される。" },
-      { "factId": "CH8-7", "ch": "CH8", "statement": "損害賠償額の予定と違約金を合算した額は、代金の額の20%を超えることができず、これを超える部分のみが無効となる。", "isTrue": true, "explanation": "損害賠償額の予定等は代金の20%が上限で、超える部分のみ無効。" },
-      { "factId": "CH8-7", "ch": "CH8", "statement": "損害賠償額の予定が代金の額の20%を超える場合、その特約全体が無効となる。", "isTrue": false, "explanation": "無効となるのは20%を超える部分のみ。" },
-      { "factId": "CH8-8", "ch": "CH8", "statement": "完成物件の売買において、手付金等の額が代金の10%以下かつ1,000万円以下である場合は、手付金等の保全措置を講じる必要はない。", "isTrue": true, "explanation": "完成物件で手付金等が代金の10%以下かつ1,000万円以下なら保全措置不要。" },
-      { "factId": "CH8-8", "ch": "CH8", "statement": "未完成物件の売買において、手付金等の額が代金の10%以下かつ1,000万円以下であれば、保全措置を講じる必要はない。", "isTrue": false, "explanation": "未完成物件の場合は5%以下かつ1,000万円以下が基準。" },
-      { "factId": "CH8-9", "ch": "CH8", "statement": "宅建業者は、自己の所有に属しない物件について、将来確実にその物件を取得できる場合を除き、自ら売主として売買契約を締結することができない。", "isTrue": true, "explanation": "他人物売買は将来確実に取得できる場合を除き禁止。" },
-      { "factId": "CH8-9", "ch": "CH8", "statement": "宅建業者は、物件を取得できるかどうかが不確定な停止条件付きの契約であっても、自己の所有に属しない物件について自ら売主として売買契約を締結することができる。", "isTrue": false, "explanation": "停止条件付きなど取得が不確定な場合は他人物売買できない。" },
-      { "factId": "CH8-10", "ch": "CH8", "statement": "割賦販売契約において買主の賦払金の支払いが遅れた場合、売主は30日以上の期間を定めて書面で支払いを催告し、その期間内に支払いがされなかったときでなければ、契約を解除することができない。", "isTrue": true, "explanation": "割賦販売の解除には30日以上の期間を定めた書面での催告が必要。" },
-      { "factId": "CH8-10", "ch": "CH8", "statement": "割賦販売契約において買主の賦払金の支払いが遅れた場合、売主は口頭で速やかに催告すれば、ただちに契約を解除することができる。", "isTrue": false, "explanation": "30日以上の期間を定めた書面での催告が必要。" },
-      { "factId": "CH8-11", "ch": "CH8", "statement": "宅建業者が自ら売主となる場合、代金の額の3/10を超える額の支払いを受けた後は、その宅地建物を担保の目的で譲り受けてはならない。", "isTrue": true, "explanation": "代金の3/10超を受領後は担保目的での譲受けが禁止される。" },
-      { "factId": "CH8-11", "ch": "CH8", "statement": "宅建業者が自ら売主となる場合、受領した代金が3/10以下であっても、引渡しまでに登記の移転をしなければならない。", "isTrue": false, "explanation": "代金の3/10以下しか受領していない場合は登記移転の例外となる。" },
-      { "factId": "CH9-0", "ch": "CH9", "statement": "売買の媒介における報酬の限度額は、取引価格のうち200万円以下の部分について5%、200万円を超え400万円以下の部分について4%として算出する。", "isTrue": true, "explanation": "報酬限度額は200万円以下5%、200万円超400万円以下4%等の段階制。" },
-      { "factId": "CH9-0", "ch": "CH9", "statement": "売買の媒介における報酬の限度額は、取引価格にかかわらず一律に代金の3%として算出する。", "isTrue": false, "explanation": "報酬限度額は取引価格に応じた段階制であり一律3%ではない。" },
-      { "factId": "CH9-1", "ch": "CH9", "statement": "土地の賃借そのものには消費税は課されないが、宅建業者が受け取る賃借の媒介に対する報酬には消費税が課される。", "isTrue": true, "explanation": "土地の賃借自体は非課税だが媒介報酬には消費税がかかる。" },
-      { "factId": "CH9-1", "ch": "CH9", "statement": "居住用建物の賃借の媒介において、宅建業者が受け取る報酬には消費税は課されない。", "isTrue": false, "explanation": "媒介報酬には消費税が課される。" },
-      { "factId": "CH9-2", "ch": "CH9", "statement": "賃貸借の媒介において、依頼者の双方から受け取る報酬の合計額は、借賃の1か月分を超えることができない。", "isTrue": true, "explanation": "賃貸借媒介の報酬合計は借賃の1か月分が上限。" },
-      { "factId": "CH9-2", "ch": "CH9", "statement": "賃貸借の媒介において、依頼者の一方から事前の承諾を得ていなくても、その依頼者から借賃の1か月分の報酬を受け取ることができる。", "isTrue": false, "explanation": "承諾がない場合、一方からは借賃の1/2か月分が上限。" },
-      { "factId": "CH9-3", "ch": "CH9", "statement": "居住用建物以外の賃貸借の媒介において権利金の授受があるときは、権利金の額を売買代金とみなして算出した金額を報酬の上限とすることができる場合がある。", "isTrue": true, "explanation": "居住用以外の賃貸借で権利金がある場合は権利金を売買代金とみなせる。" },
-      { "factId": "CH9-3", "ch": "CH9", "statement": "居住用建物の賃貸借において権利金の授受があるときも、権利金を売買代金とみなして報酬を算出することができる。", "isTrue": false, "explanation": "この特例は居住用建物以外の賃貸借に限られる。" },
-      { "factId": "CH9-4", "ch": "CH9", "statement": "低廉な空家等の売買の媒介に関する特例は、取引価格（税抜き）が800万円以下の物件について、通常の報酬額に現地調査等に要する費用を加えた金額が33万円（消費税込み）を超えない範囲で適用される。", "isTrue": true, "explanation": "低廉空家特例は取引価格800万円以下かつ媒介報酬33万円以下が条件。" },
-      { "factId": "CH9-4", "ch": "CH9", "statement": "低廉な空家等に関する報酬の特例は、賃貸借の媒介についても適用される。", "isTrue": false, "explanation": "この特例は売買・交換の媒介・代理のみが対象。" },
-      { "factId": "CH9-5", "ch": "CH9", "statement": "消費税の課税事業者でない宅建業者が報酬を受け取る場合、報酬額の計算において1.04を乗じて算出する。", "isTrue": true, "explanation": "非課税事業者の場合は報酬額に1.04を乗じる。" },
-      { "factId": "CH9-5", "ch": "CH9", "statement": "消費税の課税事業者でない宅建業者が報酬を受け取る場合、課税事業者と同様に1.1を乗じて算出する。", "isTrue": false, "explanation": "非課税事業者の場合は1.04を乗じる。" },
-      { "factId": "CH10-0", "ch": "CH10", "statement": "宅建士証の返納・提出義務に違反した場合、または重要事項の説明の際に宅建士証を提示しなかった場合には、10万円以下の罰金に処せられることがある。", "isTrue": true, "explanation": "宅建士証の返納・提出義務違反、提示義務違反は10万円以下の罰金。" },
-      { "factId": "CH10-0", "ch": "CH10", "statement": "宅建士証の返納・提出義務に違反した場合には、50万円以下の罰金に処せられることがある。", "isTrue": false, "explanation": "正しくは10万円以下の罰金。" },
-      { "factId": "CH10-1", "ch": "CH10", "statement": "宅建業者に対する監督処分は、軽い方から順に「指示処分」「業務停止処分」「免許取消処分」の3段階がある。", "isTrue": true, "explanation": "監督処分は指示処分・業務停止処分・免許取消処分の順に重くなる。" },
-      { "factId": "CH10-1", "ch": "CH10", "statement": "宅建業者に対する監督処分は、「業務停止処分」「指示処分」「免許取消処分」の順に重くなる。", "isTrue": false, "explanation": "正しくは指示処分・業務停止処分・免許取消処分の順。" },
-      { "factId": "CH10-2", "ch": "CH10", "statement": "免許権者は、宅建業者の事務所の所在地を確知できないときは、その事実を公告し、公告の日から30日を経過しても申出がない場合は、その免許を取り消すことができる。", "isTrue": true, "explanation": "所在地不明の場合は公告し30日経過で免許取消が可能。" },
-      { "factId": "CH10-2", "ch": "CH10", "statement": "免許権者は、宅建業者の事務所の所在地を確知できないときは、公告の日から60日を経過しなければ免許を取り消すことができない。", "isTrue": false, "explanation": "正しくは公告の日から30日経過。" },
-      { "factId": "CH10-3", "ch": "CH10", "statement": "宅建業者に対する業務停止処分および免許取消処分は、必ず公告しなければならない。", "isTrue": true, "explanation": "宅建業者への業務停止処分・免許取消処分は必ず公告する。" },
-      { "factId": "CH10-3", "ch": "CH10", "statement": "宅建士に対する事務禁止処分についても、宅建業者に対する処分と同様に必ず公告しなければならない。", "isTrue": false, "explanation": "公告が必要なのは宅建業者への業務停止・免許取消処分のみ。" },
-      { "factId": "CH10-4", "ch": "CH10", "statement": "宅建業者に対する免許取消処分は、その免許権者のみが行うことができる。", "isTrue": true, "explanation": "免許取消処分・登録消除処分は免許権者のみが行える。" },
-      { "factId": "CH10-4", "ch": "CH10", "statement": "宅建業者に対する指示処分や業務停止処分は、免許権者のみが行うことができ、免許権者以外の都道府県知事が行うことはできない。", "isTrue": false, "explanation": "指示処分・業務停止処分は免許権者以外の知事や大臣も行える。" },
-      { "factId": "CH10-5", "ch": "CH10", "statement": "宅建業者に対する業務停止処分の期間は、1年以内である。", "isTrue": true, "explanation": "業務停止処分の期間は1年以内。" },
-      { "factId": "CH10-5", "ch": "CH10", "statement": "宅建業者に対する業務停止処分の期間は、2年以内である。", "isTrue": false, "explanation": "正しくは1年以内。" },
-      { "factId": "CH10-6", "ch": "CH10", "statement": "国土交通大臣が宅建業者に対して指示処分や業務停止処分を行う場合、一定の場合には内閣総理大臣と協議しなければならない。", "isTrue": true, "explanation": "国交大臣が宅建業者に処分する際、一定の場合は内閣総理大臣と協議が必要。" },
-      { "factId": "CH10-6", "ch": "CH10", "statement": "国土交通大臣が監督処分を行う場合には、必ず事前に都道府県知事に報告しなければならない。", "isTrue": false, "explanation": "国交大臣は都道府県知事への報告は不要。" },
-      { "factId": "CH10-7", "ch": "CH10", "statement": "契約の締結の勧誘に際して重要な事項について故意に事実を告げなかった場合、法人に対して1億円以下の罰金が科されることがある。", "isTrue": true, "explanation": "重要事項の不告知に対し法人は1億円以下の罰金となる場合がある。" },
-      { "factId": "CH10-7", "ch": "CH10", "statement": "契約の締結の勧誘に際して重要な事項について故意に事実を告げなかった場合でも、法人に対する罰金の上限は100万円である。", "isTrue": false, "explanation": "正しくは法人に対し1億円以下の罰金。" },
-      { "factId": "CH10-8", "ch": "CH10", "statement": "免許権者は、宅建業者が免許を受けてから1年以内に事業を開始しない場合、その免許を取り消さなければならない。", "isTrue": true, "explanation": "免許後1年以内に事業未開始の場合は免許取消が必要。" },
-      { "factId": "CH10-8", "ch": "CH10", "statement": "免許権者は、宅建業者が免許を受けてから1年以内に事業を開始しない場合でも、免許を取り消すかどうかは任意である。", "isTrue": false, "explanation": "1年以内に事業を開始しない場合、免許取消は必要的措置。" },
-      { "factId": "CH10-9", "ch": "CH10", "statement": "免許権者から業務に関する報告を求められたにもかかわらず報告をしなかった場合、50万円以下の罰金に処せられることがある。", "isTrue": true, "explanation": "報告義務違反は50万円以下の罰金。" },
-      { "factId": "CH10-9", "ch": "CH10", "statement": "免許権者から業務に関する報告を求められたにもかかわらず報告をしなかった場合でも、罰則の規定はない。", "isTrue": false, "explanation": "報告義務違反には50万円以下の罰金が科される。" },
-      { "factId": "CH10-10", "ch": "CH10", "statement": "免許権者の職員による事務所等への立入検査を拒み、妨げ、または忌避した場合、50万円以下の罰金に処せられることがある。", "isTrue": true, "explanation": "立入検査の拒否・妨害・忌避は50万円以下の罰金。" },
-      { "factId": "CH10-10", "ch": "CH10", "statement": "免許権者の職員による事務所等への立入検査を拒んだ場合、宅建業者に対する罰則は適用されない。", "isTrue": false, "explanation": "立入検査拒否には50万円以下の罰金が科される。" },
-      { "factId": "CH11-0", "ch": "CH11", "statement": "新築住宅の売主である宅建業者は、住宅の構造耐力上主要な部分等に関する瑕疵について、引渡しから10年間、責任を負わなければならない。", "isTrue": true, "explanation": "新築住宅の構造耐力上主要な部分等の責任は引渡しから10年間。" },
-      { "factId": "CH11-0", "ch": "CH11", "statement": "新築住宅の売主である宅建業者が負う構造耐力上主要な部分等に関する責任の期間は、引渡しから5年間である。", "isTrue": false, "explanation": "正しくは引渡しから10年間。" },
-      { "factId": "CH11-1", "ch": "CH11", "statement": "供託所の所在地等についての説明は、契約を締結するまでに行わなければならず、35条に基づく重要事項説明の記載事項にもなっている。", "isTrue": true, "explanation": "供託所の所在地等の説明は契約締結までに行う必要がある。" },
-      { "factId": "CH11-1", "ch": "CH11", "statement": "供託所の所在地等についての説明は、契約締結後、引渡しまでに行えばよい。", "isTrue": false, "explanation": "供託所の所在地等の説明は契約締結までに行う必要がある。" },
-      { "factId": "CH11-2", "ch": "CH11", "statement": "宅建業者は、毎年3月31日を基準日として、住宅販売瑕疵担保保証金の状況を3週間以内に免許権者に届け出なければならない。", "isTrue": true, "explanation": "基準日（3月31日）から3週間以内に状況を届け出る必要がある。" },
-      { "factId": "CH11-2", "ch": "CH11", "statement": "宅建業者が基準日における届出をしないまま基準日から50日を経過した場合でも、新たに自ら売主となる新築住宅の売買契約を締結することができる。", "isTrue": false, "explanation": "基準日から50日経過後は新築住宅の売買契約締結ができない。" },
-      { "factId": "CH11-3", "ch": "CH11", "statement": "住宅販売瑕疵担保責任保険契約に基づく保険金額は、2,000万円以上でなければならない。", "isTrue": true, "explanation": "保険金額は床面積に応じた額の2倍以上かつ2,000万円以上が必要。" },
-      { "factId": "CH11-3", "ch": "CH11", "statement": "住宅販売瑕疵担保責任保険契約に基づく保険金額は、1,000万円以上であれば足りる。", "isTrue": false, "explanation": "正しくは2,000万円以上である必要がある。" },
-      { "factId": "CH11-4", "ch": "CH11", "statement": "住宅販売瑕疵担保保証金の算定に当たり、床面積が55㎡以下の新築住宅については、2戸をもって1戸と数える。", "isTrue": true, "explanation": "床面積55㎡以下の住宅は2戸で1戸として算定する。" },
-      { "factId": "CH11-4", "ch": "CH11", "statement": "住宅販売瑕疵担保保証金の算定に当たり、床面積が55㎡以下の新築住宅についても、1戸として数える。", "isTrue": false, "explanation": "55㎡以下の住宅は2戸で1戸として算定する。" }
+      { "factId": "CH1-2", "ch": "CH1", "statement": "信託会社が宅建業を営む場合、宅建業の免許を受ける必要はないが、国土交通大臣への届出が必要である。", "isTrue": true, "explanation": "信託会社は免許不要だが国土交通大臣への届出が必要。" }
     ]
   },
   "horei": {
-    label: "法令上の制限",
-    stamp: "法令",
-    color: "#3F6E5E",
-    rawData: [
-      { ch:"CH1", facts:[
-        "区域区分（市街化区域・市街化調整区域の区分）は「必要があるとき」に「都道府県」が定めることができる",
-        "特定用途制限地域は「用途地域が定められていない区域」にのみ定めることができる",
-        "特別用途地区は、用途地域内において用途制限を補完的に強化・緩和するために定める地域区分である",
-        "高度地区は、建築物の「高さ」の最高限度または最低限度を定める地区である",
-        "地区計画は、都市計画区域内で用途地域が定められている土地の区域であればどこでも定めることができ、用途地域が定められていない土地でも一定の条件を満たす区域には定めることができる。ただし準都市計画区域やそれ以外の区域には定めることができない",
-        "都市計画を都道府県が定めるときは国土交通大臣との協議・同意が必要であり、市町村が定めるときは都道府県知事との協議のみで足りる（同意は不要）",
-        "都市計画事業の事業地内で都市計画を変更する場合、対象となる土地所有者等の3分の2以上の同意を得る必要がある",
-        "開発許可が必要な面積は、市街化区域では1,000㎡以上（三大都市圏の一定区域では500㎡以上）、市街化調整区域では規模にかかわらず原則必要、非線引き都市計画区域では3,000㎡以上、準都市計画区域では3,000㎡以上、それ以外の区域（都市計画区域・準都市計画区域外）では10,000㎡以上",
-        "1ヘクタール（10,000㎡）未満の運動・レジャー施設や墓園の建設を目的とする開発行為は開発許可が不要である",
-        "開発許可を受けた開発区域内では、予定建築物以外の建築物を建築することは原則できないが、都道府県知事の許可を受けた場合、または用途地域が定められている場合は例外として建築できる",
-        "開発許可を受けた者が許可申請の記載内容を変更する場合は都道府県知事の許可が必要だが、軽微な変更であれば届出のみで足りる",
-        "開発許可を受けた者が開発に関する工事を廃止するときは、速やかにその旨を都道府県知事に届け出なければならない",
-        "開発許可を受けた開発区域内では、工事完了の公告があるまで原則として建築物を建築できないが、工事用の仮設建築物、都道府県知事が認めたもの、開発行為に同意していない者が建築する場合は例外として建築できる",
-        "市街化区域では必ず用途地域を定めなければならないが、非線引き都市計画区域では用途地域を定めることができる（定めなくてもよい）",
-        "市街化区域は用途地域を必ず定め、地区計画も定めることができる。市街化調整区域は用途地域を原則定めず、地区計画は一定の場所に限り定めることができる。非線引き都市計画区域は用途地域・地区計画のいずれも定めることができる。それ以外の区域（準都市計画区域・都市計画区域外）には用途地域も地区計画も定めることができない"
-      ]},
-      { ch:"CH2", facts:[
-        "延べ面積が200㎡を超える建築物を新築・増改築する場合は、工事着手前に建築確認が必要である。ただし都市計画区域等の一定の区域内における大規模な修繕・模様替えについては建築確認が不要な場合がある",
-        "特殊建築物に該当しない建築物であっても、2階以上の階数を有する建築物は建築確認が必要である",
-        "建築物の敷地は道路に2メートル以上接していなければならないという接道義務は、特定行政庁が建築審査会の同意を得て許可した場合には適用を免れることができる",
-        "前面道路の幅員が12メートル未満の場合の容積率は、指定容積率と「前面道路の幅員×法定乗数」を比較し、小さい方の数値を用いる",
-        "建築物の敷地が2つ以上の道路に接している場合は、幅員の最も広い道路を前面道路とみなす",
-        "用途地域の指定のない区域における建築物の建蔽率は、特定行政庁ではなく「都道府県都市計画審議会」の議を経て定められたものに従う",
-        "防火地域内では延べ面積が100㎡を超える建築物または地上3階以上の建築物は耐火建築物等にしなければならない。準防火地域内では延べ面積が1,500㎡を超える建築物または地上4階以上の建築物は耐火建築物等にしなければならない",
-        "居室の採光に必要な開口部の面積は居室の床面積の1/7以上、換気に必要な開口部の面積は居室の床面積の1/20以上が原則である",
-        "高さ20メートルを超える建築物には原則として避雷設備（避雷針）を設けなければならず、高さ31メートルを超える建築物には原則として非常用の昇降機（エレベーター）を設けなければならない",
-        "道路斜線制限はすべての用途地域・区域で適用される。隣地斜線制限は第一種・第二種低層住居専用地域および田園住居地域には適用されない。北側斜線制限は第一種・第二種低層住居専用地域、田園住居地域、第一種・第二種中高層住居専用地域にのみ適用される",
-        "都市計画において定める外壁の後退距離（外壁の壁面線等からの後退距離）は1メートルまたは1.5メートルとされる",
-        "第一種・第二種低層住居専用地域および田園住居地域では、建築物の高さは10メートルまたは12メートルのうち都市計画で定められた限度を超えることができない",
-        "建築物の敷地が複数の用途地域にわたる場合は、その敷地の過半を占める用途地域の規定（容積率・建蔽率等）が適用される",
-        "建蔽率の限度が10分の8とされている地域内で、かつ防火地域内にある耐火建築物等については、建蔽率の制限が適用されない（建蔽率の制限を受けない）",
-        "防火地域および準防火地域以外の区域で建築物を建築する場合、その建築物の床面積の合計が10㎡以内であれば建築確認は不要である",
-        "街区の角にある敷地（街区内の角地）のうち、特定行政庁が指定したものについては、建蔽率の限度に10分の1が加算される",
-        "建蔽率の限度が10分の8とされている地域外で、防火地域内にある耐火建築物等または準防火地域内にある耐火建築物等・準耐火建築物等については、建蔽率の限度に10分の1が加算される",
-        "用途地域内において敷地面積の最低限度を都市計画で定める場合、その規模は200㎡を超えてはならない",
-        "建築協定の変更には土地所有者等の全員の同意と特定行政庁の認可が必要であり、廃止する場合は土地所有者等の過半数の同意と特定行政庁の認可が必要である",
-        "日影規制（日影による中高層の建築物の高さの制限）の測定日は「冬至日」である"
-      ]},
-      { ch:"CH3", facts:[
-        "国土利用計画法上、規制区域・監視区域・注視区域の指定がない区域（無指定区域）における土地に関する権利を取得した者は、契約締結日から2週間以内に都道府県知事に事後届出をしなければならない",
-        "国土利用計画法上の届出・許可は、当事者の一方または双方が国・地方公共団体等である場合には不要である",
-        "国土利用計画法上、注視区域および無指定区域における届出が必要となる面積は、市街化区域では2,000㎡以上、市街化区域以外の都市計画区域（市街化調整区域・非線引き区域）では5,000㎡以上、都市計画区域外では10,000㎡以上である",
-        "国土利用計画法の事後届出では利用目的のみが審査対象となるが、事前届出（注視区域・監視区域）では利用目的に加えて予定対価（取引価格）も審査対象となる",
-        "国土利用計画法上、事後届出の場合は届出から3週間、事前届出の場合は届出から6週間の勧告（不勧告）に関する通知期間が設けられている",
-        "国土利用計画法上、都道府県知事は、勧告を受けた者がその勧告に従わなかった場合に限り、その旨およびその内容を公表することができる",
-        "指定都市の区域外にある土地の取引について事後届出をする場合は、その土地を管轄する市町村長を経由して都道府県知事に届け出なければならない",
-        "国土利用計画法上、無指定区域以外（注視区域・監視区域・規制区域）の土地取引については、契約当事者である売主・買主の双方に、契約内容等の報告に協力すべき義務が課されることがある"
-      ]},
-      { ch:"CH4", facts:[
-        "農地法上、権利移動（3条許可）の許可権者は農業委員会であり、転用および転用目的の権利移動（4条・5条許可）の許可権者は都道府県知事等（指定市町村の長を含む）である",
-        "農地法上、権利移動（3条）について、権利を取得する者が国または都道府県等である場合、および相続や遺産分割により権利を取得する場合（農業委員会への届出は必要）は、許可が不要である",
-        "農地法上、転用（4条）については、あらかじめ農業委員会に届け出た場合で、市街化区域内にある農地である場合や、2アール（200㎡）未満の農地を農業用施設に転用する場合は、許可が不要である",
-        "農地法上、転用目的の権利移動（5条）についても、市街化区域内にある農地で、あらかじめ農業委員会に届け出た場合は許可が不要となる特例がある",
-        "農地法上、3条許可（権利移動）および5条許可（転用目的の権利移動）は、許可を受けないまま行った契約は無効となる"
-      ]},
-      { ch:"CH5", facts:[
-        "盛土規制法（宅地造成及び特定盛土等規制法）上、盛土をした土地の部分に高さ1メートルを超える崖を生じるものは許可が必要である",
-        "盛土規制法上、切土をした土地の部分に高さ2メートルを超える崖を生じるもの、または盛土と切土を同時に行い高さ2メートルを超える崖を生じるものは許可が必要である",
-        "盛土規制法上、崖を生じない盛土であって高さが2メートルを超えるものは許可が必要である",
-        "盛土規制法上、盛土または切土をする土地の部分の面積（崖を生じないもの）が500㎡を超えるものは許可が必要である",
-        "盛土規制法上、一時的な土石の堆積については、堆積する土地の面積が500㎡を超えるもの、または堆積の高さが2メートルを超えかつ面積が300㎡を超えるものは許可が必要である",
-        "盛土規制法上、工事の届出について、規制区域指定の際に既に工事を行っていた者は指定の日から21日以内に届け出る必要があり、一定の擁壁や排水施設等を除去する工事をする場合は工事着手の14日前までに届け出る必要がある",
-        "盛土規制法上、都道府県知事は、基本方針に基づき、宅地造成等に伴い災害が生ずるおそれが大きい市街地等の区域を「宅地造成等工事規制区域」として指定することができる",
-        "盛土規制法上、造成宅地防災区域は、宅地造成等工事規制区域に比べて危険性が低く、宅地造成等工事規制区域「以外」の場所に指定される",
-        "盛土規制法上、特定盛土等規制区域内で大規模な崖崩れ等を生じさせるおそれが大きいと認められる規模の工事を行う場合は、都道府県知事の許可が必要である",
-        "盛土規制法上、高さ5メートルを超える擁壁の設置、または盛土・切土をする土地の面積が1,500㎡を超える工事については、一定の資格を有する者が設計しなければならない",
-        "盛土規制法上、基本方針は主務大臣が定める",
-        "盛土規制法上、都道府県知事は、おおむね5年ごとに基礎調査を行わなければならない"
-      ]},
-      { ch:"CH6", facts:[
-        "土地区画整理組合は、施行地区内の土地所有者および借地権者が7人以上共同して設立することができる組合である",
-        "土地区画整理組合の設立には、施行地区内の土地所有者および借地権者のそれぞれ3分の2以上の同意が必要である",
-        "土地区画整理組合の設立にも解散にも、都道府県知事の認可が必要である",
-        "換地計画は、2週間関係権利者の縦覧に供しなければならない",
-        "仮換地の指定の効力が発生した日からは、仮換地について使用収益ができるようになり、従前の土地については使用収益ができず処分（売却等）のみが可能となる",
-        "土地区画整理事業の換地処分の効果について、従前の土地に関する権利が消滅する効果は換地処分の公告があった日に生じ、新たに換地に関する権利が発生する効果はその公告があった日の翌日に生じる",
-        "土地区画整理組合が仮換地を指定する場合、地方公共団体（公的施行）が行う場合は土地区画整理審議会の意見を聴く必要があり、区画整理会社が行う場合は所有権を有するすべての者および借地権を有するすべての者のそれぞれ3分の2以上の同意が必要である",
-        "土地区画整理組合の設立の認可があった日から換地処分の公告がある日までの間に、施行地区内の土地について建築物の新築・増築等の制限される行為を行う場合は、都道府県知事の許可を得る必要があり、施行者である土地区画整理組合の許可は不要である",
-        "換地処分は「公告」ではなく、関係権利者への「通知」によって行う",
-        "換地処分は、原則として換地計画に係る区域の全部について事業計画に定める工事が完了した後に行うが、規準・規約・定款または事業計画に別段の定めがある場合は、その全部の完了前に換地処分を行うことができる"
-      ]},
-      { ch:"CH7", facts:[
-        "国立公園内・文化財に関する規制はそれぞれ国（環境大臣・文化庁長官等）の許可が必要であり、港湾区域内の規制は港湾管理者、生産緑地地区内の規制は市町村長、道路区域内の規制は道路管理者、河川区域内の規制は河川管理者、海岸保全区域内の規制は海岸管理者の許可・届出等が必要となる",
-        "その他の法令上の制限のうち、一般的な行為については「届出」、それ以外（より規制が強いもの）については「許可」が必要とされる場合が多い"
-      ]}
-    ],
-    questionBank: [
-      { "factId": "CH1-0", "ch": "CH1", "statement": "区域区分は、必要があると認めるときに「都道府県」が定めることができる。", "isTrue": true, "explanation": "区域区分は必要時に都道府県が定める。" },
-      { "factId": "CH1-0", "ch": "CH1", "statement": "区域区分は、必要があると認めるときに「市町村」が定めることができる。", "isTrue": false, "explanation": "区域区分を定めるのは都道府県。" },
-      { "factId": "CH1-1", "ch": "CH1", "statement": "特定用途制限地域は、用途地域が定められていない区域にのみ定めることができる。", "isTrue": true, "explanation": "特定用途制限地域は用途地域外の区域に限り定められる。" },
-      { "factId": "CH1-1", "ch": "CH1", "statement": "特定用途制限地域は、用途地域が定められている区域に定めることができる。", "isTrue": false, "explanation": "特定用途制限地域は用途地域外にのみ定められる。" },
-      { "factId": "CH1-2", "ch": "CH1", "statement": "特別用途地区は、用途地域内において用途制限を補完するために定める地域区分である。", "isTrue": true, "explanation": "特別用途地区は用途地域内の用途制限を補完的に調整する。" },
-      { "factId": "CH1-2", "ch": "CH1", "statement": "特別用途地区は、用途地域が定められていない区域にのみ定めることができる地域区分である。", "isTrue": false, "explanation": "特別用途地区は用途地域「内」に定められる。特定用途制限地域と異なる。" },
-      { "factId": "CH1-3", "ch": "CH1", "statement": "高度地区は、建築物の高さの最高限度または最低限度を定める地区である。", "isTrue": true, "explanation": "高度地区は建物の高さの限度を定める地区。" },
-      { "factId": "CH1-3", "ch": "CH1", "statement": "高度地区は、建築物の容積率の最高限度を定める地区である。", "isTrue": false, "explanation": "高度地区が定めるのは高さの限度であり容積率ではない。" },
-      { "factId": "CH1-4", "ch": "CH1", "statement": "地区計画は、用途地域が定められていない土地の区域であっても、一定の条件を満たせば定めることができる。", "isTrue": true, "explanation": "地区計画は用途地域が定められていない区域でも一定条件下で定められる。" },
-      { "factId": "CH1-4", "ch": "CH1", "statement": "地区計画は、準都市計画区域においても定めることができる。", "isTrue": false, "explanation": "地区計画は準都市計画区域には定められない。" },
-      { "factId": "CH1-5", "ch": "CH1", "statement": "都道府県が都市計画を定めるときは、国土交通大臣との協議および同意が必要である。", "isTrue": true, "explanation": "都道府県の都市計画決定には国交大臣の協議・同意が必要。" },
-      { "factId": "CH1-5", "ch": "CH1", "statement": "市町村が都市計画を定めるときは、都道府県知事の同意を得なければならない。", "isTrue": false, "explanation": "市町村の場合は都道府県知事との協議のみで同意は不要。" },
-      { "factId": "CH1-6", "ch": "CH1", "statement": "都市計画事業の区域内で都市計画を変更する場合、対象となる土地所有者等の3分の2以上の同意が必要である。", "isTrue": true, "explanation": "都市計画変更には対象地の所有者等の3分の2以上の同意が必要。" },
-      { "factId": "CH1-6", "ch": "CH1", "statement": "都市計画事業の区域内で都市計画を変更する場合、対象となる土地所有者等の過半数の同意があれば足りる。", "isTrue": false, "explanation": "正しくは3分の2以上の同意が必要。" },
-      { "factId": "CH1-7", "ch": "CH1", "statement": "市街化調整区域では、規模にかかわらず原則として開発許可が必要である。", "isTrue": true, "explanation": "市街化調整区域は規模にかかわらず開発許可が原則必要。" },
-      { "factId": "CH1-7", "ch": "CH1", "statement": "市街化区域における開発許可が必要な面積は、原則として3,000㎡以上である。", "isTrue": false, "explanation": "市街化区域は原則1,000㎡以上（三大都市圏の一定区域は500㎡以上）。" },
-      { "factId": "CH1-8", "ch": "CH1", "statement": "1ヘクタール未満の運動・レジャー施設や墓園の建設を目的とする開発行為は、開発許可が不要である。", "isTrue": true, "explanation": "1ha未満の運動・レジャー施設・墓園は開発許可不要。" },
-      { "factId": "CH1-8", "ch": "CH1", "statement": "1ヘクタール未満の運動・レジャー施設の建設を目的とする開発行為であっても、開発許可は常に必要である。", "isTrue": false, "explanation": "1ha未満の運動・レジャー施設や墓園は開発許可が不要。" },
-      { "factId": "CH1-9", "ch": "CH1", "statement": "開発許可を受けた開発区域内では、用途地域が定められている場合には予定建築物以外の建築物を建築することができる。", "isTrue": true, "explanation": "用途地域が定められている場合は予定建築物以外も建築可能。" },
-      { "factId": "CH1-9", "ch": "CH1", "statement": "開発許可を受けた開発区域内では、いかなる場合も予定建築物以外の建築物を建築することはできない。", "isTrue": false, "explanation": "都道府県知事の許可、または用途地域指定がある場合は例外的に建築できる。" },
-      { "factId": "CH1-10", "ch": "CH1", "statement": "開発許可を受けた者が許可申請書の記載事項を変更する場合、軽微な変更であれば届出のみで足りる。", "isTrue": true, "explanation": "軽微な変更は届出のみで対応できる。" },
-      { "factId": "CH1-10", "ch": "CH1", "statement": "開発許可を受けた者が許可申請書の記載事項を変更する場合、いかなる変更であっても都道府県知事の許可が必要である。", "isTrue": false, "explanation": "軽微な変更は届出のみで足り、許可は不要。" },
-      { "factId": "CH1-11", "ch": "CH1", "statement": "開発許可を受けた者が開発に関する工事を廃止するときは、速やかにその旨を都道府県知事に届け出なければならない。", "isTrue": true, "explanation": "工事廃止時は速やかに都道府県知事へ届出。" },
-      { "factId": "CH1-11", "ch": "CH1", "statement": "開発許可を受けた者が開発に関する工事を廃止するときは、都道府県知事の許可を受けなければならない。", "isTrue": false, "explanation": "工事廃止は届出で足り、許可は不要。" },
-      { "factId": "CH1-12", "ch": "CH1", "statement": "開発許可を受けた開発区域内で、開発行為に同意していない者は、工事完了の公告前であっても自己の権利に係る建築物を建築することができる。", "isTrue": true, "explanation": "開発に同意していない者の建築は工事完了前でも例外として認められる。" },
-      { "factId": "CH1-12", "ch": "CH1", "statement": "開発許可を受けた開発区域内では、工事用の仮設建築物であっても工事完了の公告前に建築することはできない。", "isTrue": false, "explanation": "仮設建築物は工事完了前でも例外として建築できる。" },
-      { "factId": "CH1-13", "ch": "CH1", "statement": "市街化区域では必ず用途地域を定めなければならない。", "isTrue": true, "explanation": "市街化区域は用途地域を必ず定める必要がある。" },
-      { "factId": "CH1-13", "ch": "CH1", "statement": "非線引き都市計画区域では必ず用途地域を定めなければならない。", "isTrue": false, "explanation": "非線引き区域は用途地域を定めることができるが必須ではない。" },
-      { "factId": "CH1-14", "ch": "CH1", "statement": "市街化調整区域では、地区計画を一定の場所に限り定めることができる。", "isTrue": true, "explanation": "市街化調整区域でも一定の場所では地区計画を定められる。" },
-      { "factId": "CH1-14", "ch": "CH1", "statement": "市街化調整区域では、用途地域を必ず定めなければならない。", "isTrue": false, "explanation": "市街化調整区域は原則として用途地域を定めない。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "延べ面積が200㎡を超える建築物を新築する場合は、工事着手前に建築確認が必要である。", "isTrue": true, "explanation": "延べ200㎡超の建築物の新築は工事前に建築確認が必要。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "都市計画区域等の一定の区域内における大規模な修繕・模様替えは、規模にかかわらず常に建築確認が必要である。", "isTrue": false, "explanation": "一定区域内の大規模修繕等は建築確認が不要な場合がある。" },
-      { "factId": "CH2-1", "ch": "CH2", "statement": "特殊建築物に該当しない建築物であっても、2階以上の階数を有する建築物は建築確認が必要である。", "isTrue": true, "explanation": "特殊建築物でなくても2階以上の建物は建築確認が必要。" },
-      { "factId": "CH2-1", "ch": "CH2", "statement": "特殊建築物に該当しない平屋建ての建築物は、規模にかかわらず建築確認が一切不要である。", "isTrue": false, "explanation": "規模等の条件によっては平屋でも建築確認が必要となる場合がある。" },
-      { "factId": "CH2-2", "ch": "CH2", "statement": "接道義務（道路に2メートル以上接する義務）は、特定行政庁が建築審査会の同意を得て許可した場合には適用を免れることができる。", "isTrue": true, "explanation": "接道義務は特定行政庁の許可（建築審査会の同意）で免れられる。" },
-      { "factId": "CH2-2", "ch": "CH2", "statement": "接道義務は、いかなる場合であっても例外なく適用される。", "isTrue": false, "explanation": "特定行政庁の許可（建築審査会同意）があれば例外が認められる。" },
-      { "factId": "CH2-3", "ch": "CH2", "statement": "前面道路の幅員が12メートル未満の場合、指定容積率と前面道路の幅員に法定乗数を乗じた数値のうち、小さい方を容積率として用いる。", "isTrue": true, "explanation": "前面道路が12m未満なら指定容積率と幅員×法定乗数の小さい方を採用。" },
-      { "factId": "CH2-3", "ch": "CH2", "statement": "前面道路の幅員が12メートル未満の場合、指定容積率と前面道路の幅員に法定乗数を乗じた数値のうち、大きい方を容積率として用いる。", "isTrue": false, "explanation": "正しくは小さい方を用いる。" },
-      { "factId": "CH2-4", "ch": "CH2", "statement": "建築物の敷地が2つ以上の道路に接している場合は、幅員の最も広い道路を前面道路とみなす。", "isTrue": true, "explanation": "複数道路に接する場合は最も広い道路が前面道路となる。" },
-      { "factId": "CH2-4", "ch": "CH2", "statement": "建築物の敷地が2つ以上の道路に接している場合は、幅員の最も狭い道路を前面道路とみなす。", "isTrue": false, "explanation": "正しくは幅員の最も広い道路を前面道路とする。" },
-      { "factId": "CH2-5", "ch": "CH2", "statement": "用途地域の指定のない区域における建蔽率は、都道府県都市計画審議会の議を経て定められたものに従う。", "isTrue": true, "explanation": "用途地域指定なし区域の建蔽率は都道府県都市計画審議会が定める。" },
-      { "factId": "CH2-5", "ch": "CH2", "statement": "用途地域の指定のない区域における建蔽率は、特定行政庁が単独で定める。", "isTrue": false, "explanation": "正しくは都道府県都市計画審議会の議を経て定める。" },
-      { "factId": "CH2-6", "ch": "CH2", "statement": "防火地域内では、延べ面積が100㎡を超える建築物または地上3階以上の建築物は耐火建築物等にしなければならない。", "isTrue": true, "explanation": "防火地域は100㎡超または3階以上で耐火建築物等が必要。" },
-      { "factId": "CH2-6", "ch": "CH2", "statement": "準防火地域内では、延べ面積が100㎡を超える建築物は耐火建築物等にしなければならない。", "isTrue": false, "explanation": "準防火地域の基準は1,500㎡超または4階以上。" },
-      { "factId": "CH2-7", "ch": "CH2", "statement": "居室の採光に必要な開口部の面積は、居室の床面積の7分の1以上が原則である。", "isTrue": true, "explanation": "採光の開口部面積は居室床面積の1/7以上。" },
-      { "factId": "CH2-7", "ch": "CH2", "statement": "居室の換気に必要な開口部の面積は、居室の床面積の7分の1以上が原則である。", "isTrue": false, "explanation": "換気の開口部面積は居室床面積の1/20以上。採光は1/7。" },
-      { "factId": "CH2-8", "ch": "CH2", "statement": "高さ20メートルを超える建築物には、原則として避雷設備を設けなければならない。", "isTrue": true, "explanation": "高さ20m超の建物には避雷設備が必要。" },
-      { "factId": "CH2-8", "ch": "CH2", "statement": "高さ31メートルを超える建築物には、原則として避雷設備を設けなければならない。", "isTrue": false, "explanation": "避雷設備は20m超の基準。31m超は非常用昇降機の基準。" },
-      { "factId": "CH2-9", "ch": "CH2", "statement": "隣地斜線制限は、第一種・第二種低層住居専用地域および田園住居地域には適用されない。", "isTrue": true, "explanation": "隣地斜線制限は低層住居専用地域・田園住居地域には適用されない。" },
-      { "factId": "CH2-9", "ch": "CH2", "statement": "北側斜線制限は、すべての用途地域に適用される。", "isTrue": false, "explanation": "北側斜線制限は低層住居専用地域・田園住居地域・中高層住居専用地域にのみ適用。" },
-      { "factId": "CH2-10", "ch": "CH2", "statement": "都市計画において定める外壁の後退距離は1メートルまたは1.5メートルとされる。", "isTrue": true, "explanation": "外壁の後退距離は1mまたは1.5m。" },
-      { "factId": "CH2-10", "ch": "CH2", "statement": "都市計画において定める外壁の後退距離は3メートルまたは5メートルとされる。", "isTrue": false, "explanation": "正しくは1mまたは1.5m。" },
-      { "factId": "CH2-11", "ch": "CH2", "statement": "第一種・第二種低層住居専用地域および田園住居地域では、建築物の高さは10メートルまたは12メートルのうち都市計画で定められた限度を超えることができない。", "isTrue": true, "explanation": "低層住居専用地域・田園住居地域の高さ限度は10mまたは12m。" },
-      { "factId": "CH2-11", "ch": "CH2", "statement": "第一種・第二種低層住居専用地域では、建築物の高さの限度は定められていない。", "isTrue": false, "explanation": "高さの限度（10mまたは12m）が定められている。" },
-      { "factId": "CH2-12", "ch": "CH2", "statement": "建築物の敷地が複数の用途地域にわたる場合は、その敷地の過半を占める用途地域の規定が適用される。", "isTrue": true, "explanation": "複数用途地域にわたる場合は過半を占める地域の規定が適用される。" },
-      { "factId": "CH2-12", "ch": "CH2", "statement": "建築物の敷地が複数の用途地域にわたる場合は、最も厳しい規制を行う用途地域の規定が適用される。", "isTrue": false, "explanation": "正しくは敷地の過半を占める用途地域の規定が適用される。" },
-      { "factId": "CH2-13", "ch": "CH2", "statement": "建蔽率の限度が10分の8とされている地域内で、かつ防火地域内にある耐火建築物等については、建蔽率の制限を受けない。", "isTrue": true, "explanation": "建蔽率8/10地域＋防火地域内の耐火建築物は建蔽率制限なし。" },
-      { "factId": "CH2-13", "ch": "CH2", "statement": "建蔽率の限度が10分の8とされている地域内であっても、防火地域内にある耐火建築物等には建蔽率の制限が適用される。", "isTrue": false, "explanation": "両方の条件を満たすと建蔽率の制限を受けない。" },
-      { "factId": "CH2-14", "ch": "CH2", "statement": "防火地域および準防火地域以外の区域で、床面積の合計が10㎡以内の建築物を建築する場合は、建築確認が不要である。", "isTrue": true, "explanation": "防火・準防火地域外で10㎡以内の建築は建築確認不要。" },
-      { "factId": "CH2-14", "ch": "CH2", "statement": "防火地域内であれば、床面積の合計が10㎡以内の建築物の建築確認は不要である。", "isTrue": false, "explanation": "10㎡以内の建築確認不要の特例は防火・準防火地域「外」が条件。" },
-      { "factId": "CH2-15", "ch": "CH2", "statement": "街区内の角地のうち特定行政庁が指定したものは、建蔽率の限度に10分の1が加算される。", "isTrue": true, "explanation": "特定行政庁が指定した角地は建蔽率+1/10。" },
-      { "factId": "CH2-15", "ch": "CH2", "statement": "街区内の角地は、特定行政庁の指定がなくても自動的に建蔽率が10分の1加算される。", "isTrue": false, "explanation": "角地の建蔽率加算には特定行政庁の指定が必要。" },
-      { "factId": "CH2-16", "ch": "CH2", "statement": "建蔽率の限度が10分の8とされている地域外で、防火地域内にある耐火建築物等または準防火地域内にある耐火建築物等・準耐火建築物等については、建蔽率の限度に10分の1が加算される。", "isTrue": true, "explanation": "8/10地域外で防火・準防火地域内の耐火建築物等は建蔽率+1/10。" },
-      { "factId": "CH2-16", "ch": "CH2", "statement": "建蔽率の限度が10分の8とされている地域外で、防火地域内にある耐火建築物等であっても、建蔽率の限度は加算されない。", "isTrue": false, "explanation": "8/10地域外の防火地域内耐火建築物等は建蔽率が1/10加算される。" },
-      { "factId": "CH2-17", "ch": "CH2", "statement": "用途地域内において敷地面積の最低限度を都市計画で定める場合、その規模は200㎡を超えてはならない。", "isTrue": true, "explanation": "敷地面積の最低限度は200㎡を超えてはならない。" },
-      { "factId": "CH2-17", "ch": "CH2", "statement": "用途地域内において敷地面積の最低限度を都市計画で定める場合、その規模に上限はない。", "isTrue": false, "explanation": "200㎡を超える数値を定めることはできない。" },
-      { "factId": "CH2-18", "ch": "CH2", "statement": "建築協定を変更する場合は、土地所有者等の全員の同意と特定行政庁の認可が必要である。", "isTrue": true, "explanation": "建築協定の変更には全員の同意と特定行政庁の認可が必要。" },
-      { "factId": "CH2-18", "ch": "CH2", "statement": "建築協定を廃止する場合は、土地所有者等の全員の同意が必要である。", "isTrue": false, "explanation": "廃止に必要なのは過半数の同意（変更は全員の同意）。" },
-      { "factId": "CH2-19", "ch": "CH2", "statement": "日影規制（日影による中高層の建築物の高さの制限）の測定日は「冬至日」である。", "isTrue": true, "explanation": "日影規制の測定日は冬至日。" },
-      { "factId": "CH2-19", "ch": "CH2", "statement": "日影規制（日影による中高層の建築物の高さの制限）の測定日は「夏至日」である。", "isTrue": false, "explanation": "正しくは冬至日。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "無指定区域における土地に関する権利を取得した者は、契約締結日から2週間以内に都道府県知事に事後届出をしなければならない。", "isTrue": true, "explanation": "無指定区域の権利取得者は契約締結日から2週間以内に事後届出。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "無指定区域における土地に関する権利を取得した者は、契約締結日から1か月以内に都道府県知事に事後届出をしなければならない。", "isTrue": false, "explanation": "正しくは2週間以内。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "国土利用計画法上の届出・許可は、当事者の一方または双方が国・地方公共団体等である場合には不要である。", "isTrue": true, "explanation": "当事者に国・地方公共団体が含まれる場合は届出・許可は不要。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "国土利用計画法上の届出は、当事者の双方が個人である場合にのみ必要であり、地方公共団体が当事者であっても届出が必要である。", "isTrue": false, "explanation": "地方公共団体が当事者の場合は届出は不要。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "国土利用計画法上、市街化区域における事後届出が必要な面積は2,000㎡以上である。", "isTrue": true, "explanation": "事後届出の基準面積は市街化区域で2,000㎡以上。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "国土利用計画法上、都市計画区域外における事後届出が必要な面積は5,000㎡以上である。", "isTrue": false, "explanation": "都市計画区域外の基準は10,000㎡以上。5,000㎡以上は市街化区域以外の都市計画区域。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "国土利用計画法の事前届出（注視区域・監視区域）では、利用目的に加えて予定対価（取引価格）も審査対象となる。", "isTrue": true, "explanation": "事前届出では利用目的に加え予定対価も審査される。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "国土利用計画法の事後届出では、予定対価（取引価格）が審査対象となる。", "isTrue": false, "explanation": "事後届出で審査されるのは利用目的のみ。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "国土利用計画法上、事後届出の場合は届出から3週間の通知期間が設けられている。", "isTrue": true, "explanation": "事後届出の通知期間は3週間。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "国土利用計画法上、事前届出の場合は届出から3週間の通知期間が設けられている。", "isTrue": false, "explanation": "事前届出の通知期間は6週間。" },
-      { "factId": "CH3-5", "ch": "CH3", "statement": "都道府県知事は、勧告を受けた者がその勧告に従わなかった場合に限り、その旨を公表することができる。", "isTrue": true, "explanation": "公表は勧告に従わなかった場合に限られる。" },
-      { "factId": "CH3-5", "ch": "CH3", "statement": "都道府県知事は、勧告をした場合には、相手方が従ったかどうかにかかわらず必ず公表しなければならない。", "isTrue": false, "explanation": "公表は勧告に従わなかった場合のみ可能。義務でもない。" },
-      { "factId": "CH3-6", "ch": "CH3", "statement": "指定都市の区域外にある土地の取引について事後届出をする場合は、その土地を管轄する市町村長を経由して都道府県知事に届け出る。", "isTrue": true, "explanation": "指定都市区域外の土地は市町村長経由で都道府県知事に届出。" },
-      { "factId": "CH3-6", "ch": "CH3", "statement": "指定都市の区域外にある土地の取引について事後届出をする場合は、直接都道府県知事に届け出ればよく、市町村長を経由する必要はない。", "isTrue": false, "explanation": "市町村長を経由する必要がある。" },
-      { "factId": "CH3-7", "ch": "CH3", "statement": "国土利用計画法上、無指定区域以外の土地取引については、契約当事者の双方に契約内容等の報告に協力すべき義務が課されることがある。", "isTrue": true, "explanation": "無指定区域以外では当事者双方に報告協力の義務が課される場合がある。" },
-      { "factId": "CH3-7", "ch": "CH3", "statement": "国土利用計画法上、土地取引に関する報告協力義務は、無指定区域の取引にのみ課される。", "isTrue": false, "explanation": "報告協力義務は無指定区域以外（注視区域等）の取引に関するもの。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "農地法上、権利移動（3条許可）の許可権者は農業委員会である。", "isTrue": true, "explanation": "3条許可（権利移動）の許可権者は農業委員会。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "農地法上、転用（4条許可）の許可権者は農業委員会である。", "isTrue": false, "explanation": "転用（4条）の許可権者は都道府県知事等。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "農地法上、相続により農地の権利を取得する場合は、農業委員会への届出は必要だが許可は不要である。", "isTrue": true, "explanation": "相続による権利取得は届出のみで許可不要。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "農地法上、相続により農地の権利を取得する場合は、都道府県知事の許可が必要である。", "isTrue": false, "explanation": "相続の場合は許可不要、農業委員会への届出のみ必要。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "農地法上、市街化区域内の農地をあらかじめ農業委員会に届け出て転用する場合は、都道府県知事等の許可が不要である。", "isTrue": true, "explanation": "市街化区域内の転用は農業委員会への届出で許可不要となる特例がある。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "農地法上、市街化調整区域内の農地を転用する場合は、農業委員会に届け出れば都道府県知事等の許可は不要である。", "isTrue": false, "explanation": "この特例は市街化区域内の農地に限られる。" },
-      { "factId": "CH4-3", "ch": "CH4", "statement": "農地法上、転用目的の権利移動（5条）についても、市街化区域内があらかじめ農業委員会に届け出た場合は許可が不要となる特例がある。", "isTrue": true, "explanation": "5条についても市街化区域内の届出特例がある。" },
-      { "factId": "CH4-3", "ch": "CH4", "statement": "農地法上、転用目的の権利移動（5条）には、市街化区域内であっても許可不要となる特例は存在しない。", "isTrue": false, "explanation": "市街化区域内の届出による特例が存在する。" },
-      { "factId": "CH4-4", "ch": "CH4", "statement": "農地法上、3条許可（権利移動）を受けずに行った契約は無効となる。", "isTrue": true, "explanation": "3条・5条の許可を受けない契約は無効。" },
-      { "factId": "CH4-4", "ch": "CH4", "statement": "農地法上、4条許可（転用）を受けずに転用を行った場合でも、契約自体は無効とならない。", "isTrue": false, "explanation": "無効となるのは3条・5条であり、4条は罰則の対象（契約無効の対象は3条・5条）。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "盛土規制法上、盛土をした土地の部分に高さ1メートルを超える崖を生じるものは許可が必要である。", "isTrue": true, "explanation": "盛土で1m超の崖を生じる場合は許可が必要。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "盛土規制法上、盛土をした土地の部分に高さ2メートルを超える崖を生じるものから許可が必要となる。", "isTrue": false, "explanation": "盛土による崖の基準は1m超。切土の基準は2m超。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "盛土規制法上、切土をした土地の部分に高さ2メートルを超える崖を生じるものは許可が必要である。", "isTrue": true, "explanation": "切土で2m超の崖を生じる場合は許可が必要。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "盛土規制法上、切土をした土地の部分に高さ5メートルを超える崖を生じるものから許可が必要となる。", "isTrue": false, "explanation": "切土による崖の基準は2m超。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "盛土規制法上、崖を生じない盛土であって高さが2メートルを超えるものは許可が必要である。", "isTrue": true, "explanation": "崖を生じない盛土でも高さ2m超なら許可が必要。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "盛土規制法上、崖を生じない盛土であって高さが5メートルを超えるものから許可が必要となる。", "isTrue": false, "explanation": "崖を生じない盛土の基準は高さ2m超。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "盛土規制法上、盛土または切土をする土地の部分の面積（崖を生じないもの）が500㎡を超えるものは許可が必要である。", "isTrue": true, "explanation": "崖を生じない盛土・切土も面積500㎡超なら許可が必要。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "盛土規制法上、盛土または切土をする土地の部分の面積（崖を生じないもの）が3,000㎡を超えるものから許可が必要となる。", "isTrue": false, "explanation": "正しい基準は500㎡超。" },
-      { "factId": "CH5-4", "ch": "CH5", "statement": "盛土規制法上、一時的な土石の堆積は、堆積する土地の面積が500㎡を超えるものは許可が必要である。", "isTrue": true, "explanation": "一時的な土石堆積は面積500㎡超で許可が必要。" },
-      { "factId": "CH5-4", "ch": "CH5", "statement": "盛土規制法上、一時的な土石の堆積で許可が必要となるのは、堆積の高さが2メートルを超え、かつ面積が1,500㎡を超える場合のみである。", "isTrue": false, "explanation": "面積300㎡超かつ高さ2m超、または面積500㎡超のいずれかでも許可が必要。" },
-      { "factId": "CH5-5", "ch": "CH5", "statement": "盛土規制法上、規制区域指定の際に既に工事を行っていた者は、指定の日から21日以内に届け出る必要がある。", "isTrue": true, "explanation": "既存工事の届出期限は指定日から21日以内。" },
-      { "factId": "CH5-5", "ch": "CH5", "statement": "盛土規制法上、一定の擁壁や排水施設等を除去する工事をする場合は、工事着手の21日前までに届け出る必要がある。", "isTrue": false, "explanation": "除去工事の届出は工事着手の14日前まで。" },
-      { "factId": "CH5-6", "ch": "CH5", "statement": "盛土規制法上、都道府県知事は、宅地造成等に伴い災害が生ずるおそれが大きい市街地等の区域を「宅地造成等工事規制区域」として指定することができる。", "isTrue": true, "explanation": "都道府県知事が危険性の大きい市街地等を宅地造成等工事規制区域に指定する。" },
-      { "factId": "CH5-6", "ch": "CH5", "statement": "盛土規制法上、宅地造成等工事規制区域は市町村長が指定する。", "isTrue": false, "explanation": "原則として都道府県知事（指定都市等では市長）が指定する。" },
-      { "factId": "CH5-7", "ch": "CH5", "statement": "盛土規制法上、造成宅地防災区域は、宅地造成等工事規制区域に比べて危険性が低く、宅地造成等工事規制区域「以外」の場所に指定される。", "isTrue": true, "explanation": "造成宅地防災区域は規制区域以外の場所に指定される。" },
-      { "factId": "CH5-7", "ch": "CH5", "statement": "盛土規制法上、造成宅地防災区域は、宅地造成等工事規制区域「内」にのみ指定される。", "isTrue": false, "explanation": "造成宅地防災区域は規制区域以外の場所に指定される。" },
-      { "factId": "CH5-8", "ch": "CH5", "statement": "盛土規制法上、特定盛土等規制区域内で大規模な崖崩れ等を生じさせるおそれが大きい工事を行う場合は、都道府県知事の許可が必要である。", "isTrue": true, "explanation": "特定盛土等規制区域での大規模工事は知事の許可が必要。" },
-      { "factId": "CH5-8", "ch": "CH5", "statement": "盛土規制法上、特定盛土等規制区域内での工事は、規模にかかわらず届出のみで足りる。", "isTrue": false, "explanation": "大規模な崖崩れ等のおそれがある場合は許可が必要。" },
-      { "factId": "CH5-9", "ch": "CH5", "statement": "盛土規制法上、高さ5メートルを超える擁壁の設置工事については、一定の資格を有する者の設計が必須である。", "isTrue": true, "explanation": "高さ5m超の擁壁設置には資格者の設計が必要。" },
-      { "factId": "CH5-9", "ch": "CH5", "statement": "盛土規制法上、盛土・切土をする土地の面積が1,500㎡を超える工事については、資格を有する者の設計は不要である。", "isTrue": false, "explanation": "面積1,500㎡超の工事も資格者の設計が必要。" },
-      { "factId": "CH5-10", "ch": "CH5", "statement": "盛土規制法上、基本方針は主務大臣が定める。", "isTrue": true, "explanation": "基本方針の策定者は主務大臣。" },
-      { "factId": "CH5-10", "ch": "CH5", "statement": "盛土規制法上、基本方針は都道府県知事が定める。", "isTrue": false, "explanation": "基本方針を定めるのは主務大臣。" },
-      { "factId": "CH5-11", "ch": "CH5", "statement": "盛土規制法上、都道府県知事はおおむね5年ごとに基礎調査を行わなければならない。", "isTrue": true, "explanation": "基礎調査は概ね5年ごとに行う。" },
-      { "factId": "CH5-11", "ch": "CH5", "statement": "盛土規制法上、都道府県知事はおおむね10年ごとに基礎調査を行わなければならない。", "isTrue": false, "explanation": "正しくはおおむね5年ごと。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "土地区画整理組合は、施行地区内の土地所有者および借地権者が7人以上共同して設立することができる。", "isTrue": true, "explanation": "土地区画整理組合の設立には7人以上の共同設立者が必要。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "土地区画整理組合は、施行地区内の土地所有者および借地権者が5人以上共同して設立することができる。", "isTrue": false, "explanation": "正しくは7人以上。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "土地区画整理組合の設立には、施行地区内の土地所有者および借地権者のそれぞれ3分の2以上の同意が必要である。", "isTrue": true, "explanation": "設立には所有者・借地権者それぞれ3分の2以上の同意が必要。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "土地区画整理組合の設立には、施行地区内の土地所有者および借地権者の過半数の同意があれば足りる。", "isTrue": false, "explanation": "正しくは3分の2以上の同意。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "土地区画整理組合の設立にも解散にも、都道府県知事の認可が必要である。", "isTrue": true, "explanation": "設立・解散ともに都道府県知事の認可が必要。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "土地区画整理組合の解散には都道府県知事の認可は不要である。", "isTrue": false, "explanation": "解散にも都道府県知事の認可が必要。" },
-      { "factId": "CH6-3", "ch": "CH6", "statement": "換地計画は、2週間関係権利者の縦覧に供しなければならない。", "isTrue": true, "explanation": "換地計画は2週間の縦覧が必要。" },
-      { "factId": "CH6-3", "ch": "CH6", "statement": "換地計画は、1か月間関係権利者の縦覧に供しなければならない。", "isTrue": false, "explanation": "正しくは2週間の縦覧。" },
-      { "factId": "CH6-4", "ch": "CH6", "statement": "仮換地の指定の効力が発生した日からは、従前の土地については使用収益ができず処分のみが可能となる。", "isTrue": true, "explanation": "仮換地指定後は従前の土地は処分のみ可能で使用収益はできない。" },
-      { "factId": "CH6-4", "ch": "CH6", "statement": "仮換地の指定の効力が発生した日からも、従前の土地について従来どおり使用収益を行うことができる。", "isTrue": false, "explanation": "仮換地指定後は従前の土地の使用収益はできなくなる。" },
-      { "factId": "CH6-5", "ch": "CH6", "statement": "換地処分の効果について、従前の土地に関する権利が消滅する効果は換地処分の公告があった日に生じる。", "isTrue": true, "explanation": "従前の権利消滅は公告があった日に生じる。" },
-      { "factId": "CH6-5", "ch": "CH6", "statement": "換地処分の効果について、新たに換地に関する権利が発生する効果は換地処分の公告があった日に生じる。", "isTrue": false, "explanation": "新たな権利の発生は公告の日の「翌日」に生じる。" },
-      { "factId": "CH6-6", "ch": "CH6", "statement": "土地区画整理事業を区画整理会社が施行し仮換地を指定する場合、所有権を有するすべての者および借地権を有するすべての者のそれぞれ3分の2以上の同意が必要である。", "isTrue": true, "explanation": "区画整理会社が仮換地を指定する際は権利者の3分の2以上の同意が必要。" },
-      { "factId": "CH6-6", "ch": "CH6", "statement": "土地区画整理事業を地方公共団体（公的施行）が施行し仮換地を指定する場合、土地区画整理審議会の意見を聴く必要はない。", "isTrue": false, "explanation": "公的施行の場合は土地区画整理審議会の意見聴取が必要。" },
-      { "factId": "CH6-7", "ch": "CH6", "statement": "土地区画整理組合の設立の認可があった日から換地処分の公告がある日までの間に建築物の新築等を行う場合は、都道府県知事の許可が必要である。", "isTrue": true, "explanation": "事業認可後の建築制限期間中は都道府県知事の許可が必要。" },
-      { "factId": "CH6-7", "ch": "CH6", "statement": "土地区画整理組合の設立の認可があった日から換地処分の公告がある日までの間に建築物の新築等を行う場合は、土地区画整理組合の許可が必要である。", "isTrue": false, "explanation": "許可権者は都道府県知事であり、組合の許可は不要。" },
-      { "factId": "CH6-8", "ch": "CH6", "statement": "換地処分は「公告」ではなく、関係権利者への「通知」によって行う。", "isTrue": true, "explanation": "換地処分は通知によって行われる（その後公告される）。" },
-      { "factId": "CH6-8", "ch": "CH6", "statement": "換地処分は関係権利者への「通知」ではなく「公告」によって行う。", "isTrue": false, "explanation": "換地処分は関係権利者への通知によって行う。" },
-      { "factId": "CH6-9", "ch": "CH6", "statement": "換地処分は、規準・規約・定款または事業計画に別段の定めがある場合は、事業計画に定める工事の全部の完了前にも行うことができる。", "isTrue": true, "explanation": "別段の定めがある場合は工事完了前にも換地処分が可能。" },
-      { "factId": "CH6-9", "ch": "CH6", "statement": "換地処分は、いかなる場合であっても事業計画に定める工事が全部完了するまで行うことができない。", "isTrue": false, "explanation": "別段の定めがある場合は工事完了前にも換地処分が可能。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "生産緑地地区内における規制については、市町村長の許可・届出等が必要となる。", "isTrue": true, "explanation": "生産緑地地区の規制権者は市町村長。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "河川区域内における規制については、市町村長の許可・届出等が必要となる。", "isTrue": false, "explanation": "河川区域の規制権者は河川管理者。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "港湾区域内における規制については、港湾管理者の許可・届出等が必要となる。", "isTrue": true, "explanation": "港湾区域の規制権者は港湾管理者。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "海岸保全区域内における規制については、道路管理者の許可・届出等が必要となる。", "isTrue": false, "explanation": "海岸保全区域の規制権者は海岸管理者。" }
-    ]
+    label: "法令上の制限", stamp: "法令", color: "#3F6E5E",
+    rawData: [{ ch:"CH1", facts:["区域区分（市街化区域・市街化調整区域の区分）は「必要があるとき」に「都道府県」が定めることができる"]}],
+    questionBank: [{ "factId": "CH1-0", "ch": "CH1", "statement": "区域区分は、必要があると認めるときに「都道府県」が定めることができる。", "isTrue": true, "explanation": "区域区分は必要時に都道府県が定める。" }]
   },
   "kenri": {
-    label: "権利関係",
-    stamp: "権利",
-    color: "#4A6A9C",
-    rawData: [
-      { ch:"CH1", facts:[
-        "未成年者が行った法律行為であっても、単に権利を得るまたは義務を免れる法律行為（例：贈与を受けるなど）は取り消すことができない",
-        "成年被後見人が成年後見人の居住の用に供する建物について売却・賃貸・担保提供等の処分をするには家庭裁判所の許可が必要である"
-      ]},
-      { ch:"CH2", facts:[
-        "通謀虚偽表示による意思表示は無効であるが、その無効は善意の第三者に対抗することができない。なお、ここでいう第三者とは、虚偽表示の当事者間において法律上利害関係を有するに至った者でなければならない"
-      ]},
-      { ch:"CH3", facts:[
-        "代理人に未成年者などの制限行為能力者を選任することは可能であり、その代理行為は有効だが、制限行為能力を理由に代理行為を取り消すことはできない（本人自らがその者を選んでいるため）",
-        "双方代理（同一人物が当事者双方の代理人となること）は原則禁止だが、①本人があらかじめ許諾している場合、②すでに確定した債務の弁済をする場合には許される",
-        "売買契約を締結する代理権を与えられた代理人は、特段の事情がない限り、相手方から当該売買契約を取り消す旨の意思表示を受領する権限も有する",
-        "無権代理人が行った契約について、本人が死亡して無権代理人が単独で相続した場合、その契約は有効となる",
-        "表見代理（代理権がないにもかかわらず外観上代理権があるように見える場合）は、相手方が善意無過失のときにのみ成立する",
-        "無権代理人に対して履行または損害賠償を請求する責任追及権は、相手方が善意無過失の場合、または相手方が善意有過失であっても無権代理人が悪意だった場合に成立する"
-      ]},
-      { ch:"CH4", facts:[
-        "所有権の取得時効の完成に必要な占有期間は、占有開始時に善意無過失であれば10年、それ以外は20年である",
-        "債権の消滅時効は、権利を行使することができることを知った時から5年または権利を行使することができる時から10年のいずれか早い方で完成する。不法行為による損害賠償請求権は被害者が損害および加害者を知った時から3年（生命・身体侵害の場合は5年）または不法行為の時から20年で完成する",
-        "時効完成前に登場した第三者に対しては、登記なしに時効取得を対抗することができる。しかし時効完成後に登場した第三者との間では、登記の先後で優劣が決まる"
-      ]},
-      { ch:"CH5", facts:[
-        "契約締結前に必要な情報を隠して契約した場合、不法行為による損害賠償責任は発生しうるが、債務不履行による損害賠償責任は契約成立後にしか発生しないため、契約前の行為には適用されない",
-        "金銭債務の不履行による損害賠償額は、債務者が遅延の責任を負った最初の時点の法定利率（年3%）で計算するのが原則である",
-        "金銭債務の不履行において、法定利率を超える利率を約定で定めていた場合は、その約定利率で損害賠償額を計算する",
-        "金銭債務の不履行は、債務者に故意・過失がなくても成立する（不可抗力による免責は認められない）",
-        "弁済について正当な利益を有する第三者（例：物上保証人・連帯債務者など）は、債務者の意思に反しても残代金を弁済することができる",
-        "弁済について正当な利益を有しない第三者は、債務者の意思に反して弁済することができない",
-        "契約が解除された場合、解除前に登場した第三者との関係では登記の先後で優劣が決まる",
-        "契約解除に伴う原状回復義務は、双方の義務が同時履行の関係にある",
-        "債務不履行による損害賠償請求には、債務者に帰責事由（故意・過失）があることが必要であり、危険負担や契約不適合責任とは異なりこの点が要件となる"
-      ]},
-      { ch:"CH6", facts:[
-        "売買契約成立後、引渡し前に、売主の帰責事由によって目的物が滅失・損傷した場合、買主は債務不履行による損害賠償請求および契約解除をすることができる",
-        "売買契約成立後、引渡し前に、売主の帰責事由によらずに目的物が滅失・損傷した場合（危険負担）、買主の代金支払義務は消滅しないが、買主はその履行を拒むことができる。ただし買主に帰責事由があるときは拒むことができない",
-        "売買契約成立前にすでに目的物が滅失していた場合でも、その売買契約自体は有効に成立する（原始的不能の問題）"
-      ]},
-      { ch:"CH7", facts:[
-        "銀行振出小切手でない持参人払式の小切手による弁済の提供は、特別の意思表示または慣習がない限り適法な弁済の提供とならない",
-        "債権者が弁済の受領を拒んだ場合などを除いて、弁済の目的物を供託所に供託することによって債権を消滅させることはできない（正しくは：受領拒絶等の場合に供託が認められる）",
-        "受領権者としての外観を有する者（表見受領権者）への弁済は、弁済者が善意無過失であれば有効である。ただし最終的に正しい受領権者に利益が還元されている場合も有効となる",
-        "自働債権（相殺しようとする側の債権）が弁済期（支払期限）を迎えていなければ相殺はできない",
-        "債権譲渡を禁止・制限する特約（譲渡制限特約）がある場合でも、債権譲渡自体は有効である。ただし、譲り受けた第三者が当該特約について悪意または重過失の場合は、債務者は第三者への支払いを拒むことができる",
-        "債権譲渡を債務者に対抗するには譲渡人から債務者への通知または債務者の承諾が必要。第三者（他の債権者等）に対抗するには確定日付のある証書による通知または承諾が必要"
-      ]},
-      { ch:"CH8", facts:[
-        "売買契約において手付金で解約（手付解除）できるのは、相手方が売買契約の履行に着手するまでの間である",
-        "種類・品質に関する契約不適合については、その不適合を知った時から1年以内に売主に通知しなければ、契約不適合責任を追及することができなくなる",
-        "追完が不能、追完を拒絶、追完する意思がないことが明らかな場合は直ちに代金減額請求ができる。そうでない場合は相当期間を定めて催告し、その期間内に追完されなかった場合に代金減額請求ができる",
-        "買主が取得した権利の全部または一部を失うおそれがある場合、買主は売主が相当の担保を提供した場合を除き、代金の支払いを拒むことができる",
-        "他人物売買は民法上は有効（売主は権利を取得して引き渡す義務を負う）だが、宅建業法上は宅建業者が自ら売主となる他人物売買は原則禁止される"
-      ]},
-      { ch:"CH9", facts:[
-        "不動産の所有権の移転について、同一不動産に対して二重譲渡があった場合は、先に登記をした方が所有権を第三者に対抗することができる",
-        "意思表示における錯誤が表意者の重大な過失によるものであった場合、原則として取り消すことができない（相手方が悪意または重過失の場合は例外）"
-      ]},
-      { ch:"CH10", facts:[
-        "抵当権の物上代位は賃料債権にも及ぶが、抵当権者は抵当権設定者と賃借人との賃貸借契約を解除することはできない",
-        "短期賃貸借（借地は5年以内、建物は3年以内の賃貸借）は、権限のない管理者が締結しても有効だが、これにより賃借人が立退きを免れるものではない",
-        "抵当権が借地上の建物に設定されている場合、その抵当権の効力は借地権にまで及ぶ",
-        "抵当権者は、抵当不動産の価値を減少させようとする行為や不法占拠によって価値が下落するおそれがある場合、妨害排除請求ができる",
-        "土地に抵当権が設定された時点でその土地が更地であり、設定後に建物が建設された場合、抵当権者は土地と建物を一括して競売できるが（一括競売）、これは義務ではなく任意である",
-        "土地と建物が同一所有者に属する状態で土地に抵当権が設定され、その後競売によって所有者が分離した場合、建物のために法定地上権が成立する",
-        "抵当権消滅請求を承諾しない抵当権者は、書類の送付を受けた日から2か月以内に抵当権を実行して競売の申立てをしなければならない",
-        "抵当権消滅請求は書面で通知しなければならない",
-        "抵当権設定後に設定された賃借権は、原則として抵当権者および競売による買受人に対抗することができない。ただし、賃借権を登記する前に設定されたすべての抵当権者が同意し、その同意の登記がある場合は対抗できる",
-        "抵当権者が優先弁済を受けられる利息は、満期となった最後の2年分に限られる",
-        "元本確定期日の定めのない根抵当権については、根抵当権設定から3年が経過すれば、元本確定を請求することができる"
-      ]},
-      { ch:"CH11", facts:[
-        "主たる債務者に生じた事由（履行・時効完成など）は保証人にも効力が及ぶが、保証人に生じた事由は原則として主たる債務者には影響しない",
-        "連帯債務の場合、債権者が連帯債務者の一人に対して債務免除をしても、その効力はその他の連帯債務者には及ばない（相対的効力）",
-        "保証契約は、必ず書面（または電磁的記録）によって締結しなければならず、口頭では無効となる",
-        "事業のために負担した貸金等債務を主たる債務とする保証契約について、保証人が個人の場合は、契約締結に先立ち、1か月以内に作成された公正証書によって保証の意思表示をしていなければ保証契約は無効となる",
-        "連帯債務では、各債務者は自己の負担部分にかかわらず、債権者から債務の全額または一部の請求を受けることがある。負担部分は内部で等分されるにすぎない",
-        "連帯債務において絶対的効力を持つ事由は、弁済・代物弁済・供託・相殺・更改・混同であり、連帯債務者の一人についてこれらが生じると他の債務者にも影響する"
-      ]},
-      { ch:"CH12", facts:[
-        "建物の賃借権は登記がなくても、建物の引渡しを受けていれば第三者に対抗することができる",
-        "転貸借が許可されている場合（AB間で賃貸、BがCに転貸）、AはCに対して賃料と転借料のうち低い方を限度として直接請求することができる",
-        "AB間の賃貸借が債務不履行で解除された場合、転借人Cは賃貸人Aに対抗できない。しかし、AB間の賃貸借がABの合意で解除された場合、Cは対抗することができる",
-        "AB間の賃貸借が債務不履行により解除された場合、賃貸人BはCに対して解除の通知等をする必要はなく、直接明け渡しを請求できる"
-      ]},
-      { ch:"CH13", facts:[
-        "建物所有を目的とする借地は借地借家法の適用を受け、存続期間を30年以上と定めれば民法の最長期間（50年）を超えても有効な契約ができる",
-        "民法では、賃貸借契約期間満了後も賃借人が使用継続し、賃貸人がそれを知りながら異議を述べないと黙示の更新となる",
-        "借地借家法では、借地契約期間満了後も借地上に建物が存在し借地権者が使用継続している場合、原則として更新される（法定更新）。更新を拒絶するには正当事由が必要",
-        "民法では期間の定めのない賃貸借はいつでも解約申入れができる",
-        "借地借家法では、存続期間を定めなかった場合、最短である30年の存続期間となる",
-        "民法では不動産の賃借権を第三者に対抗するには登記が必要だが、借地借家法では借地権者が登記した建物を所有していれば借地権を第三者に対抗できる",
-        "契約更新請求（請求更新）または使用継続による更新（法定更新）は、借地上に建物が存在することが前提であり、更新を拒絶するには正当事由が必要",
-        "借地上の建物を第三者に譲渡するには、原則として借地権設定者（地主）の承諾が必要。地主が不当に承諾しない場合、借地権者は裁判所の許可を得て譲渡できる",
-        "借地上の建物を譲り受けた者が借地権の取得について地主の承諾を得られないとき、当該建物の譲受人は地主に対して建物を時価で買い取るよう請求できる（介入権）",
-        "競売によって借地上の建物を取得した者が、地主の承諾を得られないとき、裁判所の許可を求めることができ、それでも解決しない場合は地主に建物を時価で買い取らせることができる",
-        "普通借地権の存続期間は30年以上。更新後の期間は最初の更新が20年以上、2回目以降が10年以上",
-        "一般定期借地権の存続期間は50年以上で、書面または電磁的記録によって①更新なし②存続期間の延長なし③建物買取請求権なしの3つを定めることができる",
-        "事業用定期借地権の存続期間は10年以上50年未満、事業用建物のみ建築可能で、必ず公正証書によって契約しなければならない",
-        "建物譲渡特約付借地権の存続期間は30年以上",
-        "借地権が土地の賃借権である場合、その賃借権を第三者に譲渡または転貸するには、原則として借地権設定者の承諾が必要",
-        "建物買取請求権は借地権の存続期間満了時にのみ発生し、賃料不払い等による契約解除の場合には発生しない"
-      ]},
-      { ch:"CH14", facts:[
-        "期間が1年以上の定期建物賃貸借について、賃貸人は期間満了の1年前から6か月前までの間に賃借人に終了の通知をしなければならない。通知をしなかった場合でも終了しないわけではないが、通知後6か月を経過するまでは賃借人に終了を対抗できない",
-        "造作買取請求権（賃借人が付加した造作を退去時に買い取るよう賃貸人に請求する権利）は、賃貸人の同意を得て付加した造作のみに認められ、これを排除する特約は有効である",
-        "建物の賃貸借が期間満了または解約申入れによって終了した場合、賃貸人は転借人に対して終了を通知しなければ対抗できず、通知後6か月で転貸借も終了する。一方、賃貸人と賃借人の合意解除の場合は原則として転貸借契約は終了しない",
-        "普通建物賃貸借契約では、更新しない旨の特約は無効である",
-        "定期建物賃貸借契約では、更新しない旨の特約は有効だが、あらかじめ書面または電磁的方法で賃借人に説明（交付・提供）をしなければならない",
-        "普通建物賃貸借契約では、1年未満の期間の定めは期間の定めがないものとみなされる。定期建物賃貸借では1年未満の期間を有効に定めることができ、その期間の通りに扱われる",
-        "定期建物賃貸借契約を締結するには、公正証書に限らず書面または電磁的記録による契約でなければならない",
-        "定期建物賃貸借契約では、賃料増減額請求権を排除する特約を有効に定めることができる",
-        "賃借人が死亡した場合、婚姻関係はないが事実上夫婦と同様の関係にある者（内縁関係者等）は、賃借人の権利義務を承継することができる"
-      ]},
-      { ch:"CH15", facts:[
-        "請負における担保責任（契約不適合責任）について、請負人が不適合を知っていた場合・重過失により知らなかった場合を除き、注文者が不適合を知った時から1年以内に請負人に通知しなければ担保責任は消滅する",
-        "請負において、仕事が完成する前であれば、注文者はいつでも損害を賠償して契約を解除することができる"
-      ]},
-      { ch:"CH16", facts:[
-        "土地の工作物の設置または保存に瑕疵があることにより他人に損害を与えた場合、まず占有者が損害賠償責任を負う。占有者が損害防止のために必要な注意をしていたことを証明した場合は、所有者が損害賠償責任を負う（所有者の責任は無過失責任）",
-        "使用者責任（被用者の不法行為について使用者が損害賠償した場合）では、使用者は損害を賠償した後、被用者以外の者に損害を生じさせていた場合はその者に対しても求償できる。被用者自身への求償は、相当と認められる限度に限られる",
-        "消滅時効の起算点における「被害者が損害を知った時」とは、損害の発生を現実に認識した時を意味する",
-        "日々継続的に発生する損害（騒音被害など）に対する消滅時効は、各日の損害についてその日から個別に消滅時効が進行する"
-      ]},
-      { ch:"CH17", facts:[
-        "相続放棄をした者は最初から相続人でなかったとみなされるため、放棄した者の子が代わりに代襲相続することはできない",
-        "兄弟姉妹（および甥・姪）には遺留分は認められない",
-        "限定承認とは、相続によって得た財産の範囲内で被相続人の債務を負担することをいい、相続人全員で申述しなければならない",
-        "相続の承認・放棄は原則として相続の開始を知った日から3か月以内にしなければならない",
-        "相続放棄は相続開始後にのみ可能であり、相続開始前にあらかじめ放棄することはできない（なお相続開始後の放棄は家庭裁判所への申述が必要）",
-        "遺留分侵害額請求権は、遺留分の侵害を知った日から1年または相続開始の時から10年を経過すると時効によって消滅する。また請求できるのは金銭の支払いのみ"
-      ]},
-      { ch:"CH18", facts:[
-        "共有物の売却・建替え・抵当権設定など共有物を変更する行為は共有者全員の同意が必要。軽微な変更（修繕など）は持分の過半数で決定できるが、特定の共有者に特別の影響を及ぼす場合はその者の承諾も必要",
-        "共有者が管理費などの共有物に関する費用を1年間支払わない場合、他の共有者は相当の償金を支払ってその持分を取得することができる",
-        "共有者全員の合意があれば、5年を超えない期間を定めて分割を禁止する特約（不分割特約）を結ぶことができる"
-      ]},
-      { ch:"CH19", facts:[
-        "区分所有建物における専有部分の床面積は、内壁の内側線（壁芯ではなく内法面積）で算定する",
-        "区分所有法上の決議要件は、管理行為・軽微な変更は区分所有者および議決権の各過半数、著しい変更を伴う共用部分の変更は出席者の3/4以上の賛成（集会の定足数：区分所有者および議決権各過半数）、区分所有建物の建替えは区分所有者および議決権の各5分の4以上の賛成が必要",
-        "著しい変更を伴う共用部分の変更における定足数（過半数）は規約によって過半数を上回る範囲で変更でき、議決割合（3/4以上）は規約によって1/2を上回る範囲で変更できる",
-        "規約の設定・変更・廃止は区分所有者および議決権の各4分の3以上の賛成が必要",
-        "最初に建物の専有部分の全部を所有する者は、公正証書によって規約に相当する規定を設定することができる",
-        "規約は管理者が保管する。規約を保管する者は、利害関係人の請求があれば規約の閲覧を拒んではいけない。保管場所の掲示は必要だが、区分所有者への通知は不要",
-        "管理者は少なくとも毎年1回集会を招集しなければならない。また区分所有者の1/5以上かつ議決権の1/5以上を有する者は自ら集会を招集できる（規約で別段の定めも可）",
-        "集会の招集通知は集会の日の少なくとも1週間前に発しなければならない。建替え決議を目的とする集会は少なくとも2か月前までに通知しなければならない",
-        "専有部分が数人の共有に属する場合、集会において議決権を行使する者を1人定めなければならない",
-        "一部共用部分はそれを共用すべき区分所有者のみに帰属するが、規約で区分所有者全員の共用とすることもできる"
-      ]},
-      { ch:"CH20", facts:[
-        "不動産登記の表題部の登記（表示に関する登記）は申請義務があるが対抗力はなく、権利部の登記（権利に関する登記）は原則申請義務がない（相続登記・氏名等の変更登記は義務化されている）が対抗力がある",
-        "登記できる権利には抵当権・賃借権・配偶者居住権などがある",
-        "表題登記（初めての登記）、地目・地積の変更・更正、建物の種類・構造の変更・更正、建物の滅失の場合は1か月以内に登記の申請をしなければならない",
-        "仮登記の抹消申請は、仮登記名義人が単独で申請することができる",
-        "仮登記の抹消申請は、仮登記名義人の承諾書を添付すれば、利害関係人も単独で申請することができる"
-      ]},
-      { ch:"CH21", facts:[
-        "留置権および先取特権は、法律の規定によって当然に成立する担保物権（法定担保物権）である",
-        "留置権には物上代位性がない（担保目的物の売却代金や保険金などには効力が及ばない）",
-        "質権は設定者から占有を移転して取得し使用収益できるが、抵当権は非占有担保物権であるため抵当権者は目的物を使用収益できない",
-        "委任契約は各当事者がいつでも解除することができる。委任の終了事由は、相手方に通知するか、相手方がそれを知った時に効力が生じる",
-        "隣地の竹木の枝が境界線を越えてきた場合、隣地の所有者に切除を求めることができるが自ら切除することはできない。一方、根が境界線を越えてきた場合は自ら切り取ることができる"
-      ]}
-    ],
-    questionBank: [
-      { "factId": "CH1-0", "ch": "CH1", "statement": "未成年者が行った法律行為であっても、単に権利を得るだけの行為は取り消すことができない。", "isTrue": true, "explanation": "単に権利を得る行為（贈与を受けるなど）は未成年でも単独で有効。" },
-      { "factId": "CH1-0", "ch": "CH1", "statement": "未成年者が行った法律行為は、権利を得るだけの行為であっても取り消すことができる。", "isTrue": false, "explanation": "単に権利を得る行為は取消不可。" },
-      { "factId": "CH1-1", "ch": "CH1", "statement": "成年被後見人が成年後見人の居住の用に供する建物について処分するには、家庭裁判所の許可が必要である。", "isTrue": true, "explanation": "成年後見人の居住用建物の処分には家庭裁判所の許可が必要。" },
-      { "factId": "CH1-1", "ch": "CH1", "statement": "成年被後見人が成年後見人の居住の用に供する建物を処分するには、成年後見人の同意があれば家庭裁判所の許可は不要である。", "isTrue": false, "explanation": "成年後見人の同意だけでは足りず、必ず家庭裁判所の許可が必要。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "通謀虚偽表示による意思表示は無効だが、その無効を善意の第三者に対抗することはできない。", "isTrue": true, "explanation": "通謀虚偽表示の無効は善意の第三者に対抗できない。" },
-      { "factId": "CH2-0", "ch": "CH2", "statement": "通謀虚偽表示による意思表示は善意の第三者に対抗することができる。", "isTrue": false, "explanation": "善意の第三者には対抗できない。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "代理人に制限行為能力者を選任した場合、その代理行為は制限行為能力を理由に取り消すことはできない。", "isTrue": true, "explanation": "本人自らが選んだ代理人なので制限行為能力を理由に取消不可。" },
-      { "factId": "CH3-0", "ch": "CH3", "statement": "代理人に未成年者を選任した場合、本人はその代理行為を制限行為能力を理由に取り消すことができる。", "isTrue": false, "explanation": "本人自らが選任したため制限行為能力を理由に取消不可。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "双方代理は、本人があらかじめ許諾している場合または確定した債務の弁済をする場合には許される。", "isTrue": true, "explanation": "双方代理の例外は①本人の許諾 ②確定した債務の弁済。" },
-      { "factId": "CH3-1", "ch": "CH3", "statement": "双方代理は、相手方が承諾していれば常に認められる。", "isTrue": false, "explanation": "双方代理が許されるのは本人の許諾または確定した債務の弁済の場合のみ。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "売買契約を締結する代理権を与えられた代理人は、特段の事情がない限り、相手方から取消しの意思表示を受領する権限も有する。", "isTrue": true, "explanation": "売買代理権には取消しの意思表示を受領する権限も含まれる。" },
-      { "factId": "CH3-2", "ch": "CH3", "statement": "売買契約を締結する代理権を与えられた代理人は、契約の取消しに関する意思表示を受領する権限は持たない。", "isTrue": false, "explanation": "代理権の範囲には取消しの意思表示の受領も含まれる。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "無権代理人が行った契約について、本人が死亡し無権代理人が単独で相続した場合、その契約は有効となる。", "isTrue": true, "explanation": "無権代理人が単独相続すると本人の地位を承継し契約は有効。" },
-      { "factId": "CH3-3", "ch": "CH3", "statement": "無権代理人が本人を単独で相続した場合でも、無権代理行為は追認がなければ有効にならない。", "isTrue": false, "explanation": "単独相続の場合は追認なしで有効となる。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "表見代理は、相手方が善意無過失のときにのみ成立する。", "isTrue": true, "explanation": "表見代理の成立には相手方の善意無過失が必要。" },
-      { "factId": "CH3-4", "ch": "CH3", "statement": "表見代理は、相手方が善意であれば過失があっても成立する。", "isTrue": false, "explanation": "相手方は善意無過失でなければならない。" },
-      { "factId": "CH3-5", "ch": "CH3", "statement": "無権代理人への責任追及は、相手方が善意有過失であっても、無権代理人が悪意の場合には成立する。", "isTrue": true, "explanation": "無権代理人が悪意なら相手方が有過失でも責任追及可能。" },
-      { "factId": "CH3-5", "ch": "CH3", "statement": "無権代理人への責任追及は、相手方が善意無過失の場合にのみ成立し、無権代理人が悪意であっても相手方に過失がある場合は成立しない。", "isTrue": false, "explanation": "無権代理人が悪意なら相手方に過失があっても責任追及できる。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "所有権の取得時効は、占有開始時に善意無過失であれば10年の占有で完成する。", "isTrue": true, "explanation": "善意無過失なら取得時効の期間は10年。" },
-      { "factId": "CH4-0", "ch": "CH4", "statement": "所有権の取得時効は、善意無過失の場合でも20年の占有が必要である。", "isTrue": false, "explanation": "善意無過失なら10年、それ以外は20年。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "債権の消滅時効は、権利を行使することができることを知った時から5年で完成する。", "isTrue": true, "explanation": "債権の時効は権利行使できることを知った時から5年。" },
-      { "factId": "CH4-1", "ch": "CH4", "statement": "不法行為による損害賠償請求権の消滅時効は、常に不法行為の時から3年で完成する。", "isTrue": false, "explanation": "原則は被害者が損害と加害者を知った時から3年（生命身体は5年）。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "時効完成前に登場した第三者に対しては、登記なしに時効取得を対抗することができる。", "isTrue": true, "explanation": "時効完成前の第三者には登記不要で対抗可能。" },
-      { "factId": "CH4-2", "ch": "CH4", "statement": "時効完成後に登場した第三者との関係でも、時効取得者は登記なしに所有権を対抗できる。", "isTrue": false, "explanation": "時効完成後の第三者とは登記の先後で優劣が決まる。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "契約締結前に必要な情報を秘匿した行為に対して、債務不履行による損害賠償責任は発生しない。", "isTrue": true, "explanation": "債務不履行責任は契約成立後にしか発生しない。" },
-      { "factId": "CH5-0", "ch": "CH5", "statement": "契約締結前に必要な情報を秘匿した場合でも、債務不履行による損害賠償責任を追及することができる。", "isTrue": false, "explanation": "債務不履行責任は契約後に発生する。契約前は不法行為責任が問題となる。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "金銭債務の不履行による損害賠償額は、債務者が遅延の責任を負った最初の時点の法定利率（年3%）で計算するのが原則である。", "isTrue": true, "explanation": "金銭債務不履行の損害賠償は遅延時の法定利率（年3%）で計算。" },
-      { "factId": "CH5-1", "ch": "CH5", "statement": "金銭債務の不履行による損害賠償額は、現時点の法定利率で計算する。", "isTrue": false, "explanation": "遅延責任を負った最初の時点の法定利率で計算する。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "金銭債務の不履行において法定利率を超える利率を約定で定めていた場合は、その約定利率で損害賠償額を計算する。", "isTrue": true, "explanation": "法定利率超の約定利率がある場合は約定利率が適用される。" },
-      { "factId": "CH5-2", "ch": "CH5", "statement": "金銭債務の不履行において約定利率が法定利率を超えていても、損害賠償額の計算は常に法定利率による。", "isTrue": false, "explanation": "法定利率を超える約定があればその約定利率で計算する。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "金銭債務の不履行は、債務者に故意・過失がなくても成立する。", "isTrue": true, "explanation": "金銭債務不履行は不可抗力でも免責されない。" },
-      { "factId": "CH5-3", "ch": "CH5", "statement": "金銭債務の不履行であっても、債務者が不可抗力を証明すれば損害賠償責任を免れることができる。", "isTrue": false, "explanation": "金銭債務不履行に不可抗力免責は認められない。" },
-      { "factId": "CH5-4", "ch": "CH5", "statement": "弁済について正当な利益を有する第三者は、債務者の意思に反しても弁済することができる。", "isTrue": true, "explanation": "正当な利益を有する第三者（物上保証人等）は債務者の意思に反しても弁済可。" },
-      { "factId": "CH5-4", "ch": "CH5", "statement": "弁済について正当な利益を有する第三者は、債務者の意思に反して弁済することができない。", "isTrue": false, "explanation": "正当な利益を有する第三者は債務者の意思に反しても弁済できる。" },
-      { "factId": "CH5-5", "ch": "CH5", "statement": "弁済について正当な利益を有しない第三者は、債務者の意思に反して弁済することができない。", "isTrue": true, "explanation": "正当な利益のない第三者は債務者の意思に反して弁済できない。" },
-      { "factId": "CH5-5", "ch": "CH5", "statement": "弁済について正当な利益を有しない第三者でも、債権者の同意があれば債務者の意思に反して弁済することができる。", "isTrue": false, "explanation": "正当な利益のない第三者は債務者の意思に反しては弁済できない。" },
-      { "factId": "CH5-6", "ch": "CH5", "statement": "契約が解除された場合、解除前に登場した第三者との関係では登記の先後で優劣が決まる。", "isTrue": true, "explanation": "解除前の第三者とは登記で対抗関係が決まる。" },
-      { "factId": "CH5-6", "ch": "CH5", "statement": "契約が解除された場合、解除前に登場した第三者は登記なしに所有権を取得した者に対抗できる。", "isTrue": false, "explanation": "解除前の第三者も登記が必要。" },
-      { "factId": "CH5-7", "ch": "CH5", "statement": "契約解除に伴う双方の原状回復義務は、同時履行の関係にある。", "isTrue": true, "explanation": "原状回復義務は同時履行の関係。" },
-      { "factId": "CH5-7", "ch": "CH5", "statement": "契約解除に伴う原状回復義務は、解除した側が先履行しなければならない。", "isTrue": false, "explanation": "原状回復義務は同時履行の関係であり先履行義務はない。" },
-      { "factId": "CH5-8", "ch": "CH5", "statement": "債務不履行による損害賠償請求には、債務者に帰責事由（故意・過失等）があることが必要である。", "isTrue": true, "explanation": "債務不履行の損害賠償には帰責事由が必要。" },
-      { "factId": "CH5-8", "ch": "CH5", "statement": "債務不履行による損害賠償請求は、債務者に帰責事由がなくても認められる。", "isTrue": false, "explanation": "債務不履行の損害賠償には帰責事由が必要。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "売買契約成立後、引渡し前に、売主の帰責事由によって目的物が滅失した場合、買主は債務不履行に基づく損害賠償請求および契約解除ができる。", "isTrue": true, "explanation": "売主の帰責事由による滅失なら損害賠償請求・解除が可能。" },
-      { "factId": "CH6-0", "ch": "CH6", "statement": "売買契約成立後、引渡し前に売主の帰責事由によって目的物が滅失した場合でも、買主は代金を支払わなければならない。", "isTrue": false, "explanation": "売主の帰責事由による場合は損害賠償請求・解除が可能。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "売買契約成立後、引渡し前に売主の帰責事由によらずに目的物が滅失した場合、買主の代金支払義務は消滅しないが、その履行を拒むことができる。", "isTrue": true, "explanation": "危険負担では買主は代金支払を拒絶できる（消滅はしない）。" },
-      { "factId": "CH6-1", "ch": "CH6", "statement": "売買契約成立後、引渡し前に売主の帰責事由によらずに目的物が滅失した場合、買主の代金支払義務は当然に消滅する。", "isTrue": false, "explanation": "代金支払義務は消滅せず、買主は履行を拒むことができる。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "売買契約成立前にすでに目的物が滅失していた場合でも、その売買契約自体は有効に成立する。", "isTrue": true, "explanation": "原始的不能の場合でも契約は有効に成立し、損害賠償の問題となる。" },
-      { "factId": "CH6-2", "ch": "CH6", "statement": "売買契約成立前にすでに目的物が滅失していた場合、その売買契約は当然に無効となる。", "isTrue": false, "explanation": "原始的不能でも契約は有効に成立する。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "銀行振出ではない持参人払式の小切手による弁済の提供は、特別の意思表示または慣習がない限り適法な弁済の提供とはならない。", "isTrue": true, "explanation": "銀行振出でない小切手は原則として適法な弁済の提供にならない。" },
-      { "factId": "CH7-0", "ch": "CH7", "statement": "銀行振出でない小切手による弁済の提供は、常に適法な弁済の提供となる。", "isTrue": false, "explanation": "特別の意思表示または慣習がない限り適法な弁済の提供とならない。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "債権者が弁済の受領を拒絶した場合など一定の場合、弁済者は目的物を供託することによって債権を消滅させることができる。", "isTrue": true, "explanation": "受領拒絶など一定の場合には供託による債権消滅が可能。" },
-      { "factId": "CH7-1", "ch": "CH7", "statement": "債権者が弁済の受領を拒絶していない場合でも、弁済者はいつでも供託によって債権を消滅させることができる。", "isTrue": false, "explanation": "供託が認められるのは受領拒絶など一定の場合に限られる。" },
-      { "factId": "CH7-2", "ch": "CH7", "statement": "受領権者としての外観を有する者への弁済は、弁済者が善意無過失であれば有効となる。", "isTrue": true, "explanation": "表見受領権者への弁済は善意無過失なら有効。" },
-      { "factId": "CH7-2", "ch": "CH7", "statement": "受領権者としての外観を有する者への弁済は、弁済者が善意であれば過失があっても有効となる。", "isTrue": false, "explanation": "善意無過失でなければならない。" },
-      { "factId": "CH7-3", "ch": "CH7", "statement": "自働債権（相殺する側の債権）が弁済期を迎えていない場合、相殺はできない。", "isTrue": true, "explanation": "自働債権が弁済期未到来なら相殺不可。" },
-      { "factId": "CH7-3", "ch": "CH7", "statement": "受働債権（相殺される側の債権）が弁済期を迎えていない場合、相殺はできない。", "isTrue": false, "explanation": "受働債権は弁済期未到来でも相殺できる（自働債権が弁済期を迎えていれば）。" },
-      { "factId": "CH7-4", "ch": "CH7", "statement": "債権譲渡制限特約がある場合でも、債権譲渡自体は有効であるが、譲り受けた者が悪意または重過失の場合は債務者は支払いを拒むことができる。", "isTrue": true, "explanation": "譲渡制限特約があっても譲渡は有効。ただし悪意・重過失の譲受人への支払いは拒否可。" },
-      { "factId": "CH7-4", "ch": "CH7", "statement": "債権譲渡を禁止する特約がある場合、その債権の譲渡は無効となる。", "isTrue": false, "explanation": "特約があっても債権譲渡自体は有効。" },
-      { "factId": "CH7-5", "ch": "CH7", "statement": "債権譲渡を第三者に対抗するには、確定日付のある証書による通知または承諾が必要である。", "isTrue": true, "explanation": "第三者対抗要件は確定日付のある証書による通知・承諾。" },
-      { "factId": "CH7-5", "ch": "CH7", "statement": "債権譲渡を債務者に対抗するには、確定日付のある証書による通知が必要である。", "isTrue": false, "explanation": "債務者への対抗要件は通知または承諾（確定日付不要）。" },
-      { "factId": "CH8-0", "ch": "CH8", "statement": "手付による解約は、相手方が売買契約の履行に着手するまでの間に限り認められる。", "isTrue": true, "explanation": "手付解除は相手方が履行に着手するまでの間のみ可能。" },
-      { "factId": "CH8-0", "ch": "CH8", "statement": "手付による解約は、相手方が履行に着手した後でも可能である。", "isTrue": false, "explanation": "相手方が履行に着手した後は手付解除はできない。" },
-      { "factId": "CH8-1", "ch": "CH8", "statement": "種類・品質の契約不適合については、不適合を知った時から1年以内に通知しなければ担保責任を追及できなくなる。", "isTrue": true, "explanation": "種類・品質の不適合は知った時から1年以内の通知が必要。" },
-      { "factId": "CH8-1", "ch": "CH8", "statement": "種類・品質の契約不適合は、引渡しから1年以内に通知すればよく、不適合を知った時からの期間制限はない。", "isTrue": false, "explanation": "起算点は「不適合を知った時」から1年以内。" },
-      { "factId": "CH8-2", "ch": "CH8", "statement": "追完が不能または追完を拒絶する意思が明確な場合は、催告なしに直ちに代金減額請求ができる。", "isTrue": true, "explanation": "追完不能・拒絶の場合は催告なしで代金減額請求が可能。" },
-      { "factId": "CH8-2", "ch": "CH8", "statement": "代金減額請求をするには、常に相当期間を定めた催告が必要である。", "isTrue": false, "explanation": "追完不能・拒絶・意思なしが明らかな場合は催告なしで請求できる。" },
-      { "factId": "CH8-3", "ch": "CH8", "statement": "買主が取得した権利を失うおそれがある場合、売主が相当の担保を提供すれば、買主は代金の支払いを拒むことができない。", "isTrue": true, "explanation": "売主が担保を提供すれば買主は支払拒絶できない。" },
-      { "factId": "CH8-3", "ch": "CH8", "statement": "買主が取得した権利を失うおそれがある場合、売主が担保を提供しても買主は代金の支払いを拒むことができる。", "isTrue": false, "explanation": "売主が相当の担保を提供した場合は支払いを拒めない。" },
-      { "factId": "CH8-4", "ch": "CH8", "statement": "他人物売買は民法上は有効だが、宅建業法上は宅建業者が自ら売主となる場合には原則として禁止される。", "isTrue": true, "explanation": "民法上は有効、宅建業法上は宅建業者自ら売主の場合は原則禁止。" },
-      { "factId": "CH8-4", "ch": "CH8", "statement": "他人物売買は民法上も宅建業法上もいずれも無効である。", "isTrue": false, "explanation": "民法上は有効（売主は権利取得引渡義務を負う）。" },
-      { "factId": "CH9-0", "ch": "CH9", "statement": "同一の不動産について二重譲渡があった場合は、先に登記を備えた者が所有権を第三者に対抗できる。", "isTrue": true, "explanation": "不動産の物権変動の対抗要件は登記の先後。" },
-      { "factId": "CH9-0", "ch": "CH9", "statement": "同一の不動産について二重譲渡があった場合は、先に契約を締結した者が所有権を取得する。", "isTrue": false, "explanation": "対抗できるのは先に登記した者。" },
-      { "factId": "CH9-1", "ch": "CH9", "statement": "錯誤が表意者の重大な過失によるものであった場合、原則として取消しができない。", "isTrue": true, "explanation": "表意者の重過失による錯誤は原則取消不可。" },
-      { "factId": "CH9-1", "ch": "CH9", "statement": "錯誤が表意者の重大な過失によるものであっても、常に取り消すことができる。", "isTrue": false, "explanation": "重過失ある場合は原則取消不可。例外は相手方の悪意・重過失の場合。" },
-      { "factId": "CH10-0", "ch": "CH10", "statement": "抵当権の物上代位は賃料にも及ぶが、抵当権者は抵当権設定者と賃借人との賃貸借契約を解除することはできない。", "isTrue": true, "explanation": "物上代位は賃料に及ぶが賃貸借契約の解除は不可。" },
-      { "factId": "CH10-0", "ch": "CH10", "statement": "抵当権者は、物上代位権の行使として賃貸借契約を解除することができる。", "isTrue": false, "explanation": "賃貸借契約の解除は抵当権者にはできない。" },
-      { "factId": "CH10-1", "ch": "CH10", "statement": "短期賃貸借は権限のない管理者が締結しても有効だが、これにより賃借人が立退きを完全に免れるわけではない。", "isTrue": true, "explanation": "短期賃貸借は有効だが賃借人の立退きが免除されるわけではない。" },
-      { "factId": "CH10-1", "ch": "CH10", "statement": "短期賃貸借の規定により、賃借人は抵当権実行後も賃貸借を継続して完全に保護される。", "isTrue": false, "explanation": "短期賃貸借があっても賃借人が立退きを免れるものではない。" },
-      { "factId": "CH10-2", "ch": "CH10", "statement": "抵当権が借地上の建物に設定されている場合、その効力は借地権にまで及ぶ。", "isTrue": true, "explanation": "借地上の建物への抵当権は借地権にも及ぶ。" },
-      { "factId": "CH10-2", "ch": "CH10", "statement": "抵当権が借地上の建物に設定されている場合でも、その効力は借地権には及ばない。", "isTrue": false, "explanation": "効力は借地権にまで及ぶ。" },
-      { "factId": "CH10-3", "ch": "CH10", "statement": "抵当権者は、抵当不動産の価値を減少させようとする行為に対して、妨害排除請求ができる。", "isTrue": true, "explanation": "価値減少行為や不法占拠による価値下落のおそれに対して妨害排除請求が可能。" },
-      { "factId": "CH10-3", "ch": "CH10", "statement": "抵当権者は、抵当不動産が不法占拠されていても妨害排除請求をすることはできない。", "isTrue": false, "explanation": "価値下落のおそれがあれば妨害排除請求ができる。" },
-      { "factId": "CH10-4", "ch": "CH10", "statement": "更地に抵当権が設定された後に建物が建設された場合、抵当権者は土地と建物を一括して競売できるが、義務ではない。", "isTrue": true, "explanation": "一括競売は権利であって義務ではない。" },
-      { "factId": "CH10-4", "ch": "CH10", "statement": "更地に抵当権が設定された後に建物が建設された場合、抵当権者は必ず土地と建物を一括して競売しなければならない。", "isTrue": false, "explanation": "一括競売は義務ではなく任意。" },
-      { "factId": "CH10-5", "ch": "CH10", "statement": "土地と建物が同一所有者に属する状態で土地に抵当権が設定され競売により所有者が分離した場合、法定地上権が成立する。", "isTrue": true, "explanation": "要件を満たす場合は法定地上権が成立する。" },
-      { "factId": "CH10-5", "ch": "CH10", "statement": "土地と建物の所有者が異なる状態で土地に抵当権が設定された場合でも、法定地上権が成立する。", "isTrue": false, "explanation": "法定地上権は設定時に同一所有者であることが必要。" },
-      { "factId": "CH10-6", "ch": "CH10", "statement": "抵当権消滅請求を承諾しない抵当権者は、書類の送付を受けた日から2か月以内に競売の申立てをしなければならない。", "isTrue": true, "explanation": "承諾しない場合は送付日から2か月以内に競売申立てが必要。" },
-      { "factId": "CH10-6", "ch": "CH10", "statement": "抵当権消滅請求を承諾しない抵当権者は、書類の送付を受けた日から3か月以内に競売の申立てをすればよい。", "isTrue": false, "explanation": "正しくは2か月以内。" },
-      { "factId": "CH10-7", "ch": "CH10", "statement": "抵当権消滅請求は書面で通知しなければならない。", "isTrue": true, "explanation": "抵当権消滅請求は書面による通知が必要。" },
-      { "factId": "CH10-7", "ch": "CH10", "statement": "抵当権消滅請求は口頭で行うことができる。", "isTrue": false, "explanation": "書面で通知しなければならない。" },
-      { "factId": "CH10-8", "ch": "CH10", "statement": "抵当権設定後に設定された賃借権は、原則として抵当権者等に対抗できないが、全抵当権者の同意とその同意の登記がある場合は対抗できる。", "isTrue": true, "explanation": "全抵当権者が同意しその同意の登記がある場合は賃借人が対抗できる。" },
-      { "factId": "CH10-8", "ch": "CH10", "statement": "抵当権設定後に設定された賃借権は、登記を備えれば常に抵当権者に対抗することができる。", "isTrue": false, "explanation": "原則として対抗できず、全抵当権者の同意と同意の登記が必要。" },
-      { "factId": "CH10-9", "ch": "CH10", "statement": "抵当権者が優先弁済を受けられる利息は、満期となった最後の2年分に限られる。", "isTrue": true, "explanation": "抵当権の被担保債権のうち利息は最後の2年分のみ優先弁済。" },
-      { "factId": "CH10-9", "ch": "CH10", "statement": "抵当権者は利息についていかなる年数のものでも優先弁済を受けることができる。", "isTrue": false, "explanation": "利息の優先弁済は最後の2年分に限られる。" },
-      { "factId": "CH10-10", "ch": "CH10", "statement": "元本確定期日の定めのない根抵当権については、根抵当権設定から3年経過後に元本確定を請求することができる。", "isTrue": true, "explanation": "確定期日なしの根抵当権は設定から3年後に元本確定請求可。" },
-      { "factId": "CH10-10", "ch": "CH10", "statement": "元本確定期日の定めのない根抵当権は、いつでも元本確定を請求することができる。", "isTrue": false, "explanation": "設定から3年が経過した後でなければ請求できない。" },
-      { "factId": "CH11-0", "ch": "CH11", "statement": "主たる債務者について生じた事由は保証人にも効力が及ぶが、保証人について生じた事由は原則として主たる債務者には影響しない。", "isTrue": true, "explanation": "主債務者への事由は保証人に及ぶ。逆は原則及ばない。" },
-      { "factId": "CH11-0", "ch": "CH11", "statement": "保証人について生じた事由は、主たる債務者にも当然に効力が及ぶ。", "isTrue": false, "explanation": "保証人への事由は原則として主債務者に影響しない。" },
-      { "factId": "CH11-1", "ch": "CH11", "statement": "連帯債務の場合、一人の債務者への債務免除は、他の連帯債務者には効力が及ばない。", "isTrue": true, "explanation": "連帯債務における免除は相対的効力しかない。" },
-      { "factId": "CH11-1", "ch": "CH11", "statement": "連帯債務の場合、一人の債務者への債務免除は、他の連帯債務者の債務も消滅する。", "isTrue": false, "explanation": "免除は相対的効力で他の連帯債務者には及ばない。" },
-      { "factId": "CH11-2", "ch": "CH11", "statement": "保証契約は、書面または電磁的記録によって締結しなければならず、口頭では無効となる。", "isTrue": true, "explanation": "保証契約は書面（または電磁的記録）が必要で口頭は無効。" },
-      { "factId": "CH11-2", "ch": "CH11", "statement": "保証契約は口頭でも有効に成立する。", "isTrue": false, "explanation": "保証契約は必ず書面（または電磁的記録）でなければならない。" },
-      { "factId": "CH11-3", "ch": "CH11", "statement": "事業のために負担した貸金等債務を主たる債務とする個人保証契約は、契約の1か月以内に作成された公正証書によって保証意思が表示されていなければ無効となる。", "isTrue": true, "explanation": "事業用貸金等の個人保証は1か月以内の公正証書による意思表示が必要。" },
-      { "factId": "CH11-3", "ch": "CH11", "statement": "事業のために負担した貸金等債務を主たる債務とする個人保証契約は、書面があれば公正証書でなくても有効に成立する。", "isTrue": false, "explanation": "公正証書によって保証意思を表示することが必要。" },
-      { "factId": "CH11-4", "ch": "CH11", "statement": "連帯債務において、各債務者は負担部分にかかわらず、債権者から債務の全額を請求されることがある。", "isTrue": true, "explanation": "連帯債務者は各自が全額の支払い義務を負う。" },
-      { "factId": "CH11-4", "ch": "CH11", "statement": "連帯債務において、各債務者は自己の負担部分についてのみ請求を受ける。", "isTrue": false, "explanation": "連帯債務者は全額の支払い義務を負う。" },
-      { "factId": "CH11-5", "ch": "CH11", "statement": "連帯債務において、弁済・相殺・更改・混同は絶対的効力を持ち、連帯債務者の一人についてこれらが生じると他の債務者にも影響する。", "isTrue": true, "explanation": "弁済・相殺・更改・混同は連帯債務において絶対的効力。" },
-      { "factId": "CH11-5", "ch": "CH11", "statement": "連帯債務において、連帯債務者の一人が債権者に相殺を主張しても、他の連帯債務者には効力が及ばない。", "isTrue": false, "explanation": "相殺は絶対的効力を持ち他の連帯債務者にも影響する。" },
-      { "factId": "CH12-0", "ch": "CH12", "statement": "建物の賃借権は登記がなくても、建物の引渡しを受けていれば第三者に対抗できる。", "isTrue": true, "explanation": "建物賃借権は引渡しで登記なしに第三者対抗可能。" },
-      { "factId": "CH12-0", "ch": "CH12", "statement": "建物の賃借権を第三者に対抗するには、必ず登記をしなければならない。", "isTrue": false, "explanation": "建物の引渡しを受けていれば登記なしに対抗できる。" },
-      { "factId": "CH12-1", "ch": "CH12", "statement": "転貸借が許可されている場合、賃貸人は転借人に対して賃料と転借料のうち低い方を限度として直接請求できる。", "isTrue": true, "explanation": "直接請求できるのは賃料と転借料の低い方が上限。" },
-      { "factId": "CH12-1", "ch": "CH12", "statement": "転貸借が許可されている場合、賃貸人は転借人に対して転借料の全額を直接請求できる。", "isTrue": false, "explanation": "賃料と転借料のうち低い方が上限。" },
-      { "factId": "CH12-2", "ch": "CH12", "statement": "AB間の賃貸借がABの合意で解除された場合、転借人Cは賃貸人Aに対抗することができる。", "isTrue": true, "explanation": "合意解除の場合、転借人は対抗できる。" },
-      { "factId": "CH12-2", "ch": "CH12", "statement": "AB間の賃貸借が債務不履行によって解除された場合でも、転借人Cは賃貸人Aに対抗することができる。", "isTrue": false, "explanation": "債務不履行解除の場合、転借人は対抗できない。" },
-      { "factId": "CH12-3", "ch": "CH12", "statement": "AB間の賃貸借が債務不履行で解除された場合、賃貸人BはCに対して解除の通知等をせずに直接明け渡しを請求できる。", "isTrue": true, "explanation": "債務不履行解除の場合、転借人への通知は不要。" },
-      { "factId": "CH12-3", "ch": "CH12", "statement": "AB間の賃貸借が債務不履行で解除された場合、賃貸人BはCに対して事前に解除の通知をしなければ対抗できない。", "isTrue": false, "explanation": "債務不履行解除の場合、転借人への通知なしに対抗できる。" },
-      { "factId": "CH13-0", "ch": "CH13", "statement": "建物所有を目的とする借地権は借地借家法の適用を受け、存続期間を30年以上と定めれば民法の最長期間（50年）を超えることができる。", "isTrue": true, "explanation": "借地借家法適用の借地権は30年以上で民法の50年上限を超えられる。" },
-      { "factId": "CH13-0", "ch": "CH13", "statement": "建物所有を目的とする借地権であっても、存続期間は民法の規定に従い50年が上限となる。", "isTrue": false, "explanation": "借地借家法では30年以上と定めれば50年超の契約も可能。" },
-      { "factId": "CH13-1", "ch": "CH13", "statement": "民法では、賃貸借期間満了後も賃借人が使用を継続し賃貸人が異議を述べなければ黙示の更新となる。", "isTrue": true, "explanation": "民法では使用継続＋異議なしで黙示の更新が成立。" },
-      { "factId": "CH13-1", "ch": "CH13", "statement": "民法では、賃貸借期間が満了すれば自動的に契約は終了し、更新はされない。", "isTrue": false, "explanation": "賃借人の使用継続に対して賃貸人が異議を述べなければ黙示の更新となる。" },
-      { "factId": "CH13-2", "ch": "CH13", "statement": "借地借家法では、借地契約期間満了後も借地上に建物が存在し使用継続している場合、原則として法定更新される。", "isTrue": true, "explanation": "借地借家法では建物存在＋使用継続で原則法定更新。" },
-      { "factId": "CH13-2", "ch": "CH13", "statement": "借地借家法では、借地契約期間が満了すれば自動的に契約は終了し、更新されない。", "isTrue": false, "explanation": "建物が存在し使用継続していれば原則として法定更新される。" },
-      { "factId": "CH13-3", "ch": "CH13", "statement": "民法では、期間の定めのない賃貸借契約はいつでも解約申入れができる。", "isTrue": true, "explanation": "民法では期間の定めのない賃貸借はいつでも解約申入れ可能。" },
-      { "factId": "CH13-3", "ch": "CH13", "statement": "民法では、期間の定めのない賃貸借契約は解約申入れができない。", "isTrue": false, "explanation": "いつでも解約申入れができる。" },
-      { "factId": "CH13-4", "ch": "CH13", "statement": "借地借家法では、存続期間を定めなかった場合、最短の30年が存続期間となる。", "isTrue": true, "explanation": "借地借家法では存続期間未定の場合は30年となる。" },
-      { "factId": "CH13-4", "ch": "CH13", "statement": "借地借家法では、存続期間を定めなかった場合、期間の定めのない借地権となる。", "isTrue": false, "explanation": "正しくは30年の存続期間となる。" },
-      { "factId": "CH13-5", "ch": "CH13", "statement": "借地借家法では、借地権者が登記した建物を所有していれば、借地権を第三者に対抗できる。", "isTrue": true, "explanation": "登記した建物の所有で借地権の第三者対抗力が生まれる。" },
-      { "factId": "CH13-5", "ch": "CH13", "statement": "借地借家法でも、借地権を第三者に対抗するには借地権そのものの登記が必要である。", "isTrue": false, "explanation": "建物の登記があれば借地権の対抗力が生まれる。" },
-      { "factId": "CH13-6", "ch": "CH13", "statement": "借地借家法における更新拒絶には、正当事由が必要である。", "isTrue": true, "explanation": "法定更新・請求更新の拒絶には正当事由が必要。" },
-      { "factId": "CH13-6", "ch": "CH13", "statement": "借地契約の更新拒絶は、理由を問わず借地権設定者がいつでも行うことができる。", "isTrue": false, "explanation": "更新拒絶には正当事由が必要。" },
-      { "factId": "CH13-7", "ch": "CH13", "statement": "借地上の建物を第三者に譲渡する際に地主が不当に承諾しない場合、借地権者は裁判所の許可を得て譲渡できる。", "isTrue": true, "explanation": "地主が不当に承諾しない場合は裁判所の許可で代替できる。" },
-      { "factId": "CH13-7", "ch": "CH13", "statement": "借地上の建物を第三者に譲渡するには、いかなる場合も地主の承諾が必要で裁判所の許可による代替はできない。", "isTrue": false, "explanation": "地主が不当に承諾しない場合は裁判所の許可で対応できる。" },
-      { "factId": "CH13-8", "ch": "CH13", "statement": "借地上の建物を譲り受けた者が地主の承諾を得られないとき、その者は地主に建物を時価で買い取るよう請求できる（介入権）。", "isTrue": true, "explanation": "地主の承諾が得られない場合、譲受人は地主に建物の買取りを請求できる。" },
-      { "factId": "CH13-8", "ch": "CH13", "statement": "借地上の建物を譲り受けた者が地主の承諾を得られない場合、裁判所の許可を経なければ地主への買取請求はできない。", "isTrue": false, "explanation": "介入権として直接地主への買取請求が可能。" },
-      { "factId": "CH13-9", "ch": "CH13", "statement": "競売によって借地上の建物を取得した者が地主の承諾を得られない場合、裁判所の許可を申請でき、それでも解決しない場合は地主に建物を時価で買い取らせることができる。", "isTrue": true, "explanation": "競売取得者も裁判所許可申請→地主への買取請求という手順が使える。" },
-      { "factId": "CH13-9", "ch": "CH13", "statement": "競売によって借地上の建物を取得した者は、地主の承諾がなければいかなる方法でも借地権を取得することはできない。", "isTrue": false, "explanation": "裁判所の許可申請→地主への買取請求という救済手段がある。" },
-      { "factId": "CH13-10", "ch": "CH13", "statement": "普通借地権の最初の更新後の存続期間は20年以上、2回目以降の更新後の期間は10年以上である。", "isTrue": true, "explanation": "普通借地権の更新後期間は最初20年以上・2回目以降10年以上。" },
-      { "factId": "CH13-10", "ch": "CH13", "statement": "普通借地権の更新後の存続期間は、何回目の更新でも20年以上でなければならない。", "isTrue": false, "explanation": "最初の更新は20年以上、2回目以降は10年以上。" },
-      { "factId": "CH13-11", "ch": "CH13", "statement": "一般定期借地権は存続期間50年以上で、書面または電磁的記録によって更新なし・延長なし・建物買取請求権なしの3点を定めることができる。", "isTrue": true, "explanation": "一般定期借地権は50年以上、3つの特約を書面等で定める。" },
-      { "factId": "CH13-11", "ch": "CH13", "statement": "一般定期借地権は存続期間50年以上であるが、必ず公正証書によって契約しなければならない。", "isTrue": false, "explanation": "公正証書は不要で書面または電磁的記録で足りる。" },
-      { "factId": "CH13-12", "ch": "CH13", "statement": "事業用定期借地権の存続期間は10年以上50年未満で、必ず公正証書によって契約しなければならない。", "isTrue": true, "explanation": "事業用定期借地権は10年以上50年未満、公正証書必須。" },
-      { "factId": "CH13-12", "ch": "CH13", "statement": "事業用定期借地権では、住宅用の建物を建築することもできる。", "isTrue": false, "explanation": "事業用定期借地権は事業用建物のみに限られる。" },
-      { "factId": "CH13-13", "ch": "CH13", "statement": "建物譲渡特約付借地権の存続期間は30年以上である。", "isTrue": true, "explanation": "建物譲渡特約付借地権は30年以上の期間。" },
-      { "factId": "CH13-13", "ch": "CH13", "statement": "建物譲渡特約付借地権の存続期間は50年以上である。", "isTrue": false, "explanation": "正しくは30年以上。50年以上は一般定期借地権。" },
-      { "factId": "CH13-14", "ch": "CH13", "statement": "借地権が土地の賃借権である場合、その賃借権を第三者に譲渡または転貸するには、原則として借地権設定者の承諾が必要である。", "isTrue": true, "explanation": "土地賃借権の譲渡・転貸には借地権設定者の承諾が必要。" },
-      { "factId": "CH13-14", "ch": "CH13", "statement": "借地権が土地の賃借権である場合、賃借権の譲渡は借地権設定者の承諾なしに自由に行うことができる。", "isTrue": false, "explanation": "賃借権の譲渡・転貸には借地権設定者の承諾が必要。" },
-      { "factId": "CH13-15", "ch": "CH13", "statement": "建物買取請求権は借地権の存続期間満了時にのみ発生し、賃料不払いによる契約解除の場合には発生しない。", "isTrue": true, "explanation": "建物買取請求権は期間満了時のみで、解除の場合は発生しない。" },
-      { "factId": "CH13-15", "ch": "CH13", "statement": "建物買取請求権は、借地権の期間満了時だけでなく、賃料不払いによる契約解除時にも発生する。", "isTrue": false, "explanation": "解除の場合は建物買取請求権は発生しない。" },
-      { "factId": "CH14-0", "ch": "CH14", "statement": "期間1年以上の定期建物賃貸借について、賃貸人は期間満了の1年前から6か月前までの間に賃借人に終了の通知をしなければならない。", "isTrue": true, "explanation": "1年以上の定期建物賃貸借の終了通知は1年前〜6か月前の間。" },
-      { "factId": "CH14-0", "ch": "CH14", "statement": "期間1年以上の定期建物賃貸借について、賃貸人は期間満了の3か月前までに通知すればよい。", "isTrue": false, "explanation": "正しくは期間満了の1年前から6か月前までの間。" },
-      { "factId": "CH14-1", "ch": "CH14", "statement": "造作買取請求権は、賃貸人の同意を得て付加した造作についてのみ認められ、これを排除する特約は有効である。", "isTrue": true, "explanation": "造作買取請求権は賃貸人同意のある造作のみで、排除特約は有効。" },
-      { "factId": "CH14-1", "ch": "CH14", "statement": "造作買取請求権を排除する特約は無効であり、常に賃借人は買取りを請求できる。", "isTrue": false, "explanation": "造作買取請求権を排除する特約は有効。" },
-      { "factId": "CH14-2", "ch": "CH14", "statement": "賃貸人と賃借人の合意で賃貸借を解除した場合、転貸借契約は原則として終了しない。", "isTrue": true, "explanation": "合意解除の場合、転貸借は原則終了しない。" },
-      { "factId": "CH14-2", "ch": "CH14", "statement": "賃貸人と賃借人が合意で賃貸借を解除した場合、転借人も当然にその効果を受けて退去しなければならない。", "isTrue": false, "explanation": "合意解除の場合、転借人は対抗でき転貸借は終了しない。" },
-      { "factId": "CH14-3", "ch": "CH14", "statement": "普通建物賃貸借契約では、更新しない旨の特約は無効である。", "isTrue": true, "explanation": "普通建物賃貸借では更新排除特約は無効。" },
-      { "factId": "CH14-3", "ch": "CH14", "statement": "普通建物賃貸借契約では、更新しない旨の特約を書面で定めれば有効となる。", "isTrue": false, "explanation": "普通建物賃貸借では書面があっても更新排除特約は無効。" },
-      { "factId": "CH14-4", "ch": "CH14", "statement": "定期建物賃貸借契約では、更新しない旨の特約は有効だが、書面または電磁的方法で賃借人に事前に説明しなければならない。", "isTrue": true, "explanation": "定期建物賃貸借の更新排除特約は有効で書面等による事前説明が必要。" },
-      { "factId": "CH14-4", "ch": "CH14", "statement": "定期建物賃貸借契約では、更新しない旨の特約は有効であり、賃借人への説明は不要である。", "isTrue": false, "explanation": "書面または電磁的方法による事前説明が必要。" },
-      { "factId": "CH14-5", "ch": "CH14", "statement": "普通建物賃貸借では1年未満の期間の定めは期間の定めがないものとみなされるが、定期建物賃貸借では1年未満の期間も有効に定めることができる。", "isTrue": true, "explanation": "普通は1年未満が無期間扱い、定期は1年未満も有効。" },
-      { "factId": "CH14-5", "ch": "CH14", "statement": "定期建物賃貸借でも、1年未満の期間の定めは無効で期間の定めのないものとみなされる。", "isTrue": false, "explanation": "定期建物賃貸借では1年未満の期間も有効に定められる。" },
-      { "factId": "CH14-6", "ch": "CH14", "statement": "定期建物賃貸借契約を締結するには、公正証書等の書面または電磁的記録によらなければならない。", "isTrue": true, "explanation": "定期建物賃貸借は書面または電磁的記録が必要（公正証書に限らない）。" },
-      { "factId": "CH14-6", "ch": "CH14", "statement": "定期建物賃貸借契約を締結するには、必ず公正証書によらなければならない。", "isTrue": false, "explanation": "公正証書に限らず書面または電磁的記録であれば足りる。" },
-      { "factId": "CH14-7", "ch": "CH14", "statement": "定期建物賃貸借契約では、賃料増減額請求権を排除する特約を有効に定めることができる。", "isTrue": true, "explanation": "定期建物賃貸借では賃料増減額請求権の排除特約が有効。" },
-      { "factId": "CH14-7", "ch": "CH14", "statement": "定期建物賃貸借契約であっても、賃料増減額請求権を排除する特約は無効である。", "isTrue": false, "explanation": "定期建物賃貸借では排除特約が有効。" },
-      { "factId": "CH14-8", "ch": "CH14", "statement": "賃借人が死亡した場合、事実上夫婦と同様の関係にある者（内縁関係者等）は、賃借人の権利義務を承継できる。", "isTrue": true, "explanation": "内縁関係者等は賃借人死亡後に権利義務を承継できる。" },
-      { "factId": "CH14-8", "ch": "CH14", "statement": "賃借人が死亡した場合、婚姻関係がなければ同居者は賃貸借契約を承継することができない。", "isTrue": false, "explanation": "内縁関係者等は権利義務を承継できる。" },
-      { "factId": "CH15-0", "ch": "CH15", "statement": "請負における担保責任は、注文者が不適合を知った時から1年以内に請負人に通知しなければ消滅する（請負人が悪意・重過失の場合を除く）。", "isTrue": true, "explanation": "請負の担保責任は知った時から1年以内の通知が必要。" },
-      { "factId": "CH15-0", "ch": "CH15", "statement": "請負における担保責任は、仕事の完成から10年以内であれば、いつでも請求できる。", "isTrue": false, "explanation": "注文者が不適合を知った時から1年以内に通知が必要。" },
-      { "factId": "CH15-1", "ch": "CH15", "statement": "請負において仕事が完成する前であれば、注文者はいつでも損害を賠償して契約を解除することができる。", "isTrue": true, "explanation": "仕事完成前はいつでも損害賠償の上で解除可能。" },
-      { "factId": "CH15-1", "ch": "CH15", "statement": "請負において、注文者が仕事の完成前に契約を解除するには、請負人の承諾が必要である。", "isTrue": false, "explanation": "仕事完成前は注文者は損害賠償のうえいつでも解除できる（承諾不要）。" },
-      { "factId": "CH16-0", "ch": "CH16", "statement": "土地の工作物の設置・保存に瑕疵があり損害が生じた場合、占有者が損害防止に必要な注意をしていたことを証明したときは、所有者が無過失責任を負う。", "isTrue": true, "explanation": "占有者が注意を証明した場合は所有者が無過失責任を負う。" },
-      { "factId": "CH16-0", "ch": "CH16", "statement": "土地の工作物の設置・保存に瑕疵があり損害が生じた場合、常に占有者のみが責任を負う。", "isTrue": false, "explanation": "占有者が注意を証明した場合は所有者が責任を負う。" },
-      { "factId": "CH16-1", "ch": "CH16", "statement": "使用者が被用者の不法行為で損害賠償した場合、被用者への求償は相当と認められる範囲に限られる。", "isTrue": true, "explanation": "被用者への求償は相当と認められる範囲に限定される。" },
-      { "factId": "CH16-1", "ch": "CH16", "statement": "使用者が被用者の不法行為で損害賠償した場合、被用者に対して損害の全額を求償できる。", "isTrue": false, "explanation": "求償は相当と認められる限度に限られる。" },
-      { "factId": "CH16-2", "ch": "CH16", "statement": "消滅時効における「損害を知った時」とは、損害の発生を現実に認識した時を意味する。", "isTrue": true, "explanation": "現実の認識が「知った時」の意味。" },
-      { "factId": "CH16-2", "ch": "CH16", "statement": "消滅時効における「損害を知った時」とは、損害が発生した可能性を予測できた時を意味する。", "isTrue": false, "explanation": "現実に認識した時が「知った時」の意味。" },
-      { "factId": "CH16-3", "ch": "CH16", "statement": "日々継続的に発生する損害の消滅時効は、各日の損害についてその日から個別に進行する。", "isTrue": true, "explanation": "日々発生する損害は各日ごとに消滅時効が進行する。" },
-      { "factId": "CH16-3", "ch": "CH16", "statement": "日々継続的に発生する損害に対する消滅時効は、最初の損害が発生した日から一括して進行する。", "isTrue": false, "explanation": "各日の損害についてその日から個別に時効が進行する。" },
-      { "factId": "CH17-0", "ch": "CH17", "statement": "相続放棄をした者の子は、代わりに代襲相続することができない。", "isTrue": true, "explanation": "相続放棄した者の子に代襲相続権はない。" },
-      { "factId": "CH17-0", "ch": "CH17", "statement": "相続放棄をした者の子は、代わりに代襲相続することができる。", "isTrue": false, "explanation": "相続放棄に代襲相続はない。" },
-      { "factId": "CH17-1", "ch": "CH17", "statement": "兄弟姉妹（およびその子である甥・姪）には遺留分は認められない。", "isTrue": true, "explanation": "兄弟姉妹・甥姪に遺留分はない。" },
-      { "factId": "CH17-1", "ch": "CH17", "statement": "兄弟姉妹も遺留分権利者に含まれる。", "isTrue": false, "explanation": "兄弟姉妹に遺留分はない。" },
-      { "factId": "CH17-2", "ch": "CH17", "statement": "限定承認は、相続によって得た財産の範囲内で被相続人の債務を負担するものであり、相続人全員で申述しなければならない。", "isTrue": true, "explanation": "限定承認は相続人全員での申述が必要。" },
-      { "factId": "CH17-2", "ch": "CH17", "statement": "限定承認は、各相続人が単独で申述することができる。", "isTrue": false, "explanation": "限定承認は相続人全員で申述しなければならない。" },
-      { "factId": "CH17-3", "ch": "CH17", "statement": "相続の承認・放棄は、原則として相続の開始を知った日から3か月以内にしなければならない。", "isTrue": true, "explanation": "承認・放棄の期限は相続開始を知った日から3か月。" },
-      { "factId": "CH17-3", "ch": "CH17", "statement": "相続の承認・放棄は、相続の開始があった日から3か月以内にしなければならない。", "isTrue": false, "explanation": "起算点は相続の開始を「知った日」から。" },
-      { "factId": "CH17-4", "ch": "CH17", "statement": "相続放棄は相続開始前にはすることができない。", "isTrue": true, "explanation": "相続放棄は相続開始後にのみ可能。" },
-      { "factId": "CH17-4", "ch": "CH17", "statement": "相続放棄は相続開始前であっても家庭裁判所の許可を得れば有効にすることができる。", "isTrue": false, "explanation": "相続開始前の放棄は認められない。" },
-      { "factId": "CH17-5", "ch": "CH17", "statement": "遺留分侵害額請求権は、遺留分の侵害を知った日から1年または相続開始から10年のいずれか早い方で時効消滅する。", "isTrue": true, "explanation": "遺留分侵害額請求権の時効は知った日から1年または開始から10年。" },
-      { "factId": "CH17-5", "ch": "CH17", "statement": "遺留分侵害額請求権は、遺留分の侵害を知った日から3年で時効消滅する。", "isTrue": false, "explanation": "正しくは知った日から1年または相続開始から10年。" },
-      { "factId": "CH18-0", "ch": "CH18", "statement": "共有物を売却するには共有者全員の同意が必要だが、軽微な修繕などは持分の過半数で決定できる。", "isTrue": true, "explanation": "変更行為は全員同意、管理行為は過半数で決定できる。" },
-      { "factId": "CH18-0", "ch": "CH18", "statement": "共有物の軽微な変更であっても、常に共有者全員の同意が必要である。", "isTrue": false, "explanation": "軽微な変更は持分の過半数で決定できる。" },
-      { "factId": "CH18-1", "ch": "CH18", "statement": "共有者が管理費などを1年間支払わない場合、他の共有者は相当の償金を払ってその持分を取得することができる。", "isTrue": true, "explanation": "管理費1年間不払いで他の共有者が持分取得可能。" },
-      { "factId": "CH18-1", "ch": "CH18", "statement": "共有者が管理費を1年間支払わない場合でも、他の共有者は持分を強制的に取得することはできない。", "isTrue": false, "explanation": "1年間の不払いがあれば相当の償金を払って持分取得できる。" },
-      { "factId": "CH18-2", "ch": "CH18", "statement": "共有者全員の合意があれば、5年以内を限度として分割禁止の特約を結ぶことができる。", "isTrue": true, "explanation": "全員合意で5年以内の分割禁止特約が可能。" },
-      { "factId": "CH18-2", "ch": "CH18", "statement": "共有者全員の合意があれば、期間の制限なく分割禁止の特約を結ぶことができる。", "isTrue": false, "explanation": "分割禁止特約は5年を超えることができない。" },
-      { "factId": "CH19-0", "ch": "CH19", "statement": "区分所有建物における専有部分の床面積は、内壁の内側線（内法面積）で算定する。", "isTrue": true, "explanation": "専有部分の床面積は内法面積で計算する。" },
-      { "factId": "CH19-0", "ch": "CH19", "statement": "区分所有建物における専有部分の床面積は、壁の中心線（壁芯面積）で算定する。", "isTrue": false, "explanation": "内壁の内側線（内法面積）で算定する。" },
-      { "factId": "CH19-1", "ch": "CH19", "statement": "区分所有建物の建替えには、区分所有者および議決権の各5分の4以上の賛成が必要である。", "isTrue": true, "explanation": "建替え決議は区分所有者・議決権各5/4以上の賛成。" },
-      { "factId": "CH19-1", "ch": "CH19", "statement": "区分所有建物の建替えには、区分所有者および議決権の各4分の3以上の賛成で足りる。", "isTrue": false, "explanation": "建替えは5分の4以上の賛成が必要。" },
-      { "factId": "CH19-2", "ch": "CH19", "statement": "著しい変更を伴う共用部分の変更における議決割合（3/4以上）は、規約によって1/2を上回る範囲で変更できる。", "isTrue": true, "explanation": "変更決議の割合は規約で1/2超の範囲で変更可能。" },
-      { "factId": "CH19-2", "ch": "CH19", "statement": "著しい変更を伴う共用部分の変更における議決割合は、規約によって変更することができない。", "isTrue": false, "explanation": "規約によって1/2を上回る範囲で変更できる。" },
-      { "factId": "CH19-3", "ch": "CH19", "statement": "規約の設定・変更・廃止は、区分所有者および議決権の各4分の3以上の賛成が必要である。", "isTrue": true, "explanation": "規約の設定・変更・廃止には3/4以上の賛成。" },
-      { "factId": "CH19-3", "ch": "CH19", "statement": "規約の廃止は、区分所有者および議決権の各過半数の賛成で足りる。", "isTrue": false, "explanation": "規約の廃止にも3/4以上の賛成が必要。" },
-      { "factId": "CH19-4", "ch": "CH19", "statement": "最初に建物の専有部分の全部を所有する者は、公正証書によって規約に相当する定めを設定できる。", "isTrue": true, "explanation": "最初の全部所有者は公正証書によって規約相当の定めを設定できる。" },
-      { "factId": "CH19-4", "ch": "CH19", "statement": "最初に建物の専有部分の全部を所有する者でも、規約の設定には区分所有者の3/4以上の同意が必要である。", "isTrue": false, "explanation": "最初の全部所有者は公正証書により単独で規約相当の定めを設定できる。" },
-      { "factId": "CH19-5", "ch": "CH19", "statement": "規約は管理者が保管し、保管場所の掲示は必要だが区分所有者への通知は不要である。", "isTrue": true, "explanation": "規約は管理者保管、掲示必要・通知不要。" },
-      { "factId": "CH19-5", "ch": "CH19", "statement": "規約は管理者が保管し、区分所有者全員に通知しなければならない。", "isTrue": false, "explanation": "通知は不要。保管場所の掲示で足りる。" },
-      { "factId": "CH19-6", "ch": "CH19", "statement": "管理者は少なくとも毎年1回集会を招集しなければならない。", "isTrue": true, "explanation": "管理者は年1回以上の集会招集義務がある。" },
-      { "factId": "CH19-6", "ch": "CH19", "statement": "区分所有者は、区分所有者の1/3以上かつ議決権の1/3以上を有していれば集会を招集できる。", "isTrue": false, "explanation": "招集できるのは区分所有者の1/5以上かつ議決権の1/5以上。" },
-      { "factId": "CH19-7", "ch": "CH19", "statement": "集会の招集通知は集会の日の少なくとも1週間前に発しなければならないが、建替え決議を目的とする集会は2か月前までに通知が必要である。", "isTrue": true, "explanation": "集会通知は1週間前、建替え集会は2か月前。" },
-      { "factId": "CH19-7", "ch": "CH19", "statement": "集会の招集通知は集会の日の少なくとも2週間前に発しなければならない。", "isTrue": false, "explanation": "通常の集会は1週間前（建替えは2か月前）。" },
-      { "factId": "CH19-8", "ch": "CH19", "statement": "専有部分が数人の共有に属する場合、集会の議決権を行使する者を1人定めなければならない。", "isTrue": true, "explanation": "共有の専有部分は議決権行使者を1人に限定する必要がある。" },
-      { "factId": "CH19-8", "ch": "CH19", "statement": "専有部分が数人の共有に属する場合、各共有者がそれぞれ議決権を行使することができる。", "isTrue": false, "explanation": "議決権行使者は1人を定めなければならない。" },
-      { "factId": "CH19-9", "ch": "CH19", "statement": "一部共用部分は原則としてそれを共用すべき区分所有者に帰属するが、規約によって全員の共用とすることもできる。", "isTrue": true, "explanation": "一部共用部分は当該区分所有者の共用だが規約で全員共用にもできる。" },
-      { "factId": "CH19-9", "ch": "CH19", "statement": "一部共用部分は、当然に区分所有者全員の共用に属する。", "isTrue": false, "explanation": "原則は共用すべき区分所有者のみに帰属し、規約で全員共用にできる。" },
-      { "factId": "CH20-0", "ch": "CH20", "statement": "不動産登記の表題部登記には申請義務があるが対抗力はなく、権利部登記は原則申請義務がないが対抗力がある。", "isTrue": true, "explanation": "表示登記は義務あり・対抗力なし。権利登記は原則義務なし・対抗力あり。" },
-      { "factId": "CH20-0", "ch": "CH20", "statement": "不動産登記の権利部登記（権利に関する登記）には申請義務があり、怠ると罰則がある。", "isTrue": false, "explanation": "権利部登記は原則申請義務はない（相続登記等は除く）。" },
-      { "factId": "CH20-1", "ch": "CH20", "statement": "登記できる権利には抵当権・賃借権・配偶者居住権などがある。", "isTrue": true, "explanation": "抵当権・賃借権・配偶者居住権は登記できる権利。" },
-      { "factId": "CH20-1", "ch": "CH20", "statement": "賃借権は登記することができない。", "isTrue": false, "explanation": "賃借権は登記できる権利の一つ。" },
-      { "factId": "CH20-2", "ch": "CH20", "statement": "表題登記（初めての登記）や建物の滅失があった場合は1か月以内に登記の申請をしなければならない。", "isTrue": true, "explanation": "表題登記・滅失登記等は1か月以内に申請義務がある。" },
-      { "factId": "CH20-2", "ch": "CH20", "statement": "建物の滅失については、1年以内に登記の申請をすればよい。", "isTrue": false, "explanation": "正しくは1か月以内。" },
-      { "factId": "CH20-3", "ch": "CH20", "statement": "仮登記の抹消申請は、仮登記名義人が単独でできる。", "isTrue": true, "explanation": "仮登記名義人は単独で抹消申請できる。" },
-      { "factId": "CH20-3", "ch": "CH20", "statement": "仮登記の抹消申請は、必ず仮登記名義人と登記義務者が共同で申請しなければならない。", "isTrue": false, "explanation": "仮登記名義人は単独で抹消申請できる。" },
-      { "factId": "CH20-4", "ch": "CH20", "statement": "仮登記の抹消申請は、仮登記名義人の承諾書があれば利害関係人も単独で申請できる。", "isTrue": true, "explanation": "仮登記名義人の承諾があれば利害関係人も単独で抹消申請可能。" },
-      { "factId": "CH20-4", "ch": "CH20", "statement": "利害関係人は、仮登記名義人の承諾があっても、単独で仮登記の抹消申請をすることはできない。", "isTrue": false, "explanation": "承諾書があれば利害関係人も単独で申請できる。" },
-      { "factId": "CH21-0", "ch": "CH21", "statement": "留置権および先取特権は、法律の規定によって当然に成立する法定担保物権である。", "isTrue": true, "explanation": "留置権・先取特権は法律上当然に成立する法定担保物権。" },
-      { "factId": "CH21-0", "ch": "CH21", "statement": "留置権および先取特権は、当事者間の合意によってのみ成立する約定担保物権である。", "isTrue": false, "explanation": "両権利は法定担保物権であり合意は不要。" },
-      { "factId": "CH21-1", "ch": "CH21", "statement": "留置権には物上代位性がなく、目的物の売却代金や保険金には効力が及ばない。", "isTrue": true, "explanation": "留置権には物上代位性がない。" },
-      { "factId": "CH21-1", "ch": "CH21", "statement": "留置権にも物上代位性があり、目的物の保険金などに効力が及ぶ。", "isTrue": false, "explanation": "留置権には物上代位性はない。" },
-      { "factId": "CH21-2", "ch": "CH21", "statement": "質権は占有を移転して使用収益できるが、抵当権は非占有担保のため抵当権者は目的物を使用収益できない。", "isTrue": true, "explanation": "質権は使用収益可、抵当権は非占有担保で使用収益不可。" },
-      { "factId": "CH21-2", "ch": "CH21", "statement": "抵当権者は、目的物を占有して使用収益することができる。", "isTrue": false, "explanation": "抵当権は非占有担保物権であり使用収益はできない。" },
-      { "factId": "CH21-3", "ch": "CH21", "statement": "委任契約は各当事者がいつでも解除することができる。", "isTrue": true, "explanation": "委任はいつでも解除可能。" },
-      { "factId": "CH21-3", "ch": "CH21", "statement": "委任契約は、委任者からは解除できるが受任者からは解除できない。", "isTrue": false, "explanation": "委任は各当事者（委任者・受任者ともに）がいつでも解除できる。" },
-      { "factId": "CH21-4", "ch": "CH21", "statement": "隣地の竹木の枝が境界線を越えてきた場合、自ら切除することはできず、隣地の所有者に切除を求めなければならない。", "isTrue": true, "explanation": "越境した枝は自分では切れず所有者に切除を求める必要がある。" },
-      { "factId": "CH21-4", "ch": "CH21", "statement": "隣地の竹木の根が境界線を越えてきた場合、自ら切り取ることはできない。", "isTrue": false, "explanation": "越境した根は自ら切り取ることができる。" }
-    ]
+    label: "権利関係", stamp: "権利", color: "#4A6A9C",
+    rawData: [{ ch:"CH1", facts:["未成年者が行った法律行為であっても、単に権利を得るまたは義務を免れる法律行為は取り消すことができない"]}],
+    questionBank: [{ "factId": "CH1-0", "ch": "CH1", "statement": "未成年者が行った法律行為であっても、単に権利を得るだけの行為は取り消すことができない。", "isTrue": true, "explanation": "単に権利を得る行為は未成年でも単独で有効。" }]
   },
   "zei": {
-    label: "税・その他",
-    stamp: "税他",
-    color: "#7A5C99",
-    rawData: [
-      { ch:"CH1", facts:[
-        "不動産取得税と固定資産税はどちらも地方税である",
-        "不動産取得税の税率は固定資産税評価額に対して、土地・住宅は3%、それ以外（非住宅）は4%である",
-        "不動産取得税の免税点は、土地の場合10万円未満、建物で新築・増改築の場合23万円未満、その他の建物は12万円未満であり、土地の面積は関係ない",
-        "不動産取得税の軽減措置として、宅地を取得した場合は課税標準が固定資産税評価額の1/2になる。新築住宅（床面積50㎡以上240㎡以下、個人・法人を問わない）なら課税標準から1,200万円控除。中古住宅（床面積50㎡以上240㎡以下、個人が居住用に取得する場合のみ）は最大1,200万円控除",
-        "不動産取得税において、家屋が新築された日から6か月間使用または譲渡がされなければ、6か月後を取得日とみなす",
-        "登録免許税の軽減税率の適用を受けるには、個人が自己の居住用に取得した住宅であること、床面積50㎡以上であること、新築または取得後1年以内に登記の申請をすることが必要である",
-        "所有権移転登記の軽減税率は、競売または売買による移転の場合にのみ適用される（贈与・相続等は対象外）",
-        "印紙税において、契約書は記載金額が1万円未満、受取書は記載金額が5万円未満または営業に関しないものは非課税となる",
-        "印紙税において、金額の記載がない契約書には200円の印紙税が課される。印紙税を納付しなかった場合の過怠税は本来の印紙税の3倍が徴収される",
-        "印紙税の課税義務者は、その文書を作成した者（文書作成者）である",
-        "賃貸借において、賃貸借契約書には印紙税は課されないが、敷金の領収書は印紙税の課税対象となる",
-        "固定資産税の標準税率は1.4%である",
-        "固定資産税の免税点は、土地30万円未満、家屋20万円未満、償却資産150万円未満であり、これらに満たない場合は課税されない",
-        "固定資産税における住宅用地の課税標準の特例は、200㎡以下の小規模住宅用地は課税標準が1/6、200㎡超の部分（一般住宅用地）は1/3となる",
-        "固定資産税において、床面積50㎡以上280㎡以下の新築住宅は、120㎡までの部分について税額が3年間（3階建以上の耐火・準耐火建築物は5年間）1/2に軽減される",
-        "固定資産の評価は、総務大臣が定めた固定資産評価基準に基づいて行われる",
-        "市区町村は、土地価格等縦覧帳簿および家屋価格等縦覧帳簿を納税者が4月1日から4月20日（条例で延長可）の間に縦覧できるよう供しなければならない",
-        "譲渡所得税の税率は、所有期間5年以下の短期譲渡の場合39%（所得税30%＋住民税9%）、5年超の長期譲渡の場合20%（所得税15%＋住民税5%）である",
-        "居住用財産の3,000万円特別控除は、住居の用に供されなくなった日から3年を経過する日の属する年の12月31日までに、配偶者や直系血族などの特別関係者以外の者に譲渡した場合に適用される",
-        "収用等による土地の譲渡に対しては、5,000万円の特別控除が適用される",
-        "低未利用土地等の譲渡に対する100万円特別控除は、市区町村が確認した低未利用土地等で、都市計画区域内にあり、長期譲渡所得（所有5年超）に該当し、かつ譲渡対価が500万円以下の場合に適用される",
-        "相続空き家の3,000万円特別控除は、相続で取得した家屋・土地で、相続開始から3年を経過する日の属する年の12月31日までに譲渡し、かつ売却金額が1億円以下の場合に適用される",
-        "居住用財産の3,000万円特別控除と長期譲渡所得の軽減税率は併用できるが、住宅ローン控除と長期譲渡所得の軽減税率（または3,000万円控除）は、同一年に新たに住宅を取得して入居した場合には原則として併用できない"
-      ]},
-      { ch:"CH2", facts:[
-        "不動産鑑定評価において、原価法は再調達原価が適切に求められる不動産であれば、土地・建物を問わず適用できる",
-        "取引事例比較法を適用するには、時点修正が可能であること、かつ地域要因および個別的要因の比較ができる事例であることが必要",
-        "特殊価格とは、文化財等の市場性を有しない不動産について、その利用現況を前提とした価格であり、市場性を有しない場合に適用される"
-      ]},
-      { ch:"CH3", facts:[
-        "不動産鑑定士が公示区域内の土地の鑑定評価を行う場合および土地収用法等の規定に基づいて土地を取得する場合は、公示価格を規準（基準）としなければならない",
-        "地価公示において、公示区域は国土交通大臣が指定し、標準地は土地鑑定委員会が選定する",
-        "土地鑑定委員会は、標準地の所在・単位面積当たりの価格・形状・周辺の土地の利用状況等を官報で公示しなければならない",
-        "土地鑑定委員会は、公示区域内の標準地について、毎年1回、2名以上の不動産鑑定士に鑑定評価を求めなければならない"
-      ]},
-      { ch:"CH4", facts:[
-        "住宅金融支援機構の証券化支援事業（買取型）により譲り受ける貸付債権は、自らまたは親族が居住する住宅に係るものでなければならない",
-        "住宅金融支援機構は、災害により住宅が滅失した場合等において、被災者が代わりの住宅を建設・購入するための貸付について、一定の元金返済据置期間を設けることができる"
-      ]},
-      { ch:"CH5", facts:[
-        "不動産の取引に関して提供できる景品の限度額は、抽選等で提供する場合は取引価格の20倍または10万円のいずれか低い額、もれなく提供する場合は取引価格の1/10または100万円のいずれか低い額が上限となる",
-        "高圧電線路下に土地の全部または一部がある場合には、その旨、およびおおむねの面積を表示しなければならない。建物の建築が禁止されている場合にはその旨も表示しなければならない",
-        "新築とは、建築工事完了後1年未満であり、かつ居住の用に供されたことがないものをいう",
-        "物件の名称に最寄り駅や施設の名称を使用する場合は、直線距離で300m以内にその施設がなければならない",
-        "土地取引において、その土地に古家・廃屋等が存在するときは、その旨を明示すれば広告として問題ない",
-        "見取図・完成図・大規模言語モデルとして私はまだ学習中であり、そちらについてお手伝いできる機能がありません。
+    label: "税・その他", stamp: "税他", color: "#7A5C99",
+    rawData: [{ ch:"CH1", facts:["不動産取得税と固定資産税はどちらも地方税である"]}],
+    questionBank: [{ "factId": "CH1-0", "ch": "CH1", "statement": "不動産取得税と固定資産税はどちらも地方税である。", "isTrue": true, "explanation": "不動産取得税・固定資産税はともに地方税。" }]
+  }
+};
+
+/* ============================================================
+   STATE & STORAGE
+   ============================================================ */
+let globalStatusMap = {};
+let globalWrongPool = [];
+let globalStreakMap = {}; // 連続正解数の保持
+let customStore = {};
+
+const moduleState = {};
+function initModuleState(key){
+  if(moduleState[key]) return;
+  moduleState[key]={currentQuiz:null,lastResults:null,currentView:'dashboard'};
+}
+
+function getStatus(key, factId){ return globalStatusMap[key+':'+factId]||'unseen'; }
+function setStatus(key, factId, val){ globalStatusMap[key+':'+factId]=val; }
+
+function emptyCustomModule(){ return { edits:{}, addedFacts:[], addedQuestions:[] }; }
+function getCustomModule(key){
+  if(!customStore[key]) customStore[key]=emptyCustomModule();
+  return customStore[key];
+}
+function getCustomEdit(key, factId){
+  const m=customStore[key];
+  if(!m || !m.edits) return null;
+  return Object.prototype.hasOwnProperty.call(m.edits, factId) ? m.edits[factId] : null;
+}
+function getCustomFacts(key){ return (customStore[key] && customStore[key].addedFacts) ? customStore[key].addedFacts : []; }
+function getCustomQuestions(key){ return (customStore[key] && customStore[key].addedQuestions) ? customStore[key].addedQuestions : []; }
+
+function saveLocal(){
+  try{
+    localStorage.setItem('quiz_status_map', JSON.stringify(globalStatusMap));
+    localStorage.setItem('quiz_wrong_pool', JSON.stringify(globalWrongPool));
+    localStorage.setItem('quiz_custom_store', JSON.stringify(customStore));
+    localStorage.setItem('quiz_streak_map', JSON.stringify(globalStreakMap));
+  }catch(e){}
+}
+function loadLocal(){
+  try{
+    const sm = localStorage.getItem('quiz_status_map');
+    const wp = localStorage.getItem('quiz_wrong_pool');
+    const cs = localStorage.getItem('quiz_custom_store');
+    const st = localStorage.getItem('quiz_streak_map');
+    if(sm) globalStatusMap = JSON.parse(sm);
+    if(wp) globalWrongPool = JSON.parse(wp);
+    if(cs) customStore = JSON.parse(cs);
+    if(st) globalStreakMap = JSON.parse(st);
+  }catch(e){}
+}
+function persistProgress(){ saveLocal(); }
+
+/* ============================================================
+   FACTS HELPER
+   ============================================================ */
+function getFacts(key){
+  const facts=[];
+  if(ALL_MODULES[key] && ALL_MODULES[key].rawData){
+    ALL_MODULES[key].rawData.forEach((chap,ci)=>{
+      chap.facts.forEach((text,fi)=>{
+        const id=chap.ch+'-'+fi;
+        const editedText=getCustomEdit(key,id);
+        facts.push({id, ch:chap.ch, chIndex:ci, text: editedText!==null ? editedText : text});
+      });
+    });
+  }
+  const custom=getCustomFacts(key);
+  custom.forEach(c=>{ facts.push({id:c.id, ch:c.ch, chIndex:9999, text:c.text, isCustom:true}); });
+  return facts;
+}
+
+/* ============================================================
+   NAVIGATION & RENDER
+   ============================================================ */
+let currentModule='takken';
+function switchModule(key){
+  currentModule=key;
+  document.querySelectorAll('.mod-btn').forEach(b=>{
+    const a=b.dataset.key===key;
+    b.classList.toggle('active',a);
+    b.style.borderLeftColor = a ? ALL_MODULES[key].color : 'transparent';
+  });
+  document.querySelectorAll('.topnav-tab').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
+  document.querySelectorAll('.module-panel').forEach(p=>p.classList.toggle('active',p.dataset.key===key));
+  renderView(key, moduleState[key]?.currentView||'dashboard');
+}
+
+function showView(key, name){
+  moduleState[key].currentView=name;
+  const panel=document.querySelector(`.module-panel[data-key="${key}"]`);
+  panel.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  panel.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  const view=panel.querySelector(`#${key}-view-${name}`);
+  if(view) view.classList.add('active');
+  if(name==='dashboard') renderDashboard(key);
+  if(name==='browse') renderBrowse(key);
+}
+function renderView(key,name){showView(key,name);}
+
+/* ============================================================
+   BUILD MODULE PANEL & DASHBOARD
+   ============================================================ */
+function buildModulePanel(key){
+  const meta=MODULE_META.find(m=>m.key===key);
+  const panel=document.createElement('div');
+  panel.className='module-panel';
+  panel.dataset.key=key;
+  panel.innerHTML=`
+    <div class="app-head">
+      <div class="eyebrow" style="color:${meta.color}">${meta.label} / 暗記道場</div>
+      <h1><span class="stamp" style="border-color:${meta.color};color:${meta.color}">${meta.stamp}</span>${meta.label}</h1>
+      <p class="sub">○×クイズで${meta.label}を攻略しよう</p>
+      <button class="reset-link" data-reset="${key}">進捗をリセット</button>
+    </div>
+    <nav class="tabs">
+      <button data-view="dashboard" class="active">ダッシュボード</button>
+      <button data-view="browse">項目を見る</button>
+      <button data-view="quiz">クイズ</button>
+      <button data-view="results">結果</button>
+    </nav>
+    <div class="view active" id="${key}-view-dashboard">
+      <h2 class="section-title">進捗状況</h2>
+      <div class="stat-grid" id="${key}-statGrid"></div>
+      <h2 class="section-title">クイズを始める（1回最大20問）</h2>
+      <div class="launch-grid" id="${key}-launchGrid"></div>
+      <h2 class="section-title">章ごとの定着度</h2>
+      <div id="${key}-chapterProgress"></div>
+    </div>
+    <div class="view" id="${key}-view-browse">
+      <h2 class="section-title">項目を見る・分類する</h2>
+      <p style="font-size:11.5px;color:var(--ink-soft);margin-top:-4px;">各項目を「苦手」「分かった」「未学習」に分けられます。2回連続で正解すると自動的に「分かった」になります。</p>
+      <div id="${key}-browseList" style="margin-top:12px;"></div>
+    </div>
+    <div class="view" id="${key}-view-quiz"><div id="${key}-quizArea"></div></div>
+    <div class="view" id="${key}-view-results"><div id="${key}-resultsArea"></div></div>
+  `;
+  panel.querySelectorAll('nav.tabs button').forEach(b=>{
+    b.addEventListener('click',()=>showView(key,b.dataset.view));
+  });
+  panel.querySelector(`[data-reset="${key}"]`).addEventListener('click',()=>{
+    if(!confirm(`「${meta.label}」の進捗をリセットします。よろしいですか？`)) return;
+    const FACTS=getFacts(key);
+    FACTS.forEach(f=>{ 
+      delete globalStatusMap[key+':'+f.id];
+      delete globalStreakMap[key+':'+f.id];
+    });
+    globalWrongPool=globalWrongPool.filter(w=>w.moduleKey!==key);
+    persistProgress();
+    renderDashboard(key);
+  });
+  return panel;
+}
+
+function renderDashboard(key){
+  const FACTS=getFacts(key);
+  const total=FACTS.length;
+  let weak=0,known=0,unseen=0;
+  FACTS.forEach(f=>{
+    const s=getStatus(key,f.id);
+    if(s==='weak')weak++; else if(s==='known')known++; else unseen++;
+  });
+
+  document.getElementById(`${key}-statGrid`).innerHTML=`
+    <div class="stat-card"><div class="num">${total}</div><div class="label">全項目数</div></div>
+    <div class="stat-card weak"><div class="num">${weak}</div><div class="label">苦手</div></div>
+    <div class="stat-card unseen"><div class="num">${unseen}</div><div class="label">未学習</div></div>
+    <div class="stat-card known"><div class="num">${known}</div><div class="label">分かっている</div></div>
+  `;
+
+  const myWrong=globalWrongPool.filter(w=>w.moduleKey===key);
+  const weakPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
+  const unseenPool=FACTS.filter(f=>getStatus(key,f.id)==='unseen');
+  const launchGrid=document.getElementById(`${key}-launchGrid`);
+  launchGrid.innerHTML='';
+  [
+    {mode:'all',    title:'すべての項目から',  desc:`全${total}項目からランダムに出題`, pool:FACTS},
+    {mode:'weak',   title:'「苦手」な項目だけ', desc:'苦手マークの項目を重点的に出題',   pool:weakPool},
+    {mode:'unseen', title:'「未学習」の項目だけ',desc:'未分類の項目から出題',             pool:unseenPool},
+    {mode:'review', title:'間違えた問題だけ復習',desc:'過去に間違えた・分からなかった問題', pool:myWrong},
+  ].forEach(c=>{
+    const btn=document.createElement('button');
+    btn.className='launch-card';
+    const cnt=c.mode==='review'?myWrong.length:Math.min(20,c.pool.length*2||0);
+    btn.disabled=(c.mode==='review'?myWrong.length:c.pool.length)===0;
+    btn.innerHTML=`
+      <div class="lc-title">${c.title}<span class="lc-count">${cnt}問</span></div>
+      <div class="lc-desc">${c.desc}${c.mode!=='review'&&c.pool.length>0?`（対象${c.pool.length}項目）`:''}</div>
+    `;
+    btn.addEventListener('click',()=>startQuiz(key,c.mode));
+    launchGrid.appendChild(btn);
+  });
+
+  const prog=document.getElementById(`${key}-chapterProgress`);
+  prog.innerHTML='';
+  if(ALL_MODULES[key] && ALL_MODULES[key].rawData){
+    ALL_MODULES[key].rawData.forEach(chap=>{
+      const items=FACTS.filter(f=>f.ch===chap.ch);
+      if(!items.length) return;
+      const w=items.filter(f=>getStatus(key,f.id)==='weak').length;
+      const k=items.filter(f=>getStatus(key,f.id)==='known').length;
+      const u=items.length-w-k;
+      const row=document.createElement('div');
+      row.className='chapter-row';
+      row.innerHTML=`
+        <div class="ch-name">${chap.ch}</div>
+        <div class="ch-bar">
+          <span style="background:#3F6E5E;width:${k/items.length*100}%"></span>
+          <span style="background:#AE3B33;width:${w/items.length*100}%"></span>
+          <span style="background:var(--unseen);width:${u/items.length*100}%"></span>
+        </div>
+        <div class="ch-count">${k}/${items.length}</div>
+      `;
+      prog.appendChild(row);
+    });
+  }
+
+  const sBtn=document.querySelector(`.mod-btn[data-key="${key}"] .mod-count`);
+  if(sBtn) sBtn.textContent=`${known}/${total}`;
+}
+
+function renderBrowse(key){
+  const FACTS=getFacts(key);
+  const container=document.getElementById(`${key}-browseList`);
+  container.innerHTML='';
+
+  if(ALL_MODULES[key] && ALL_MODULES[key].rawData){
+    ALL_MODULES[key].rawData.forEach(chap=>{
+      const items=FACTS.filter(f=>f.ch===chap.ch);
+      if(!items.length) return;
+      const known=items.filter(f=>getStatus(key,f.id)==='known').length;
+      const det=document.createElement('details');
+      det.className='chapter-block';
+      const sum=document.createElement('summary');
+      sum.innerHTML=`<span>${chap.ch}</span><span class="ch-tally">${known}/${items.length} 既習</span>`;
+      det.appendChild(sum);
+      items.forEach(f=> det.appendChild(buildFactRow(key, f)));
+      container.appendChild(det);
+    });
+  }
+}
+
+function buildFactRow(key, f){
+  const s=getStatus(key,f.id);
+  const row=document.createElement('div');
+  row.className='fact-row';
+  row.innerHTML=`
+    <div class="fact-text">${f.text}</div>
+    <div class="fact-controls">
+      <button class="status-btn ${s==='weak'?'sel-weak':''}" data-action="weak">苦手</button>
+      <button class="status-btn ${s==='known'?'sel-known':''}" data-action="known">分かった</button>
+      <button class="status-btn ${s==='unseen'?'sel-unseen':''}" data-action="unseen">未学習に戻す</button>
+    </div>
+  `;
+  row.querySelectorAll('.status-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      setStatus(key,f.id,btn.dataset.action);
+      if(btn.dataset.action !== 'known') {
+        globalStreakMap[key+':'+f.id] = 0; // 手動変更時は連続正解カウントリセット
+      }
+      persistProgress();
+      renderBrowse(key);
+    });
+  });
+  return row;
+}
+
+/* ============================================================
+   QUIZ LOGIC (2回連続正解で「分かった」へ)
+   ============================================================ */
+function shuffle(arr){const a=arr.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function generateQuiz(key, factsPool, total){
+  const ids=new Set(factsPool.map(f=>f.id));
+  const builtIn=(ALL_MODULES[key].questionBank||[]).filter(q=>ids.has(q.factId));
+  const custom=getCustomQuestions(key).filter(q=>ids.has(q.factId));
+  const cands=builtIn.concat(custom);
+  return shuffle(cands).slice(0,total).map((q,i)=>({
+    id:'q'+Date.now()+'_'+i,
+    factId:q.factId, statement:q.statement, isTrue:!!q.isTrue,
+    explanation:q.explanation, ch:q.ch, moduleKey:key
+  }));
+}
+
+function startQuiz(key, mode){
+  showView(key,'quiz');
+  const FACTS=getFacts(key);
+  const myWrong=globalWrongPool.filter(w=>w.moduleKey===key);
+  let factsPool, questions;
+
+  if(mode==='review'){
+    if(!myWrong.length){alert('復習する問題がありません。');return;}
+    questions=shuffle(myWrong).slice(0,Math.min(20,myWrong.length));
+    moduleState[key].currentQuiz={questions,index:0,answers:[],mode};
+    renderQuestion(key);
+    return;
+  }
+  if(mode==='all')      factsPool=FACTS;
+  else if(mode==='weak')  factsPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
+  else if(mode==='unseen')factsPool=FACTS.filter(f=>getStatus(key,f.id)==='unseen');
+
+  if(!factsPool||!factsPool.length){alert('対象となる項目がありません。');showView(key,'dashboard');return;}
+  questions=generateQuiz(key,factsPool,Math.min(20,factsPool.length*2));
+  if(!questions.length){alert('対象となる問題がありません。');showView(key,'dashboard');return;}
+  moduleState[key].currentQuiz={questions,index:0,answers:[],mode};
+  renderQuestion(key);
+}
+
+function renderQuestion(key){
+  const {questions,index}=moduleState[key].currentQuiz;
+  const q=questions[index];
+  const pct=(index/questions.length)*100;
+  document.getElementById(`${key}-quizArea`).innerHTML=`
+    <div class="quiz-progress">問題 ${index+1} / ${questions.length}</div>
+    <div class="quiz-progress-bar"><span style="width:${pct}%"></span></div>
+    <div class="quiz-tag">${q.ch||''}</div>
+    <div class="question-card"><div class="stmt">${q.statement}</div></div>
+    <div class="answer-buttons">
+      <button class="stamp-btn maru"      id="${key}-btnMaru">○</button>
+      <button class="stamp-btn wakaranai" id="${key}-btnWakaran">分からない</button>
+      <button class="stamp-btn batsu"     id="${key}-btnBatsu">×</button>
+    </div>
+    <div id="${key}-feedbackArea"></div>
+  `;
+  document.getElementById(`${key}-btnMaru`).addEventListener('click',()=>answer(key,true,false));
+  document.getElementById(`${key}-btnBatsu`).addEventListener('click',()=>answer(key,false,false));
+  document.getElementById(`${key}-btnWakaran`).addEventListener('click',()=>answer(key,null,true));
+}
+
+function answer(key, userAnswer, isSkip){
+  const {questions,index,answers}=moduleState[key].currentQuiz;
+  const q=questions[index];
+  const correct = isSkip ? false : (userAnswer===q.isTrue);
+  answers.push({q, userAnswer, correct, isSkip});
+
+  [`${key}-btnMaru`,`${key}-btnBatsu`,`${key}-btnWakaran`].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.disabled=true;
+  });
+
+  let bannerClass = isSkip ? 'skip' : (correct ? 'correct' : 'wrong');
+  let bannerText  = isSkip ? `分からない 正解は「${q.isTrue?'○':'×'}」` : (correct ? '正解！' : `不正解… 正解は「${q.isTrue?'○':'×'}」`);
+
+  document.getElementById(`${key}-feedbackArea`).innerHTML=`
+    <div class="result-banner ${bannerClass}">${bannerText}</div>
+    <div class="explanation-box"><div class="src">${q.ch}</div>${q.explanation}</div>
+    <button class="btn-primary" id="${key}-nextBtn">${index+1<questions.length?'次の問題へ':'結果を見る'}</button>
+  `;
+  document.getElementById(`${key}-nextBtn`).addEventListener('click',()=>nextQuestion(key));
+}
+
+function nextQuestion(key){
+  const state=moduleState[key];
+  state.currentQuiz.index++;
+  if(state.currentQuiz.index<state.currentQuiz.questions.length){
+    renderQuestion(key);
+  } else {
+    finishQuiz(key);
+  }
+}
+
+function finishQuiz(key){
+  const {answers}=moduleState[key].currentQuiz;
+  let correctCount=0;
+
+  answers.forEach(a=>{
+    const factKey = key + ':' + a.q.factId;
+
+    if(a.correct){
+      correctCount++;
+      globalWrongPool=globalWrongPool.filter(w=>!(w.statement===a.q.statement&&w.moduleKey===key));
+
+      if(a.q.factId){
+        const currentStreak = (globalStreakMap[factKey] || 0) + 1;
+        globalStreakMap[factKey] = currentStreak;
+
+        // 2回連続正解で「分かった (known)」に分類
+        if(currentStreak >= 2){
+          setStatus(key, a.q.factId, 'known');
+        }
+      }
+    } else {
+      // 不正解 or 分からない → 連続正解リセット＆苦手に分類
+      if(a.q.factId){
+        globalStreakMap[factKey] = 0;
+        setStatus(key, a.q.factId, 'weak');
+      }
+      const exists=globalWrongPool.some(w=>w.statement===a.q.statement&&w.moduleKey===key);
+      if(!exists){
+        globalWrongPool.push({
+          id:a.q.id, factId:a.q.factId, statement:a.q.statement,
+          isTrue:a.q.isTrue, explanation:a.q.explanation,
+          ch:a.q.ch, moduleKey:key, isSkip: a.isSkip||false
+        });
+      }
+    }
+  });
+
+  persistProgress();
+  moduleState[key].lastResults={answers,correctCount,total:answers.length};
+  renderResults(key);
+}
+
+function renderResults(key){
+  showView(key,'results');
+  const {answers,correctCount,total}=moduleState[key].lastResults;
+  const myWrong=globalWrongPool.filter(w=>w.moduleKey===key);
+
+  let html=`
+    <h2 class="section-title">結果</h2>
+    <div class="score-card">
+      <div class="score-num">${correctCount} <span>/ ${total}</span></div>
+    </div>
+  `;
+  const notCorrect=answers.filter(a=>!a.correct);
+  if(notCorrect.length){
+    html+=`<h2 class="section-title">復習問題</h2>`;
+    notCorrect.forEach(a=>{
+      html+=`<div class="review-item">
+        <div class="rv-stmt">${a.q.statement}</div>
+        <div class="rv-exp">${a.q.explanation}</div>
+      </div>`;
+    });
+  }
+  html+=`<div class="btn-row">
+    <button class="btn-primary" id="${key}-backDash">ダッシュボードに戻る</button>
+  </div>`;
+  document.getElementById(`${key}-resultsArea`).innerHTML=html;
+  document.getElementById(`${key}-backDash`).addEventListener('click',()=>showView(key,'dashboard'));
+}
+
+/* ============================================================
+   WEAK EXPORT
+   ============================================================ */
+function buildWeakText(filterKey){
+  const lines = [];
+  MODULE_META.forEach(meta=>{
+    if(filterKey !== 'all' && filterKey !== meta.key) return;
+    const FACTS = getFacts(meta.key);
+    const weakFacts = FACTS.filter(f=>getStatus(meta.key, f.id)==='weak');
+    if(!weakFacts.length) return;
+    lines.push(`■ ${meta.label}（${weakFacts.length}項目）`);
+    weakFacts.forEach((f, i)=>{ lines.push(`${i+1}. ${f.text}`); });
+    lines.push('');
+  });
+  return lines.join('\n').trim();
+}
+
+function openExportModal(){
+  const overlay = document.getElementById('exportModalOverlay');
+  const box = document.getElementById('exportModalBox');
+  overlay.classList.add('show');
+  const txt = buildWeakText('all');
+  box.innerHTML = `
+    <h3>📋 苦手項目の書き出し</h3>
+    <textarea class="export-text" readonly>${txt || '苦手項目はありません。'}</textarea>
+    <div class="btn-row"><button class="btn-secondary" id="closeExportBtn">閉じる</button></div>
+  `;
+  box.querySelector('#closeExportBtn').addEventListener('click',()=>{ overlay.classList.remove('show'); });
+}
+
+/* ============================================================
+   GLOBAL RESET & INIT
+   ============================================================ */
+document.getElementById('resetAllBtn').addEventListener('click',()=>{
+  if(!confirm('全科目の進捗をリセットします。よろしいですか？')) return;
+  globalStatusMap={};
+  globalWrongPool=[];
+  globalStreakMap={};
+  persistProgress();
+  switchModule(currentModule);
+});
+
+(function init(){
+  loadLocal();
+
+  const mainArea=document.getElementById('mainArea');
+  const sidebarModules=document.getElementById('sidebarModules');
+  const topnavTabs=document.getElementById('topnavTabs');
+
+  for(const meta of MODULE_META){
+    const key=meta.key;
+    initModuleState(key);
+    mainArea.appendChild(buildModulePanel(key));
+
+    const FACTS=getFacts(key);
+    const known=FACTS.filter(f=>getStatus(key,f.id)==='known').length;
+    const btn=document.createElement('button');
+    btn.className='mod-btn';btn.dataset.key=key;
+    btn.innerHTML=`<span class="mod-stamp" style="border-color:${meta.color};color:${meta.color}">${meta.stamp}</span>${meta.label}<span class="mod-count">${known}/${FACTS.length}</span>`;
+    btn.addEventListener('click',()=>switchModule(key));
+    sidebarModules.appendChild(btn);
+
+    const tab=document.createElement('button');
+    tab.className='topnav-tab';tab.dataset.key=key;tab.textContent=meta.label;
+    tab.addEventListener('click',()=>switchModule(key));
+    topnavTabs.appendChild(tab);
+  }
+
+  switchModule('takken');
+  document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
+})();
+</script>
+</body>
+</html>
