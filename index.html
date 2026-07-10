@@ -220,6 +220,12 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .exp-fact-row:last-child{border-bottom:none;}
 .exp-num{flex-shrink:0;width:22px;text-align:right;color:var(--unseen);font-size:11px;padding-top:2px;}
 
+/* PROMOTED BANNER */
+.promoted-banner{background:#EAF3EF;border:1px solid var(--seal);border-radius:4px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:var(--seal);}
+.promoted-list{margin-top:8px;}
+.promoted-item{font-size:12px;color:var(--ink);padding:3px 0;border-bottom:1px dashed var(--line);line-height:1.6;}
+.promoted-item:last-child{border-bottom:none;}
+
 /* EXPORT MODAL */
 #exportModalBox h3{font-family:'Shippori Mincho',serif;font-size:18px;margin-bottom:10px;}
 #exportModalBox .export-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
@@ -5266,6 +5272,14 @@ function setStatus(key, factId, val){
   globalStatusMap[key+':'+factId]=val;
 }
 
+// 連続正解数の管理（2回連続正解で「分かった」に自動昇格）
+let correctStreakMap = {};
+function getStreak(key, factId){ return correctStreakMap[key+':'+factId]||0; }
+function setStreak(key, factId, n){
+  if(n===0){ delete correctStreakMap[key+':'+factId]; }
+  else { correctStreakMap[key+':'+factId]=n; }
+}
+
 /* ============================================================
    LOCAL STORAGE
    ============================================================ */
@@ -5298,6 +5312,7 @@ function saveLocal(){
     localStorage.setItem('quiz_status_map', JSON.stringify(globalStatusMap));
     localStorage.setItem('quiz_wrong_pool', JSON.stringify(globalWrongPool));
     localStorage.setItem('quiz_custom_store', JSON.stringify(customStore));
+    localStorage.setItem('quiz_streak_map', JSON.stringify(correctStreakMap));
   }catch(e){}
 }
 function loadLocal(){
@@ -5305,9 +5320,11 @@ function loadLocal(){
     const sm = localStorage.getItem('quiz_status_map');
     const wp = localStorage.getItem('quiz_wrong_pool');
     const cs = localStorage.getItem('quiz_custom_store');
+    const sk = localStorage.getItem('quiz_streak_map');
     if(sm) globalStatusMap = JSON.parse(sm);
     if(wp) globalWrongPool = JSON.parse(wp);
     if(cs) customStore = JSON.parse(cs);
+    if(sk) correctStreakMap = JSON.parse(sk);
   }catch(e){}
 }
 
@@ -5856,15 +5873,30 @@ function nextQuestion(key){
 function finishQuiz(key){
   const {answers}=moduleState[key].currentQuiz;
   let correctCount=0;
+  const promoted=[]; // 今回「分かった」に昇格した項目
 
   answers.forEach(a=>{
     if(a.correct){
       correctCount++;
-      // 正解したら復習プールから除去
+      // 復習プールから除去
       globalWrongPool=globalWrongPool.filter(w=>!(w.statement===a.q.statement&&w.moduleKey===key));
+      // 連続正解カウントを更新
+      if(a.q.factId){
+        const newStreak = getStreak(key, a.q.factId) + 1;
+        setStreak(key, a.q.factId, newStreak);
+        // 2回連続正解で「分かった」に昇格
+        if(newStreak >= 2 && getStatus(key, a.q.factId) !== 'known'){
+          setStatus(key, a.q.factId, 'known');
+          setStreak(key, a.q.factId, 0); // リセット
+          promoted.push(a.q.factId);
+        }
+      }
     } else {
-      // 不正解 or 分からない → 苦手に設定
-      if(a.q.factId) setStatus(key, a.q.factId, 'weak');
+      // 不正解 or 分からない → 苦手に設定、連続正解リセット
+      if(a.q.factId){
+        setStatus(key, a.q.factId, 'weak');
+        setStreak(key, a.q.factId, 0);
+      }
       // 復習プールに追加（重複なし）
       const exists=globalWrongPool.some(w=>w.statement===a.q.statement&&w.moduleKey===key);
       if(!exists){
@@ -5879,13 +5911,13 @@ function finishQuiz(key){
   });
 
   persistProgress();
-  moduleState[key].lastResults={answers,correctCount,total:answers.length};
+  moduleState[key].lastResults={answers,correctCount,total:answers.length,promoted};
   renderResults(key);
 }
 
 function renderResults(key){
   showView(key,'results');
-  const {answers,correctCount,total}=moduleState[key].lastResults;
+  const {answers,correctCount,total,promoted=[]}=moduleState[key].lastResults;
   const myWrong=globalWrongPool.filter(w=>w.moduleKey===key);
   const skips=answers.filter(a=>a.isSkip).length;
   const wrongs=answers.filter(a=>!a.correct&&!a.isSkip).length;
@@ -5897,6 +5929,20 @@ function renderResults(key){
       <div class="score-sub">正解${correctCount}問　不正解${wrongs}問　分からない${skips}問</div>
     </div>
   `;
+
+  // 「分かった」に昇格した項目があれば表示
+  if(promoted.length){
+    const FACTS=getFacts(key);
+    html+=`<div class="promoted-banner">
+      🎉 <strong>${promoted.length}項目</strong>が2回連続正解で「分かった」に昇格しました！
+      <div class="promoted-list">`;
+    promoted.forEach(factId=>{
+      const f=FACTS.find(f=>f.id===factId);
+      if(f) html+=`<div class="promoted-item">✓ ${f.text}</div>`;
+    });
+    html+=`</div></div>`;
+  }
+
   const notCorrect=answers.filter(a=>!a.correct);
   if(notCorrect.length){
     html+=`<h2 class="section-title">間違えた・分からなかった問題</h2>`;
