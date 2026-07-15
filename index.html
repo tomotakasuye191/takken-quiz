@@ -311,6 +311,7 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
       <button id="exportWeakBtn">📋 苦手項目を書き出す</button>
+      <button id="importWeakBtn">📥 苦手項目をインポート</button>
       <button id="resetAllBtn">全科目の進捗をリセット</button>
     </div>
   </aside>
@@ -338,7 +339,10 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   <div class="edit-modal" id="exportModalBox" style="max-width:600px;"></div>
 </div>
 
-
+<!-- IMPORT MODAL -->
+<div class="edit-modal-overlay" id="importModalOverlay">
+  <div class="edit-modal" id="importModalBox" style="max-width:560px;"></div>
+</div>
 
 <script>
 /* ============================================================
@@ -6074,9 +6078,10 @@ function renderExportModal(box, activeFilter){
         if(!weakFacts.length) return;
         txt += '【' + meta.label + '】（' + weakFacts.length + '項目）\n';
         txt += '-'.repeat(40) + '\n';
-        weakFacts.forEach((f,i)=>{ txt += (i+1) + '. ' + f.text + '\n'; });
+        weakFacts.forEach((f,i)=>{ txt += (i+1) + '. ' + f.text + ' [' + meta.key + ':' + f.id + ']\n'; });
         txt += '\n';
       });
+      txt += '\n# このファイルはそのまま「苦手項目をインポート」に貼り付けることができます。';
       const blob = new Blob([txt], {type:'text/plain;charset=utf-8'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -6090,6 +6095,107 @@ function renderExportModal(box, activeFilter){
   box.querySelector('#closeExportBtn').addEventListener('click',()=>{
     document.getElementById('exportModalOverlay').classList.remove('show');
   });
+}
+
+/* ============================================================
+   IMPORT — 苦手項目のインポート
+   ============================================================ */
+function openImportModal(){
+  const overlay = document.getElementById('importModalOverlay');
+  const box     = document.getElementById('importModalBox');
+  overlay.classList.add('show');
+  renderImportModal(box);
+}
+
+function renderImportModal(box){
+  box.innerHTML = `
+    <h3>📥 苦手項目をインポート</h3>
+    <p class="hint">「苦手項目を書き出す」→「TXTで保存」で保存したテキストをそのまま貼り付けてください。<br>
+    既存の進捗に<strong>マージ</strong>します（スマホ側にある苦手項目は消えません）。</p>
+    <label>テキストを貼り付ける</label>
+    <textarea id="importTextarea" style="min-height:180px;" placeholder="1. 道路・公園・河川・広場は宅地ではない [takken:CH1-0]
+2. 信託会社は免許いらないが届出必要 [takken:CH1-2]
+..."></textarea>
+    <div id="importStatusArea"></div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn-primary" id="importRunBtn">インポートする</button>
+      <button class="btn-secondary" id="importCancelBtn">キャンセル</button>
+    </div>
+    <p style="font-size:10.5px;color:var(--unseen);margin-top:10px;">
+      ※ [科目キー:factId] の形式で書かれた行だけが処理されます。<br>
+      ※ インポートした項目は「苦手」として設定されます。
+    </p>
+  `;
+
+  box.querySelector('#importCancelBtn').addEventListener('click',()=>{
+    document.getElementById('importModalOverlay').classList.remove('show');
+  });
+
+  box.querySelector('#importRunBtn').addEventListener('click',()=>{
+    const raw = box.querySelector('#importTextarea').value;
+    const result = doImport(raw);
+    const statusArea = box.querySelector('#importStatusArea');
+
+    if(result.matched === 0){
+      statusArea.innerHTML = `
+        <div class="gen-status" style="color:var(--hanko);margin-top:10px;">
+          ⚠️ インポートできる項目が見つかりませんでした。<br>
+          「TXTで保存」したファイルの内容をそのまま貼り付けてください。
+        </div>`;
+      return;
+    }
+
+    // 成功
+    persistProgress();
+    statusArea.innerHTML = `
+      <div class="gen-status" style="color:var(--seal);margin-top:10px;line-height:1.8;">
+        ✓ <strong>${result.matched}項目</strong>をインポートしました。<br>
+        　うち新たに苦手に設定: <strong>${result.newWeak}項目</strong><br>
+        　すでに苦手だったもの: <strong>${result.alreadyWeak}項目</strong>
+      </div>`;
+
+    // ボタンを「閉じる」に変える
+    box.querySelector('#importRunBtn').textContent = '閉じる';
+    box.querySelector('#importRunBtn').onclick = ()=>{
+      document.getElementById('importModalOverlay').classList.remove('show');
+      // 全科目のダッシュボードを更新
+      MODULE_META.forEach(m=>{ if(moduleState[m.key]) renderDashboard(m.key); });
+    };
+    box.querySelector('#importCancelBtn').style.display = 'none';
+  });
+}
+
+function doImport(rawText){
+  // [科目キー:factId] 形式を正規表現で抽出
+  // 例: "1. 道路・公園... [takken:CH1-0]"
+  const pattern = /\[([a-z]+):([\w\-]+)\]/g;
+  let match;
+  let matched = 0;
+  let newWeak = 0;
+  let alreadyWeak = 0;
+
+  while((match = pattern.exec(rawText)) !== null){
+    const moduleKey = match[1];
+    const factId    = match[2];
+
+    // 有効な科目キーか確認
+    if(!MODULE_META.find(m=>m.key===moduleKey)) continue;
+    // 有効なfactIdか確認（組み込み項目またはカスタム項目に存在するか）
+    const FACTS = getFacts(moduleKey);
+    const fact = FACTS.find(f=>f.id===factId);
+    if(!fact) continue;
+
+    matched++;
+    const current = getStatus(moduleKey, factId);
+    if(current === 'weak'){
+      alreadyWeak++;
+    } else {
+      setStatus(moduleKey, factId, 'weak');
+      newWeak++;
+    }
+  }
+
+  return { matched, newWeak, alreadyWeak };
 }
 
 /* ============================================================
@@ -6146,6 +6252,15 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
 
   // 苦手項目書き出しボタン
   document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
+
+  // 苦手項目インポートボタン
+  document.getElementById('importWeakBtn').addEventListener('click', openImportModal);
+
+  // インポートモーダルの外側クリックで閉じる
+  document.getElementById('importModalOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='importModalOverlay')
+      document.getElementById('importModalOverlay').classList.remove('show');
+  });
 })();
 </script>
 </body>
