@@ -5336,6 +5336,16 @@ function persistProgress(){
   saveLocal();
 }
 
+// クイズ中など連続して呼ばれる場面用のデバウンス保存（800ms待って1回だけ実行）
+let _saveTimer = null;
+function persistProgressDebounced(){
+  if(_saveTimer) clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(()=>{
+    _saveTimer = null;
+    saveLocal();
+  }, 800);
+}
+
 /* ============================================================
    FACTS HELPER
    ============================================================ */
@@ -5378,6 +5388,7 @@ function switchModule(key){
 function showView(key, name){
   moduleState[key].currentView=name;
   const panel=document.querySelector(`.module-panel[data-key="${key}"]`);
+  if(!panel) return; // まだ構築されていない場合はスキップ
   panel.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
   panel.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
   const view=panel.querySelector(`#${key}-view-${name}`);
@@ -5627,6 +5638,7 @@ function buildModulePanel(key){
    DASHBOARD
    ============================================================ */
 function renderDashboard(key){
+  if(!document.getElementById(`${key}-statGrid`)) return; // パネル未構築時はスキップ
   const FACTS=getFacts(key);
   const total=FACTS.length;
   let weak=0,known=0,unseen=0;
@@ -5699,7 +5711,7 @@ function renderBrowse(key){
   const container=document.getElementById(`${key}-browseList`);
   container.innerHTML='';
 
-  // 既存の章ごとの項目
+  // 既存の章ごとの項目 ── summaryだけ先に作り、開いたときに中身を遅延構築
   ALL_MODULES[key].rawData.forEach(chap=>{
     const items=FACTS.filter(f=>f.ch===chap.ch);
     const known=items.filter(f=>getStatus(key,f.id)==='known').length;
@@ -5708,14 +5720,19 @@ function renderBrowse(key){
     const sum=document.createElement('summary');
     sum.innerHTML=`<span>${chap.ch}</span><span class="ch-tally">${known}/${items.length} 既習</span>`;
     det.appendChild(sum);
-    items.forEach(f=>{
-      det.appendChild(buildFactRow(key, f));
+
+    let built=false;
+    det.addEventListener('toggle',()=>{
+      if(det.open && !built){
+        built=true;
+        items.forEach(f=>det.appendChild(buildFactRow(key,f)));
+      }
     });
     container.appendChild(det);
   });
 
   // カスタムで追加した項目（章なし）
-  const customFacts = FACTS.filter(f=>f.isCustom);
+  const customFacts=FACTS.filter(f=>f.isCustom);
   if(customFacts.length){
     const det=document.createElement('details');
     det.className='chapter-block';
@@ -5724,9 +5741,7 @@ function renderBrowse(key){
     const sum=document.createElement('summary');
     sum.innerHTML=`<span>追加した項目</span><span class="ch-tally">${known}/${customFacts.length} 既習</span>`;
     det.appendChild(sum);
-    customFacts.forEach(f=>{
-      det.appendChild(buildFactRow(key, f));
-    });
+    customFacts.forEach(f=>det.appendChild(buildFactRow(key,f)));
     container.appendChild(det);
   }
 
@@ -5761,7 +5776,7 @@ function buildFactRow(key, f){
         return;
       }
       setStatus(key,f.id,btn.dataset.action);
-      persistProgress();
+      persistProgressDebounced();
       renderBrowse(key);
     });
   });
@@ -6219,26 +6234,45 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
   const sidebarModules=document.getElementById('sidebarModules');
   const topnavTabs=document.getElementById('topnavTabs');
 
+  // パネルが構築済みかどうかのフラグ
+  const panelBuilt={};
+
+  function ensurePanel(key){
+    if(panelBuilt[key]) return;
+    panelBuilt[key]=true;
+    mainArea.appendChild(buildModulePanel(key));
+  }
+
   for(const meta of MODULE_META){
     const key=meta.key;
     initModuleState(key);
-    mainArea.appendChild(buildModulePanel(key));
 
     const FACTS=getFacts(key);
     const known=FACTS.filter(f=>getStatus(key,f.id)==='known').length;
+
+    // サイドバーボタン
     const btn=document.createElement('button');
     btn.className='mod-btn';btn.dataset.key=key;
     btn.innerHTML=`<span class="mod-stamp" style="border-color:${meta.color};color:${meta.color}">${meta.stamp}</span>${meta.label}<span class="mod-count">${known}/${FACTS.length}</span>`;
-    btn.addEventListener('click',()=>switchModule(key));
+    btn.addEventListener('click',()=>{
+      ensurePanel(key);
+      switchModule(key);
+    });
     sidebarModules.appendChild(btn);
 
+    // トップナビタブ
     const tab=document.createElement('button');
     tab.className='topnav-tab';tab.dataset.key=key;tab.textContent=meta.label;
     tab.style.setProperty('--accent-color',meta.color);
-    tab.addEventListener('click',()=>switchModule(key));
+    tab.addEventListener('click',()=>{
+      ensurePanel(key);
+      switchModule(key);
+    });
     topnavTabs.appendChild(tab);
   }
 
+  // 最初の科目（宅建業法）だけ即時構築して表示
+  ensurePanel('takken');
   switchModule('takken');
 
   // モーダルの外側クリックで閉じる
