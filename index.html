@@ -312,6 +312,8 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
     <div class="sidebar-footer">
       <button id="exportWeakBtn">📋 苦手項目を書き出す</button>
       <button id="importWeakBtn">📥 苦手項目をインポート</button>
+      <button id="exportFullBtn">🔄 進捗全体を書き出す</button>
+      <button id="importFullBtn">🔄 進捗全体を読み込む</button>
       <button id="resetAllBtn">全科目の進捗をリセット</button>
     </div>
   </aside>
@@ -323,6 +325,12 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
       
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
+    <div style="display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;">
+      <button id="exportWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📋苦手を書き出す</button>
+      <button id="importWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📥苦手を読込</button>
+      <button id="exportFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を書き出す</button>
+      <button id="importFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を読込</button>
+    </div>
   </nav>
 
   <!-- MAIN -->
@@ -342,6 +350,16 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
 <!-- IMPORT MODAL -->
 <div class="edit-modal-overlay" id="importModalOverlay">
   <div class="edit-modal" id="importModalBox" style="max-width:560px;"></div>
+</div>
+
+<!-- FULL EXPORT MODAL -->
+<div class="edit-modal-overlay" id="fullExportModalOverlay">
+  <div class="edit-modal" id="fullExportModalBox" style="max-width:600px;"></div>
+</div>
+
+<!-- FULL IMPORT MODAL -->
+<div class="edit-modal-overlay" id="fullImportModalOverlay">
+  <div class="edit-modal" id="fullImportModalBox" style="max-width:600px;"></div>
 </div>
 
 <script>
@@ -6214,6 +6232,178 @@ function doImport(rawText){
 }
 
 /* ============================================================
+   FULL PROGRESS SYNC — 苦手だけでなく全ステータス・自作項目・
+   間違えた問題・連続正解数までまるごとJSONでやり取りする機能。
+   これを使えば、PCとスマホの「問題数・正答数・苦手数」が
+   常に一致するようになる。
+   ============================================================ */
+const FULL_SYNC_VERSION = 1;
+
+function buildFullSyncPayload(){
+  return {
+    __type: 'takken_quiz_full_sync',
+    version: FULL_SYNC_VERSION,
+    exportedAt: new Date().toISOString(),
+    statusMap: globalStatusMap,
+    wrongPool: globalWrongPool,
+    customStore: customStore,
+    streakMap: correctStreakMap
+  };
+}
+
+function summarizeSyncCounts(){
+  // エクスポート画面に「今の状態」を出すためのサマリー
+  const lines = [];
+  MODULE_META.forEach(meta=>{
+    const FACTS = getFacts(meta.key);
+    const weak = FACTS.filter(f=>getStatus(meta.key,f.id)==='weak').length;
+    const known = FACTS.filter(f=>getStatus(meta.key,f.id)==='known').length;
+    const unseen = FACTS.length - weak - known;
+    lines.push(`${meta.label}：全${FACTS.length}項目（分かった${known}／苦手${weak}／未学習${unseen}）`);
+  });
+  return lines.join('\n');
+}
+
+function openFullExportModal(){
+  const overlay = document.getElementById('fullExportModalOverlay');
+  const box = document.getElementById('fullExportModalBox');
+  overlay.classList.add('show');
+
+  const payload = buildFullSyncPayload();
+  const json = JSON.stringify(payload);
+
+  box.innerHTML = `
+    <h3>🔄 進捗全体の書き出し</h3>
+    <p class="hint">
+      苦手／分かった／未学習のステータス、間違えた問題の履歴、
+      自作項目、連続正解数まで<strong>すべて</strong>を1つのデータとして書き出します。<br>
+      これをスマホ側の「進捗全体を読み込む」に貼り付ける（またはファイルを読み込む）と、
+      問題数・正答数・苦手数が完全に一致するようになります。
+    </p>
+    <div class="export-count" style="white-space:pre-line;line-height:1.7;">${summarizeSyncCounts()}</div>
+    <textarea class="export-text" id="fullExportTextarea" readonly style="min-height:120px;font-size:10px;">${json}</textarea>
+    <div class="btn-row">
+      <button class="btn-primary" id="copyFullExportBtn">📋 コピーする</button>
+      <button class="btn-primary" id="dlFullExportBtn" style="background:var(--seal);">📥 ファイルで保存</button>
+      <button class="btn-secondary" id="closeFullExportBtn">閉じる</button>
+    </div>
+    <p style="font-size:10.5px;color:var(--unseen);margin-top:8px;">
+      ※ このデータには苦手項目だけでなく「分かった」「未学習」の状態も含まれます。<br>
+      ※ 読み込む側の既存データは<strong>上書き</strong>されます（マージではありません）。最新の状態を書き出してから読み込んでください。
+    </p>
+  `;
+
+  box.querySelector('#copyFullExportBtn').addEventListener('click',()=>{
+    const ta = box.querySelector('#fullExportTextarea');
+    ta.select();
+    const btn = box.querySelector('#copyFullExportBtn');
+    try{
+      navigator.clipboard.writeText(ta.value).then(()=>{
+        btn.textContent='✓ コピーしました！';
+        setTimeout(()=>btn.textContent='📋 コピーする', 2000);
+      });
+    }catch(e){
+      document.execCommand('copy');
+      btn.textContent='✓ コピーしました！';
+      setTimeout(()=>btn.textContent='📋 コピーする', 2000);
+    }
+  });
+
+  box.querySelector('#dlFullExportBtn').addEventListener('click',()=>{
+    const blob = new Blob([json], {type:'application/json;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '宅建暗記道場_進捗全体_' + new Date().toLocaleDateString('ja-JP').replace(/\//g,'-') + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+
+  box.querySelector('#closeFullExportBtn').addEventListener('click',()=>{
+    overlay.classList.remove('show');
+  });
+}
+
+function applyFullSyncPayload(payload){
+  if(!payload || payload.__type !== 'takken_quiz_full_sync'){
+    throw new Error('invalid');
+  }
+  globalStatusMap = payload.statusMap || {};
+  globalWrongPool = payload.wrongPool || [];
+  customStore = payload.customStore || {};
+  correctStreakMap = payload.streakMap || {};
+  persistProgress();
+}
+
+function openFullImportModal(){
+  const overlay = document.getElementById('fullImportModalOverlay');
+  const box = document.getElementById('fullImportModalBox');
+  overlay.classList.add('show');
+
+  box.innerHTML = `
+    <h3>🔄 進捗全体の読み込み</h3>
+    <p class="hint">
+      「進捗全体を書き出す」で出力したテキスト（またはファイルの中身）を貼り付けてください。<br>
+      <strong>この端末の現在の進捗はすべて上書きされます。</strong>
+    </p>
+    <label>データを貼り付ける</label>
+    <textarea id="fullImportTextarea" style="min-height:160px;font-size:10px;" placeholder='{"__type":"takken_quiz_full_sync", ...}'></textarea>
+    <label style="margin-top:12px;">またはファイルを選択</label>
+    <input type="file" id="fullImportFile" accept="application/json,.json,.txt">
+    <div id="fullImportStatusArea"></div>
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn-primary" id="fullImportRunBtn">この内容で上書きする</button>
+      <button class="btn-secondary" id="fullImportCancelBtn">キャンセル</button>
+    </div>
+  `;
+
+  box.querySelector('#fullImportFile').addEventListener('change',(e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      box.querySelector('#fullImportTextarea').value = reader.result;
+    };
+    reader.readAsText(file);
+  });
+
+  box.querySelector('#fullImportCancelBtn').addEventListener('click',()=>{
+    overlay.classList.remove('show');
+  });
+
+  box.querySelector('#fullImportRunBtn').addEventListener('click',()=>{
+    const raw = box.querySelector('#fullImportTextarea').value.trim();
+    const statusArea = box.querySelector('#fullImportStatusArea');
+    if(!raw){
+      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">データを貼り付けるかファイルを選択してください。</div>`;
+      return;
+    }
+    let payload;
+    try{
+      payload = JSON.parse(raw);
+    }catch(e){
+      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">⚠️ このテキストは正しい形式ではありません。「進捗全体を書き出す」で出力したものをそのまま貼り付けてください。</div>`;
+      return;
+    }
+    if(!confirm('この端末の現在の進捗をすべて上書きします。よろしいですか？')) return;
+    try{
+      applyFullSyncPayload(payload);
+    }catch(e){
+      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">⚠️ 読み込みに失敗しました。データの形式を確認してください。</div>`;
+      return;
+    }
+    statusArea.innerHTML = `<div class="gen-status" style="color:var(--seal);white-space:pre-line;line-height:1.8;">✓ 読み込みが完了しました。\n${summarizeSyncCounts()}</div>`;
+    box.querySelector('#fullImportRunBtn').textContent = '閉じる';
+    box.querySelector('#fullImportRunBtn').onclick = ()=>{
+      overlay.classList.remove('show');
+      MODULE_META.forEach(m=>{ if(moduleState[m.key]) renderDashboard(m.key); });
+      switchModule(currentModule);
+    };
+    box.querySelector('#fullImportCancelBtn').style.display = 'none';
+  });
+}
+
+/* ============================================================
    GLOBAL RESET
    ============================================================ */
 document.getElementById('resetAllBtn').addEventListener('click',()=>{
@@ -6284,16 +6474,34 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
       document.getElementById('exportModalOverlay').classList.remove('show');
   });
 
-  // 苦手項目書き出しボタン
+  // 苦手項目書き出しボタン（サイドバー／モバイル）
   document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
+  document.getElementById('exportWeakBtnMobile').addEventListener('click', openExportModal);
 
-  // 苦手項目インポートボタン
+  // 苦手項目インポートボタン（サイドバー／モバイル）
   document.getElementById('importWeakBtn').addEventListener('click', openImportModal);
+  document.getElementById('importWeakBtnMobile').addEventListener('click', openImportModal);
+
+  // 進捗全体エクスポート／インポートボタン（サイドバー／モバイル）
+  document.getElementById('exportFullBtn').addEventListener('click', openFullExportModal);
+  document.getElementById('exportFullBtnMobile').addEventListener('click', openFullExportModal);
+  document.getElementById('importFullBtn').addEventListener('click', openFullImportModal);
+  document.getElementById('importFullBtnMobile').addEventListener('click', openFullImportModal);
 
   // インポートモーダルの外側クリックで閉じる
   document.getElementById('importModalOverlay').addEventListener('click',(e)=>{
     if(e.target.id==='importModalOverlay')
       document.getElementById('importModalOverlay').classList.remove('show');
+  });
+
+  // 進捗全体モーダルの外側クリックで閉じる
+  document.getElementById('fullExportModalOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='fullExportModalOverlay')
+      document.getElementById('fullExportModalOverlay').classList.remove('show');
+  });
+  document.getElementById('fullImportModalOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='fullImportModalOverlay')
+      document.getElementById('fullImportModalOverlay').classList.remove('show');
   });
 })();
 </script>
