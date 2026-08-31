@@ -5721,6 +5721,24 @@ function renderDashboard(key){
   if(sBtn) sBtn.textContent=`${known}/${total}`;
 }
 
+/* インポート等でデータが一括変更された後に呼ぶ。
+   まだ一度も開いていない科目はパネル(DOM)が存在せず renderDashboard が
+   途中で処理を中断してしまうため、サイドバーの件数だけは
+   パネルの有無に関わらず必ず更新する。パネルが既に存在する科目は
+   ダッシュボードの中身もあわせて再描画する。 */
+function refreshAllModuleCounts(){
+  MODULE_META.forEach(meta=>{
+    const key=meta.key;
+    const FACTS=getFacts(key);
+    const known=FACTS.filter(f=>getStatus(key,f.id)==='known').length;
+    const sBtn=document.querySelector(`.mod-btn[data-key="${key}"] .mod-count`);
+    if(sBtn) sBtn.textContent=`${known}/${FACTS.length}`;
+    const tab=document.querySelector(`.topnav-tab[data-key="${key}"]`);
+    if(tab) tab.dataset.count=`${known}/${FACTS.length}`;
+    if(document.getElementById(`${key}-statGrid`)) renderDashboard(key);
+  });
+}
+
 /* ============================================================
    BROWSE
    ============================================================ */
@@ -6191,8 +6209,8 @@ function renderImportModal(box){
     box.querySelector('#importRunBtn').textContent = '閉じる';
     box.querySelector('#importRunBtn').onclick = ()=>{
       document.getElementById('importModalOverlay').classList.remove('show');
-      // 全科目のダッシュボードを更新
-      MODULE_META.forEach(m=>{ if(moduleState[m.key]) renderDashboard(m.key); });
+      // 全科目のダッシュボードとサイドバーの件数を更新（未訪問の科目も含む）
+      refreshAllModuleCounts();
     };
     box.querySelector('#importCancelBtn').style.display = 'none';
   });
@@ -6420,7 +6438,8 @@ function openFullImportModal(){
     box.querySelector('#fullImportRunBtn').textContent = '閉じる';
     box.querySelector('#fullImportRunBtn').onclick = ()=>{
       overlay.classList.remove('show');
-      MODULE_META.forEach(m=>{ if(moduleState[m.key]) renderDashboard(m.key); });
+      // 全科目のダッシュボードとサイドバーの件数を更新（未訪問の科目も含む）
+      refreshAllModuleCounts();
       switchModule(currentModule);
     };
     box.querySelector('#fullImportCancelBtn').style.display = 'none';
@@ -6472,6 +6491,7 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
   globalStatusMap={};
   globalWrongPool=[];
   persistProgress();
+  refreshAllModuleCounts();
   switchModule(currentModule);
 });
 
