@@ -135,6 +135,7 @@ body{
 
 /* MOBILE TOP NAV */
 .topnav{display:none;background:#fff;border-bottom:2px solid var(--line);position:sticky;top:0;z-index:100;}
+.topnav-sync-row{display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;}
 .topnav-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);}
 .topnav-head .app-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;}
 .topnav-head .logo-stamp{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--hanko);color:var(--hanko);font-size:8px;font-weight:900;font-family:'Shippori Mincho',serif;transform:rotate(-8deg);flex-shrink:0;}
@@ -335,6 +336,7 @@ html.mode-desktop .sheet-overlay{display:none !important;}
 /* ---- スマホ版 ---- */
 html.mode-mobile .sidebar{display:none;}
 html.mode-mobile .topnav{display:block;}
+html.mode-mobile .layout{flex-direction:column;} /* topnav/mainを縦積みにして幅いっぱいに広げる */
 html.mode-mobile .topnav-tabs{display:none;} /* 下部ナビに置き換えるため非表示 */
 html.mode-mobile .topnav-sync-row{display:none;} /* 「⋯」メニューに集約するため非表示 */
 html.mode-mobile{-webkit-text-size-adjust:100%;}
@@ -403,6 +405,7 @@ html.mode-mobile .bottom-nav{display:flex;}
 @media(max-width:660px){
   html:not(.mode-desktop) .sidebar{display:none;}
   html:not(.mode-desktop) .topnav{display:block;}
+  html:not(.mode-desktop) .layout{flex-direction:column;}
 }
 </style>
 </head>
@@ -439,7 +442,7 @@ html.mode-mobile .bottom-nav{display:flex;}
       </div>
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
-    <div class="topnav-sync-row" style="display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;">
+    <div class="topnav-sync-row">
       <button id="exportWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📋苦手を書き出す</button>
       <button id="importWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📥苦手を読込</button>
       <button id="exportFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を書き出す</button>
