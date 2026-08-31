@@ -6271,22 +6271,28 @@ function openFullExportModal(){
 
   const payload = buildFullSyncPayload();
   const json = JSON.stringify(payload);
+  const isLarge = json.length > 50000;
 
   box.innerHTML = `
     <h3>🔄 進捗全体の書き出し</h3>
     <p class="hint">
       苦手／分かった／未学習のステータス、間違えた問題の履歴、
       自作項目、連続正解数まで<strong>すべて</strong>を1つのデータとして書き出します。<br>
-      これをスマホ側の「進捗全体を読み込む」に貼り付ける（またはファイルを読み込む）と、
+      これを別の端末の「進捗全体を読み込む」に読み込ませると、
       問題数・正答数・苦手数が完全に一致するようになります。
     </p>
     <div class="export-count" style="white-space:pre-line;line-height:1.7;">${summarizeSyncCounts()}</div>
-    <textarea class="export-text" id="fullExportTextarea" readonly style="min-height:120px;font-size:10px;">${json}</textarea>
+    <div class="export-count">データサイズ: ${json.length.toLocaleString()}文字</div>
+    ${isLarge ? `<p style="font-size:11px;color:var(--hanko);line-height:1.7;">
+      ⚠️ データ量が多いため、コピー＆ペーストだと途中で切れて読み込みに失敗することがあります。<br>
+      <strong>「📥 ファイルで保存」→ 相手の端末で「ファイルを選択」</strong>する方法を強くおすすめします。
+    </p>` : ''}
     <div class="btn-row">
-      <button class="btn-primary" id="copyFullExportBtn">📋 コピーする</button>
-      <button class="btn-primary" id="dlFullExportBtn" style="background:var(--seal);">📥 ファイルで保存</button>
+      <button class="btn-primary" id="dlFullExportBtn" style="background:var(--seal);">📥 ファイルで保存（推奨）</button>
+      <button class="btn-secondary" id="copyFullExportBtn">📋 コピーする</button>
       <button class="btn-secondary" id="closeFullExportBtn">閉じる</button>
     </div>
+    <textarea class="export-text" id="fullExportTextarea" readonly style="min-height:100px;font-size:10px;margin-top:10px;">${json}</textarea>
     <p style="font-size:10.5px;color:var(--unseen);margin-top:8px;">
       ※ このデータには苦手項目だけでなく「分かった」「未学習」の状態も含まれます。<br>
       ※ 読み込む側の既存データは<strong>上書き</strong>されます（マージではありません）。最新の状態を書き出してから読み込んでください。
@@ -6294,18 +6300,25 @@ function openFullExportModal(){
   `;
 
   box.querySelector('#copyFullExportBtn').addEventListener('click',()=>{
-    const ta = box.querySelector('#fullExportTextarea');
-    ta.select();
     const btn = box.querySelector('#copyFullExportBtn');
-    try{
-      navigator.clipboard.writeText(ta.value).then(()=>{
-        btn.textContent='✓ コピーしました！';
-        setTimeout(()=>btn.textContent='📋 コピーする', 2000);
-      });
-    }catch(e){
-      document.execCommand('copy');
+    const done = ()=>{
       btn.textContent='✓ コピーしました！';
       setTimeout(()=>btn.textContent='📋 コピーする', 2000);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(json).then(done).catch(()=>{
+        const ta = box.querySelector('#fullExportTextarea');
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        done();
+      });
+    } else {
+      const ta = box.querySelector('#fullExportTextarea');
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      done();
     }
   });
 
@@ -6343,13 +6356,15 @@ function openFullImportModal(){
   box.innerHTML = `
     <h3>🔄 進捗全体の読み込み</h3>
     <p class="hint">
-      「進捗全体を書き出す」で出力したテキスト（またはファイルの中身）を貼り付けてください。<br>
       <strong>この端末の現在の進捗はすべて上書きされます。</strong>
     </p>
-    <label>データを貼り付ける</label>
-    <textarea id="fullImportTextarea" style="min-height:160px;font-size:10px;" placeholder='{"__type":"takken_quiz_full_sync", ...}'></textarea>
-    <label style="margin-top:12px;">またはファイルを選択</label>
+    <label>ファイルを選択（推奨）</label>
     <input type="file" id="fullImportFile" accept="application/json,.json,.txt">
+    <p style="font-size:10.5px;color:var(--unseen);margin:4px 0 0;">
+      「進捗全体を書き出す」で保存した .json ファイルを選んでください。コピー＆ペーストより確実です。
+    </p>
+    <label style="margin-top:14px;">またはテキストを貼り付ける</label>
+    <textarea id="fullImportTextarea" style="min-height:140px;font-size:10px;" placeholder='{"__type":"takken_quiz_full_sync", ...}'></textarea>
     <div id="fullImportStatusArea"></div>
     <div class="btn-row" style="margin-top:14px;">
       <button class="btn-primary" id="fullImportRunBtn">この内容で上書きする</button>
@@ -6378,12 +6393,21 @@ function openFullImportModal(){
       statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">データを貼り付けるかファイルを選択してください。</div>`;
       return;
     }
-    let payload;
-    try{
-      payload = JSON.parse(raw);
-    }catch(e){
-      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">⚠️ このテキストは正しい形式ではありません。「進捗全体を書き出す」で出力したものをそのまま貼り付けてください。</div>`;
+    const { payload, error, repaired } = parseFullSyncText(raw);
+    if(!payload){
+      statusArea.innerHTML = `
+        <div class="gen-status" style="color:var(--hanko);line-height:1.8;">
+          ⚠️ このテキストは正しい形式ではありません。<br>
+          文字数: ${raw.length.toLocaleString()}文字／末尾: "${raw.slice(-20).replace(/</g,'&lt;')}"<br>
+          エラー詳細: ${(error && error.message || '不明').replace(/</g,'&lt;')}<br><br>
+          スマホでの貼り付けは、長いデータだとコピーが途中で切れたり、
+          引用符が全角に変換されたりして壊れることがあります。<br>
+          <strong>「📥 ファイルで保存」→ スマホ側で「ファイルを選択」</strong>する方法が確実です。お試しください。
+        </div>`;
       return;
+    }
+    if(repaired){
+      statusArea.innerHTML = `<div class="gen-status" style="color:var(--gold);">貼り付けデータの引用符などを自動修復しました。内容を確認して進めます…</div>`;
     }
     if(!confirm('この端末の現在の進捗をすべて上書きします。よろしいですか？')) return;
     try{
@@ -6401,6 +6425,43 @@ function openFullImportModal(){
     };
     box.querySelector('#fullImportCancelBtn').style.display = 'none';
   });
+}
+
+/* 貼り付けデータを解析する。まず素直にJSON.parseし、失敗したら
+   スマホでの貼り付け・コピーでありがちな文字化け（スマート引用符、
+   コードフェンス、全角記号など）を自動修復してから再挑戦する。 */
+function parseFullSyncText(raw){
+  // 1. そのまま試す
+  try{
+    return { payload: JSON.parse(raw), error: null, repaired: false };
+  }catch(e1){
+    var firstError = e1;
+  }
+
+  // 2. よくある壊れ方を修復してから再挑戦
+  let cleaned = raw;
+  // 先頭のBOMを除去
+  cleaned = cleaned.replace(/^\uFEFF/, '');
+  // ```json ... ``` のようなコードフェンスを除去
+  cleaned = cleaned.replace(/^```[a-zA-Z]*\s*/,'').replace(/```\s*$/,'');
+  // スマート引用符（iOS等の自動変換）を通常の引用符に戻す
+  cleaned = cleaned
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2018\u2019]/g, "'");
+  // 全角の引用符・コロン・カンマ・波括弧が紛れ込んだ場合に戻す
+  cleaned = cleaned
+    .replace(/\uFF02/g, '"')
+    .replace(/\uFF1A/g, ':')
+    .replace(/\uFF0C/g, ',')
+    .replace(/\uFF5B/g, '{')
+    .replace(/\uFF5D/g, '}');
+  cleaned = cleaned.trim();
+
+  try{
+    return { payload: JSON.parse(cleaned), error: null, repaired: cleaned !== raw };
+  }catch(e2){
+    return { payload: null, error: firstError, repaired: false };
+  }
 }
 
 /* ============================================================
