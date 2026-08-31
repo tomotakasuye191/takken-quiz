@@ -2,8 +2,24 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
 <title>宅建 暗記道場 全科目</title>
+<script>
+/* 表示モード（PC版／スマホ版）を、CSSやレイアウトが描画される前に確定させる。
+   これにより「一瞬PC版が表示されてからスマホ版に切り替わる」ようなチラつきを防ぐ。
+   優先順位: 1) ユーザーが手動で選んだ設定（localStorage） 2) 画面幅による自動判定 */
+(function(){
+  try{
+    var saved = localStorage.getItem('display_mode'); // 'mobile' | 'desktop' | null(自動)
+    var isNarrow = window.matchMedia('(max-width:660px)').matches;
+    var mode = saved === 'mobile' || saved === 'desktop' ? saved : (isNarrow ? 'mobile' : 'desktop');
+    document.documentElement.classList.add('mode-' + mode);
+    document.documentElement.dataset.displayModeSaved = saved || 'auto';
+  }catch(e){
+    document.documentElement.classList.add('mode-desktop');
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -289,12 +305,104 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .empty-msg{background:#fff;border:1px dashed var(--line);border-radius:4px;padding:20px;text-align:center;color:var(--ink-soft);font-size:13px;}
 footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:center;}
 
+/* ============================================================
+   表示モード切替（PC版 ⇔ スマホ版）
+   html要素に mode-mobile / mode-desktop のどちらかのクラスが付く。
+   ============================================================ */
+.mode-toggle{
+  display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink-soft);
+  background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:3px;
+  flex-wrap:wrap;
+}
+.sidebar-head .mode-toggle{background:var(--paper);}
+.sidebar-head .mode-toggle button{font-size:9.5px;padding:4px 7px;}
+.mode-toggle button{
+  font-family:inherit;font-size:10.5px;font-weight:700;border:none;background:none;
+  color:var(--ink-soft);padding:5px 10px;border-radius:16px;cursor:pointer;
+}
+.mode-toggle button.active{background:var(--ink);color:var(--paper);}
+
+/* ---- PC版を強制（狭い画面でも横スクロールでPCレイアウトを維持） ---- */
+html.mode-desktop .sidebar{display:flex !important;}
+html.mode-desktop .topnav{display:none !important;}
+html.mode-desktop .bottom-nav,
+html.mode-desktop .sheet-overlay{display:none !important;}
+@media(max-width:900px){
+  html.mode-desktop body{overflow-x:auto;}
+  html.mode-desktop .layout{min-width:900px;}
+}
+
+/* ---- スマホ版 ---- */
+html.mode-mobile .sidebar{display:none;}
+html.mode-mobile .topnav{display:block;}
+html.mode-mobile .topnav-tabs{display:none;} /* 下部ナビに置き換えるため非表示 */
+html.mode-mobile .topnav-sync-row{display:none;} /* 「⋯」メニューに集約するため非表示 */
+html.mode-mobile{-webkit-text-size-adjust:100%;}
+html.mode-mobile *{touch-action:manipulation;} /* ダブルタップズーム等の誤操作を抑制 */
+html.mode-mobile .module-panel{padding:14px 14px 90px;} /* 下部ナビ分の余白 */
+html.mode-mobile .stat-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+html.mode-mobile .stat-card{padding:14px 10px;}
+html.mode-mobile .stat-card .num{font-size:22px;}
+html.mode-mobile .launch-card{padding:16px 14px;}
+html.mode-mobile .launch-card .lc-title{font-size:14px;}
+html.mode-mobile .stamp-btn{width:78px;height:78px;font-size:28px;}
+html.mode-mobile .stamp-btn.wakaranai{padding:11px 18px;font-size:13px;}
+html.mode-mobile .answer-buttons{gap:14px;}
+html.mode-mobile .question-card{padding:22px 16px;}
+html.mode-mobile .question-card .stmt{font-size:16.5px;}
+html.mode-mobile .btn-primary,
+html.mode-mobile .btn-secondary{padding:12px 20px;font-size:13.5px;}
+html.mode-mobile .sidebar-footer button{font-size:11px;padding:4px 0;}
+
+/* ---- 下部固定ナビ（科目切り替え：親指で押しやすい位置） ---- */
+.bottom-nav{
+  display:none;position:fixed;left:0;right:0;bottom:0;z-index:150;
+  background:#fff;border-top:2px solid var(--line);
+  padding-bottom:env(safe-area-inset-bottom,0);
+}
+html.mode-mobile .bottom-nav{display:flex;}
+.bottom-nav-inner{display:flex;width:100%;}
+.bn-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:8px 2px 7px;background:none;border:none;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;color:var(--ink-soft);min-height:56px;
+}
+.bn-btn.active{color:var(--ink);}
+.bn-stamp{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;
+  font-size:8px;font-weight:900;font-family:'Shippori Mincho',serif;opacity:.75;
+}
+.bn-btn.active .bn-stamp{opacity:1;}
+.bn-label{font-size:9.5px;font-weight:700;}
+.bn-count{font-size:8px;color:var(--unseen);}
+.bn-menu-btn{flex:0 0 56px;}
+
+/* ---- 「⋯」メニュー（ボトムシート）：同期・書き出し・リセット操作 ---- */
+.sheet-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1200;
+}
+.sheet-overlay.show{display:block;}
+.bottom-sheet{
+  position:absolute;left:0;right:0;bottom:0;background:var(--paper);
+  border-radius:16px 16px 0 0;border-top:2px solid var(--ink);
+  padding:10px 16px calc(18px + env(safe-area-inset-bottom,0));
+  max-height:80vh;overflow-y:auto;
+}
+.sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:6px auto 14px;}
+.sheet-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;margin-bottom:10px;}
+.sheet-item{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:14px 6px;background:none;border:none;border-bottom:1px solid var(--line);
+  font-family:inherit;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;
+}
+.sheet-item:last-child{border-bottom:none;}
+.sheet-item .si-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
+.sheet-item.danger{color:var(--hanko);}
+
 @media(max-width:660px){
-  .sidebar{display:none;}
-  .topnav{display:block;}
-  .module-panel{padding:14px 12px;}
-  .stamp-btn{width:72px;height:72px;font-size:26px;}
-  .stamp-btn.wakaranai{padding:8px 14px;font-size:12px;}
+  html:not(.mode-desktop) .sidebar{display:none;}
+  html:not(.mode-desktop) .topnav{display:block;}
 }
 </style>
 </head>
@@ -306,7 +414,10 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
     <div class="sidebar-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場</div>
       <div class="app-sub">全科目版</div>
-    
+      <div class="mode-toggle" id="modeToggleDesktop" style="margin-top:10px;">
+        <button data-mode="desktop">🖥 PC版</button>
+        <button data-mode="mobile">📱 スマホ版</button>
+      </div>
     </div>
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
@@ -322,10 +433,13 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   <nav class="topnav">
     <div class="topnav-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
-      
+      <div class="mode-toggle" id="modeToggleMobile">
+        <button data-mode="desktop">🖥 PC版</button>
+        <button data-mode="mobile">📱 スマホ版</button>
+      </div>
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
-    <div style="display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;">
+    <div class="topnav-sync-row" style="display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;">
       <button id="exportWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📋苦手を書き出す</button>
       <button id="importWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📥苦手を読込</button>
       <button id="exportFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を書き出す</button>
@@ -335,6 +449,25 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
 
   <!-- MAIN -->
   <main class="main" id="mainArea"></main>
+</div>
+
+<!-- BOTTOM NAV（スマホ版：科目切り替え＋メニュー） -->
+<nav class="bottom-nav" id="bottomNav">
+  <div class="bottom-nav-inner" id="bottomNavInner"></div>
+</nav>
+
+<!-- BOTTOM SHEET（スマホ版：同期・書き出し・リセットのメニュー） -->
+<div class="sheet-overlay" id="sheetOverlay">
+  <div class="bottom-sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">メニュー</div>
+    <button class="sheet-item" id="sheetExportWeak"><span class="si-icon">📋</span>苦手項目を書き出す</button>
+    <button class="sheet-item" id="sheetImportWeak"><span class="si-icon">📥</span>苦手項目をインポート</button>
+    <button class="sheet-item" id="sheetExportFull"><span class="si-icon">🔄</span>進捗全体を書き出す</button>
+    <button class="sheet-item" id="sheetImportFull"><span class="si-icon">🔄</span>進捗全体を読み込む</button>
+    <button class="sheet-item" id="sheetSwitchDesktop"><span class="si-icon">🖥</span>PC版で表示</button>
+    <button class="sheet-item danger" id="sheetResetAll"><span class="si-icon">🗑</span>全科目の進捗をリセット</button>
+  </div>
 </div>
 
 <!-- EDIT/ADD FACT MODAL -->
@@ -5397,6 +5530,7 @@ function switchModule(key){
     else b.style.borderLeftColor='transparent';
   });
   document.querySelectorAll('.topnav-tab').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
+  document.querySelectorAll('.bn-btn[data-key]').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
   document.querySelectorAll('.module-panel').forEach(p=>p.classList.toggle('active',p.dataset.key===key));
   const tab=document.querySelector(`.topnav-tab[data-key="${key}"]`);
   if(tab) tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
@@ -5716,9 +5850,11 @@ function renderDashboard(key){
     prog.appendChild(row);
   });
 
-  // Update sidebar count
+  // Update sidebar count / bottom nav count
   const sBtn=document.querySelector(`.mod-btn[data-key="${key}"] .mod-count`);
   if(sBtn) sBtn.textContent=`${known}/${total}`;
+  const bnCount=document.querySelector(`.bn-btn[data-key="${key}"] .bn-count`);
+  if(bnCount) bnCount.textContent=`${known}/${total}`;
 }
 
 /* インポート等でデータが一括変更された後に呼ぶ。
@@ -5735,6 +5871,8 @@ function refreshAllModuleCounts(){
     if(sBtn) sBtn.textContent=`${known}/${FACTS.length}`;
     const tab=document.querySelector(`.topnav-tab[data-key="${key}"]`);
     if(tab) tab.dataset.count=`${known}/${FACTS.length}`;
+    const bnCount=document.querySelector(`.bn-btn[data-key="${key}"] .bn-count`);
+    if(bnCount) bnCount.textContent=`${known}/${FACTS.length}`;
     if(document.getElementById(`${key}-statGrid`)) renderDashboard(key);
   });
 }
@@ -6486,14 +6624,45 @@ function parseFullSyncText(raw){
 /* ============================================================
    GLOBAL RESET
    ============================================================ */
-document.getElementById('resetAllBtn').addEventListener('click',()=>{
+function resetAllProgress(){
   if(!confirm('全科目の進捗をリセットします。よろしいですか？')) return;
   globalStatusMap={};
   globalWrongPool=[];
   persistProgress();
   refreshAllModuleCounts();
   switchModule(currentModule);
-});
+}
+document.getElementById('resetAllBtn').addEventListener('click', resetAllProgress);
+
+/* ============================================================
+   表示モード切替（PC版 ⇔ スマホ版）
+   ============================================================ */
+function applyModeToggleUI(){
+  const saved = localStorage.getItem('display_mode');
+  const mode = document.documentElement.classList.contains('mode-mobile') ? 'mobile' : 'desktop';
+  document.querySelectorAll('.mode-toggle button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.mode===mode);
+  });
+}
+function setDisplayMode(mode){
+  // mode: 'mobile' | 'desktop'
+  try{ localStorage.setItem('display_mode', mode); }catch(e){}
+  document.documentElement.classList.remove('mode-mobile','mode-desktop');
+  document.documentElement.classList.add('mode-'+mode);
+  applyModeToggleUI();
+  // モード切替直後は科目タブや下部ナビの表示状態が変わるため、現在の科目を再描画
+  switchModule(currentModule);
+}
+
+/* ============================================================
+   ボトムシート（スマホ版メニュー）
+   ============================================================ */
+function openSheetMenu(){
+  document.getElementById('sheetOverlay').classList.add('show');
+}
+function closeSheetMenu(){
+  document.getElementById('sheetOverlay').classList.remove('show');
+}
 
 /* ============================================================
    INIT
@@ -6504,6 +6673,7 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
   const mainArea=document.getElementById('mainArea');
   const sidebarModules=document.getElementById('sidebarModules');
   const topnavTabs=document.getElementById('topnavTabs');
+  const bottomNavInner=document.getElementById('bottomNavInner');
 
   // パネルが構築済みかどうかのフラグ
   const panelBuilt={};
@@ -6540,7 +6710,24 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
       switchModule(key);
     });
     topnavTabs.appendChild(tab);
+
+    // 下部固定ナビ（スマホ版：親指で押しやすい科目切り替え）
+    const bn=document.createElement('button');
+    bn.className='bn-btn';bn.dataset.key=key;
+    bn.innerHTML=`<span class="bn-stamp" style="border-color:${meta.color};color:${meta.color}">${meta.stamp}</span><span class="bn-label">${meta.label}</span><span class="bn-count">${known}/${FACTS.length}</span>`;
+    bn.addEventListener('click',()=>{
+      ensurePanel(key);
+      switchModule(key);
+    });
+    bottomNavInner.appendChild(bn);
   }
+
+  // 下部ナビ：メニュー（⋯）ボタン
+  const bnMenu=document.createElement('button');
+  bnMenu.className='bn-btn bn-menu-btn';
+  bnMenu.innerHTML=`<span class="bn-stamp">⋯</span><span class="bn-label">メニュー</span>`;
+  bnMenu.addEventListener('click', openSheetMenu);
+  bottomNavInner.appendChild(bnMenu);
 
   // 最初の科目（宅建業法）だけ即時構築して表示
   ensurePanel('takken');
@@ -6584,6 +6771,23 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
     if(e.target.id==='fullImportModalOverlay')
       document.getElementById('fullImportModalOverlay').classList.remove('show');
   });
+
+  // 表示モード切替ボタン（PC版／スマホ版）
+  applyModeToggleUI();
+  document.querySelectorAll('.mode-toggle button').forEach(b=>{
+    b.addEventListener('click', ()=> setDisplayMode(b.dataset.mode));
+  });
+
+  // ボトムシート（スマホ版メニュー）の外側クリックで閉じる
+  document.getElementById('sheetOverlay').addEventListener('click',(e)=>{
+    if(e.target.id==='sheetOverlay') closeSheetMenu();
+  });
+  document.getElementById('sheetExportWeak').addEventListener('click', ()=>{ closeSheetMenu(); openExportModal(); });
+  document.getElementById('sheetImportWeak').addEventListener('click', ()=>{ closeSheetMenu(); openImportModal(); });
+  document.getElementById('sheetExportFull').addEventListener('click', ()=>{ closeSheetMenu(); openFullExportModal(); });
+  document.getElementById('sheetImportFull').addEventListener('click', ()=>{ closeSheetMenu(); openFullImportModal(); });
+  document.getElementById('sheetSwitchDesktop').addEventListener('click', ()=>{ closeSheetMenu(); setDisplayMode('desktop'); });
+  document.getElementById('sheetResetAll').addEventListener('click', ()=>{ closeSheetMenu(); resetAllProgress(); });
 })();
 </script>
 </body>
