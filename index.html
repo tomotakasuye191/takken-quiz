@@ -310,17 +310,31 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   .stamp-btn{width:72px;height:72px;font-size:26px;}
   .stamp-btn.wakaranai{padding:8px 14px;font-size:12px;}
 }
-/* UI切り替え強制クラス */
+/* ── UI切り替え強制クラス ── */
+/* スマホUI強制 */
 body.force-mobile .sidebar{display:none!important;}
 body.force-mobile .topnav{display:block!important;}
+body.force-mobile .layout{display:block!important;}
+body.force-mobile .main{width:100%!important;padding-bottom:80px;}
+body.force-mobile .module-panel{padding:14px 12px!important;}
+body.force-mobile .stamp-btn{width:72px!important;height:72px!important;font-size:26px!important;}
+body.force-mobile .stamp-btn.wakaranai{padding:8px 14px!important;font-size:12px!important;}
+/* PC UI強制（スマホ幅でも） */
 body.force-pc .sidebar{display:flex!important;}
 body.force-pc .topnav{display:none!important;}
-/* レイアウト切り替えボタン */
+body.force-pc .layout{display:flex!important;}
+/* レイアウト切り替えボタン（サイドバー内） */
 #layoutToggleBtn{
   margin-top:8px;font-size:10px;color:var(--ink-soft);background:none;border:1px solid var(--line);
-  border-radius:4px;padding:3px 8px;cursor:pointer;font-family:inherit;display:block;width:100%;text-align:left;
+  border-radius:4px;padding:4px 8px;cursor:pointer;font-family:inherit;display:block;width:100%;text-align:left;
 }
-#layoutToggleBtn:hover{background:var(--bg-warm);}
+#layoutToggleBtn:hover{background:var(--paper-deep);}
+/* レイアウト切り替えボタン（トップナビ内）*/
+#layoutToggleBtnMobile{
+  font-size:11px;background:#fff;border:1px solid var(--line);border-radius:20px;
+  padding:4px 10px;cursor:pointer;font-family:inherit;color:var(--ink-soft);white-space:nowrap;flex-shrink:0;
+}
+#layoutToggleBtnMobile:hover{background:var(--paper-deep);}
 </style>
 </head>
 <body>
@@ -347,7 +361,7 @@ body.force-pc .topnav{display:none!important;}
   <nav class="topnav">
     <div class="topnav-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
-      <button id="layoutToggleBtnMobile" style="font-size:10px;background:none;border:1px solid var(--line);border-radius:4px;padding:3px 7px;cursor:pointer;font-family:inherit;color:var(--ink-soft);white-space:nowrap;">🖥 PC表示</button>
+      <button id="layoutToggleBtnMobile">🖥 PC表示</button>
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
   </nav>
@@ -6354,41 +6368,51 @@ function doImport(rawText){
    ============================================================ */
 (function(){
   const LAYOUT_KEY = 'quiz_layout_mode';
-  // 保存済みのモードを復元
-  const saved = localStorage.getItem(LAYOUT_KEY);
-  if(saved === 'mobile') document.body.classList.add('force-mobile');
-  else if(saved === 'pc') document.body.classList.add('force-pc');
+  const MOBILE_BP = 660; // px
 
-  function setLayout(mode){
-    document.body.classList.remove('force-mobile','force-pc');
-    if(mode === 'mobile'){
-      document.body.classList.add('force-mobile');
-      localStorage.setItem(LAYOUT_KEY, 'mobile');
+  function isNarrow(){ return window.innerWidth <= MOBILE_BP; }
+
+  // 現在の実効モードを返す（'mobile' or 'pc'）
+  function effectiveMode(){
+    const saved = localStorage.getItem(LAYOUT_KEY);
+    if(isNarrow()){
+      // スマホ幅では saved='pc' のときだけPC強制、それ以外はスマホ
+      return saved === 'pc' ? 'pc' : 'mobile';
     } else {
-      document.body.classList.add('force-pc');
-      localStorage.setItem(LAYOUT_KEY, 'pc');
+      // PC幅では saved='mobile' のときだけスマホ強制、それ以外はPC
+      return saved === 'mobile' ? 'mobile' : 'pc';
     }
-    updateBtnLabels();
   }
 
-  function updateBtnLabels(){
-    const isMobile = document.body.classList.contains('force-mobile');
-    const pcBtn = document.getElementById('layoutToggleBtn');
+  function applyLayout(){
+    const mode = effectiveMode();
+    document.body.classList.remove('force-mobile','force-pc');
+    document.body.classList.add(mode === 'mobile' ? 'force-mobile' : 'force-pc');
+    updateBtnLabels(mode);
+  }
+
+  function updateBtnLabels(mode){
+    const pcBtn     = document.getElementById('layoutToggleBtn');
     const mobileBtn = document.getElementById('layoutToggleBtnMobile');
-    if(pcBtn) pcBtn.textContent = isMobile ? '🖥 PC表示に切り替え' : '📱 スマホ表示に切り替え';
-    if(mobileBtn) mobileBtn.textContent = isMobile ? '🖥 PC表示' : '📱 スマホ表示';
+    if(pcBtn)     pcBtn.textContent     = mode === 'mobile' ? '🖥 PC表示に切り替え'    : '📱 スマホ表示に切り替え';
+    if(mobileBtn) mobileBtn.textContent = mode === 'mobile' ? '🖥 PC表示に切り替える' : '📱 スマホ表示に切り替える';
   }
 
-  document.getElementById('layoutToggleBtn').addEventListener('click',()=>{
-    const isMobile = document.body.classList.contains('force-mobile');
-    setLayout(isMobile ? 'pc' : 'mobile');
-  });
-  document.getElementById('layoutToggleBtnMobile').addEventListener('click',()=>{
-    const isMobile = document.body.classList.contains('force-mobile');
-    setLayout(isMobile ? 'pc' : 'mobile');
-  });
+  function toggleLayout(){
+    const cur = effectiveMode();
+    const next = cur === 'mobile' ? 'pc' : 'mobile';
+    localStorage.setItem(LAYOUT_KEY, next);
+    applyLayout();
+  }
 
-  updateBtnLabels();
+  document.getElementById('layoutToggleBtn').addEventListener('click', toggleLayout);
+  document.getElementById('layoutToggleBtnMobile').addEventListener('click', toggleLayout);
+
+  // ウィンドウリサイズ時も再適用
+  window.addEventListener('resize', applyLayout);
+
+  // 初回適用
+  applyLayout();
 })();
 
 /* ============================================================
