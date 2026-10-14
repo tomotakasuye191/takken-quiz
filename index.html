@@ -351,6 +351,7 @@ body.force-pc .layout{display:flex!important;}
     <div class="sidebar-footer">
       <button id="exportProgressBtn">📤 進捗を書き出す</button>
       <button id="importProgressBtn">📥 進捗を取り込む</button>
+      <button id="exportStarBtn">★ 直前チェック項目を書き出す</button>
       <button id="exportWeakBtn">📋 苦手項目を書き出す</button>
       <button id="importWeakBtn">📥 苦手項目をインポート</button>
       <button id="resetAllBtn">全科目の進捗をリセット</button>
@@ -6108,6 +6109,49 @@ function countWeak(filterKey){
 }
 
 /* ============================================================
+   ★直前チェック項目 テキスト書き出し
+   ============================================================ */
+function exportStarItems(){
+  const lines = [];
+  let total = 0;
+
+  MODULE_META.forEach(meta => {
+    const key = meta.key;
+    const FACTS = getFacts(key);
+    const starred = FACTS.filter(f => getStar(key, f.id));
+    if(starred.length === 0) return;
+
+    lines.push(`◆ ${meta.label}`);
+    lines.push('');
+    starred.forEach((f, i) => {
+      lines.push(`${i+1}. ${f.front}`);
+      if(f.back) lines.push(`   → ${f.back}`);
+      lines.push('');
+    });
+    total += starred.length;
+  });
+
+  if(total === 0){
+    alert('★直前チェックに登録された項目がありません。\nクイズや項目一覧で★ボタンを押して追加してください。');
+    return;
+  }
+
+  const header = `◎ 宅建 暗記道場 — 直前チェックリスト\n作成日: ${new Date().toLocaleDateString('ja-JP')}\n全${total}項目\n${'─'.repeat(30)}\n\n`;
+  const text = header + lines.join('\n');
+
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+  a.href     = url;
+  a.download = `takken_star_${dateStr}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+
+/* ============================================================
    全進捗エクスポート / インポート
    ============================================================ */
 function openProgressExportModal(){
@@ -6489,6 +6533,9 @@ document.getElementById('resetAllBtn').addEventListener('click',()=>{
   // 全進捗書き出し・取り込みボタン
   document.getElementById('exportProgressBtn').addEventListener('click', openProgressExportModal);
   document.getElementById('importProgressBtn').addEventListener('click', openProgressImportModal);
+
+  // ★直前チェック項目書き出しボタン
+  document.getElementById('exportStarBtn').addEventListener('click', exportStarItems);
 
   // 苦手項目書き出しボタン
   document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
