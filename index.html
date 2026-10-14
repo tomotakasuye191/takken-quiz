@@ -2,24 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>宅建 暗記道場 全科目</title>
-<script>
-/* 表示モード（PC版／スマホ版）を、CSSやレイアウトが描画される前に確定させる。
-   これにより「一瞬PC版が表示されてからスマホ版に切り替わる」ようなチラつきを防ぐ。
-   優先順位: 1) ユーザーが手動で選んだ設定（localStorage） 2) 画面幅による自動判定 */
-(function(){
-  try{
-    var saved = localStorage.getItem('display_mode'); // 'mobile' | 'desktop' | null(自動)
-    var isNarrow = window.matchMedia('(max-width:660px)').matches;
-    var mode = saved === 'mobile' || saved === 'desktop' ? saved : (isNarrow ? 'mobile' : 'desktop');
-    document.documentElement.classList.add('mode-' + mode);
-    document.documentElement.dataset.displayModeSaved = saved || 'auto';
-  }catch(e){
-    document.documentElement.classList.add('mode-desktop');
-  }
-})();
-</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -135,7 +119,6 @@ body{
 
 /* MOBILE TOP NAV */
 .topnav{display:none;background:#fff;border-bottom:2px solid var(--line);position:sticky;top:0;z-index:100;}
-.topnav-sync-row{display:flex;gap:6px;padding:6px 12px;border-top:1px solid var(--line);flex-wrap:wrap;}
 .topnav-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-bottom:1px solid var(--line);}
 .topnav-head .app-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px;}
 .topnav-head .logo-stamp{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:2px solid var(--hanko);color:var(--hanko);font-size:8px;font-weight:900;font-family:'Shippori Mincho',serif;transform:rotate(-8deg);flex-shrink:0;}
@@ -203,6 +186,18 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .status-btn.sel-unseen{border-color:var(--unseen);background:var(--unseen);color:#fff;}
 .status-btn.edit-btn{border-color:var(--gold);color:var(--gold);}
 .status-btn.edit-btn:hover{background:var(--gold);color:#fff;}
+/* ★ 星マークボタン */
+.star-btn{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;border:1.5px solid #c8a200;background:#fff;cursor:pointer;color:#c8a200;font-family:inherit;transition:.1s;white-space:nowrap;}
+.star-btn.starred{background:#ffd700;border-color:#b8920a;color:#5a4600;}
+.star-btn:hover{background:#fff8d0;}
+.star-btn.starred:hover{background:#ffc800;}
+/* クイズ画面の星ボタン行 */
+.quiz-star-row{margin:8px 0;display:flex;justify-content:center;}
+.star-btn.quiz-star{font-size:12px;padding:5px 14px;}
+/* ダッシュボードの直前チェックカード */
+.launch-card-star{border-color:#c8a200!important;background:#fffbe6!important;}
+.launch-card-star:hover:not(:disabled){border-color:#b8920a!important;box-shadow:2px 2px 0 #ffd700!important;}
+.launch-card-star .lc-title{color:#7a5c00;}
 
 /* EDIT/ADD FACT MODAL */
 .edit-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1100;align-items:center;justify-content:center;padding:16px;}
@@ -306,106 +301,12 @@ details.chapter-block summary .ch-tally{font-size:10px;font-weight:400;color:var
 .empty-msg{background:#fff;border:1px dashed var(--line);border-radius:4px;padding:20px;text-align:center;color:var(--ink-soft);font-size:13px;}
 footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:center;}
 
-/* ============================================================
-   表示モード切替（PC版 ⇔ スマホ版）
-   html要素に mode-mobile / mode-desktop のどちらかのクラスが付く。
-   ============================================================ */
-.mode-toggle{
-  display:flex;align-items:center;gap:6px;font-size:10.5px;color:var(--ink-soft);
-  background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:3px;
-  flex-wrap:wrap;
-}
-.sidebar-head .mode-toggle{background:var(--paper);}
-.sidebar-head .mode-toggle button{font-size:9.5px;padding:4px 7px;}
-.mode-toggle button{
-  font-family:inherit;font-size:10.5px;font-weight:700;border:none;background:none;
-  color:var(--ink-soft);padding:5px 10px;border-radius:16px;cursor:pointer;
-}
-.mode-toggle button.active{background:var(--ink);color:var(--paper);}
-
-/* ---- PC版を強制（狭い画面でも横スクロールでPCレイアウトを維持） ---- */
-html.mode-desktop .sidebar{display:flex !important;}
-html.mode-desktop .topnav{display:none !important;}
-html.mode-desktop .bottom-nav,
-html.mode-desktop .sheet-overlay{display:none !important;}
-@media(max-width:900px){
-  html.mode-desktop body{overflow-x:auto;}
-  html.mode-desktop .layout{min-width:900px;}
-}
-
-/* ---- スマホ版 ---- */
-html.mode-mobile .sidebar{display:none;}
-html.mode-mobile .topnav{display:block;}
-html.mode-mobile .layout{flex-direction:column;} /* topnav/mainを縦積みにして幅いっぱいに広げる */
-html.mode-mobile .topnav-tabs{display:none;} /* 下部ナビに置き換えるため非表示 */
-html.mode-mobile .topnav-sync-row{display:none;} /* 「⋯」メニューに集約するため非表示 */
-html.mode-mobile{-webkit-text-size-adjust:100%;}
-html.mode-mobile *{touch-action:manipulation;} /* ダブルタップズーム等の誤操作を抑制 */
-html.mode-mobile .module-panel{padding:14px 14px 90px;} /* 下部ナビ分の余白 */
-html.mode-mobile .stat-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
-html.mode-mobile .stat-card{padding:14px 10px;}
-html.mode-mobile .stat-card .num{font-size:22px;}
-html.mode-mobile .launch-card{padding:16px 14px;}
-html.mode-mobile .launch-card .lc-title{font-size:14px;}
-html.mode-mobile .stamp-btn{width:78px;height:78px;font-size:28px;}
-html.mode-mobile .stamp-btn.wakaranai{padding:11px 18px;font-size:13px;}
-html.mode-mobile .answer-buttons{gap:14px;}
-html.mode-mobile .question-card{padding:22px 16px;}
-html.mode-mobile .question-card .stmt{font-size:16.5px;}
-html.mode-mobile .btn-primary,
-html.mode-mobile .btn-secondary{padding:12px 20px;font-size:13.5px;}
-html.mode-mobile .sidebar-footer button{font-size:11px;padding:4px 0;}
-
-/* ---- 下部固定ナビ（科目切り替え：親指で押しやすい位置） ---- */
-.bottom-nav{
-  display:none;position:fixed;left:0;right:0;bottom:0;z-index:150;
-  background:#fff;border-top:2px solid var(--line);
-  padding-bottom:env(safe-area-inset-bottom,0);
-}
-html.mode-mobile .bottom-nav{display:flex;}
-.bottom-nav-inner{display:flex;width:100%;}
-.bn-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;padding:8px 2px 7px;background:none;border:none;cursor:pointer;
-  font-family:'Noto Sans JP',sans-serif;color:var(--ink-soft);min-height:56px;
-}
-.bn-btn.active{color:var(--ink);}
-.bn-stamp{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;
-  font-size:8px;font-weight:900;font-family:'Shippori Mincho',serif;opacity:.75;
-}
-.bn-btn.active .bn-stamp{opacity:1;}
-.bn-label{font-size:9.5px;font-weight:700;}
-.bn-count{font-size:8px;color:var(--unseen);}
-.bn-menu-btn{flex:0 0 56px;}
-
-/* ---- 「⋯」メニュー（ボトムシート）：同期・書き出し・リセット操作 ---- */
-.sheet-overlay{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1200;
-}
-.sheet-overlay.show{display:block;}
-.bottom-sheet{
-  position:absolute;left:0;right:0;bottom:0;background:var(--paper);
-  border-radius:16px 16px 0 0;border-top:2px solid var(--ink);
-  padding:10px 16px calc(18px + env(safe-area-inset-bottom,0));
-  max-height:80vh;overflow-y:auto;
-}
-.sheet-handle{width:36px;height:4px;background:var(--line);border-radius:2px;margin:6px auto 14px;}
-.sheet-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;margin-bottom:10px;}
-.sheet-item{
-  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
-  padding:14px 6px;background:none;border:none;border-bottom:1px solid var(--line);
-  font-family:inherit;font-size:13.5px;font-weight:700;color:var(--ink);cursor:pointer;
-}
-.sheet-item:last-child{border-bottom:none;}
-.sheet-item .si-icon{font-size:18px;width:24px;text-align:center;flex-shrink:0;}
-.sheet-item.danger{color:var(--hanko);}
-
 @media(max-width:660px){
-  html:not(.mode-desktop) .sidebar{display:none;}
-  html:not(.mode-desktop) .topnav{display:block;}
-  html:not(.mode-desktop) .layout{flex-direction:column;}
+  .sidebar{display:none;}
+  .topnav{display:block;}
+  .module-panel{padding:14px 12px;}
+  .stamp-btn{width:72px;height:72px;font-size:26px;}
+  .stamp-btn.wakaranai{padding:8px 14px;font-size:12px;}
 }
 </style>
 </head>
@@ -417,17 +318,12 @@ html.mode-mobile .bottom-nav{display:flex;}
     <div class="sidebar-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場</div>
       <div class="app-sub">全科目版</div>
-      <div class="mode-toggle" id="modeToggleDesktop" style="margin-top:10px;">
-        <button data-mode="desktop">🖥 PC版</button>
-        <button data-mode="mobile">📱 スマホ版</button>
-      </div>
+    
     </div>
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
       <button id="exportWeakBtn">📋 苦手項目を書き出す</button>
       <button id="importWeakBtn">📥 苦手項目をインポート</button>
-      <button id="exportFullBtn">🔄 進捗全体を書き出す</button>
-      <button id="importFullBtn">🔄 進捗全体を読み込む</button>
       <button id="resetAllBtn">全科目の進捗をリセット</button>
     </div>
   </aside>
@@ -436,41 +332,13 @@ html.mode-mobile .bottom-nav{display:flex;}
   <nav class="topnav">
     <div class="topnav-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
-      <div class="mode-toggle" id="modeToggleMobile">
-        <button data-mode="desktop">🖥 PC版</button>
-        <button data-mode="mobile">📱 スマホ版</button>
-      </div>
+      
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
-    <div class="topnav-sync-row">
-      <button id="exportWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📋苦手を書き出す</button>
-      <button id="importWeakBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">📥苦手を読込</button>
-      <button id="exportFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を書き出す</button>
-      <button id="importFullBtnMobile" class="btn-secondary" style="font-size:10px;padding:5px 9px;">🔄全体を読込</button>
-    </div>
   </nav>
 
   <!-- MAIN -->
   <main class="main" id="mainArea"></main>
-</div>
-
-<!-- BOTTOM NAV（スマホ版：科目切り替え＋メニュー） -->
-<nav class="bottom-nav" id="bottomNav">
-  <div class="bottom-nav-inner" id="bottomNavInner"></div>
-</nav>
-
-<!-- BOTTOM SHEET（スマホ版：同期・書き出し・リセットのメニュー） -->
-<div class="sheet-overlay" id="sheetOverlay">
-  <div class="bottom-sheet">
-    <div class="sheet-handle"></div>
-    <div class="sheet-title">メニュー</div>
-    <button class="sheet-item" id="sheetExportWeak"><span class="si-icon">📋</span>苦手項目を書き出す</button>
-    <button class="sheet-item" id="sheetImportWeak"><span class="si-icon">📥</span>苦手項目をインポート</button>
-    <button class="sheet-item" id="sheetExportFull"><span class="si-icon">🔄</span>進捗全体を書き出す</button>
-    <button class="sheet-item" id="sheetImportFull"><span class="si-icon">🔄</span>進捗全体を読み込む</button>
-    <button class="sheet-item" id="sheetSwitchDesktop"><span class="si-icon">🖥</span>PC版で表示</button>
-    <button class="sheet-item danger" id="sheetResetAll"><span class="si-icon">🗑</span>全科目の進捗をリセット</button>
-  </div>
 </div>
 
 <!-- EDIT/ADD FACT MODAL -->
@@ -486,16 +354,6 @@ html.mode-mobile .bottom-nav{display:flex;}
 <!-- IMPORT MODAL -->
 <div class="edit-modal-overlay" id="importModalOverlay">
   <div class="edit-modal" id="importModalBox" style="max-width:560px;"></div>
-</div>
-
-<!-- FULL EXPORT MODAL -->
-<div class="edit-modal-overlay" id="fullExportModalOverlay">
-  <div class="edit-modal" id="fullExportModalBox" style="max-width:600px;"></div>
-</div>
-
-<!-- FULL IMPORT MODAL -->
-<div class="edit-modal-overlay" id="fullImportModalOverlay">
-  <div class="edit-modal" id="fullImportModalBox" style="max-width:600px;"></div>
 </div>
 
 <script>
@@ -5416,6 +5274,7 @@ const ALL_MODULES = {
    ============================================================ */
 let globalStatusMap = {};
 let globalWrongPool = [];
+let globalStarMap = {}; // {moduleKey:factId: true}
 
 const moduleState = {}; // key -> {currentQuiz, lastResults, currentView}
 function initModuleState(key){
@@ -5471,6 +5330,7 @@ function saveLocal(){
     localStorage.setItem('quiz_wrong_pool', JSON.stringify(globalWrongPool));
     localStorage.setItem('quiz_custom_store', JSON.stringify(customStore));
     localStorage.setItem('quiz_streak_map', JSON.stringify(correctStreakMap));
+    localStorage.setItem('quiz_star_map', JSON.stringify(globalStarMap));
   }catch(e){}
 }
 function loadLocal(){
@@ -5479,11 +5339,20 @@ function loadLocal(){
     const wp = localStorage.getItem('quiz_wrong_pool');
     const cs = localStorage.getItem('quiz_custom_store');
     const sk = localStorage.getItem('quiz_streak_map');
+    const st = localStorage.getItem('quiz_star_map');
     if(sm) globalStatusMap = JSON.parse(sm);
     if(wp) globalWrongPool = JSON.parse(wp);
     if(cs) customStore = JSON.parse(cs);
     if(sk) correctStreakMap = JSON.parse(sk);
+    if(st) globalStarMap = JSON.parse(st);
   }catch(e){}
+}
+
+function getStar(key, factId){ return !!globalStarMap[key+':'+factId]; }
+function setStar(key, factId, val){
+  const k = key+':'+factId;
+  if(val) globalStarMap[k]=true;
+  else delete globalStarMap[k];
 }
 
 function persistProgress(){
@@ -5533,7 +5402,6 @@ function switchModule(key){
     else b.style.borderLeftColor='transparent';
   });
   document.querySelectorAll('.topnav-tab').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
-  document.querySelectorAll('.bn-btn[data-key]').forEach(b=>b.classList.toggle('active',b.dataset.key===key));
   document.querySelectorAll('.module-panel').forEach(p=>p.classList.toggle('active',p.dataset.key===key));
   const tab=document.querySelector(`.topnav-tab[data-key="${key}"]`);
   if(tab) tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
@@ -5812,6 +5680,7 @@ function renderDashboard(key){
   const myWrong=globalWrongPool.filter(w=>w.moduleKey===key);
   const weakPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
   const unseenPool=FACTS.filter(f=>getStatus(key,f.id)==='unseen');
+  const starPool=FACTS.filter(f=>getStar(key,f.id));
   const launchGrid=document.getElementById(`${key}-launchGrid`);
   launchGrid.innerHTML='';
   [
@@ -5819,14 +5688,15 @@ function renderDashboard(key){
     {mode:'weak',   title:'「苦手」な項目だけ', desc:'苦手マークの項目を重点的に出題',   pool:weakPool},
     {mode:'unseen', title:'「未学習」の項目だけ',desc:'未分類の項目から出題',             pool:unseenPool},
     {mode:'review', title:'間違えた問題だけ復習',desc:'過去に間違えた・分からなかった問題', pool:myWrong},
+    {mode:'star',   title:'★ 直前チェック',    desc:'星マークをつけた項目だけ出題',       pool:starPool, star:true},
   ].forEach(c=>{
     const btn=document.createElement('button');
-    btn.className='launch-card';
+    btn.className='launch-card'+(c.star?' launch-card-star':'');
     const cnt=c.mode==='review'?myWrong.length:Math.min(20,c.pool.length*2||0);
     btn.disabled=(c.mode==='review'?myWrong.length:c.pool.length)===0;
     btn.innerHTML=`
-      <div class="lc-title">${c.title}<span class="lc-count">${cnt}問</span></div>
-      <div class="lc-desc">${c.desc}${c.mode!=='review'&&c.pool.length>0?`（対象${c.pool.length}項目）`:''}</div>
+      <div class="lc-title">${c.title}<span class="lc-count">${c.mode==='review'?myWrong.length:c.pool.length}項目</span></div>
+      <div class="lc-desc">${c.desc}${c.mode!=='review'&&c.mode!=='star'&&c.pool.length>0?`（対象${c.pool.length}項目）`:''}</div>
     `;
     btn.addEventListener('click',()=>startQuiz(key,c.mode));
     launchGrid.appendChild(btn);
@@ -5853,31 +5723,9 @@ function renderDashboard(key){
     prog.appendChild(row);
   });
 
-  // Update sidebar count / bottom nav count
+  // Update sidebar count
   const sBtn=document.querySelector(`.mod-btn[data-key="${key}"] .mod-count`);
   if(sBtn) sBtn.textContent=`${known}/${total}`;
-  const bnCount=document.querySelector(`.bn-btn[data-key="${key}"] .bn-count`);
-  if(bnCount) bnCount.textContent=`${known}/${total}`;
-}
-
-/* インポート等でデータが一括変更された後に呼ぶ。
-   まだ一度も開いていない科目はパネル(DOM)が存在せず renderDashboard が
-   途中で処理を中断してしまうため、サイドバーの件数だけは
-   パネルの有無に関わらず必ず更新する。パネルが既に存在する科目は
-   ダッシュボードの中身もあわせて再描画する。 */
-function refreshAllModuleCounts(){
-  MODULE_META.forEach(meta=>{
-    const key=meta.key;
-    const FACTS=getFacts(key);
-    const known=FACTS.filter(f=>getStatus(key,f.id)==='known').length;
-    const sBtn=document.querySelector(`.mod-btn[data-key="${key}"] .mod-count`);
-    if(sBtn) sBtn.textContent=`${known}/${FACTS.length}`;
-    const tab=document.querySelector(`.topnav-tab[data-key="${key}"]`);
-    if(tab) tab.dataset.count=`${known}/${FACTS.length}`;
-    const bnCount=document.querySelector(`.bn-btn[data-key="${key}"] .bn-count`);
-    if(bnCount) bnCount.textContent=`${known}/${FACTS.length}`;
-    if(document.getElementById(`${key}-statGrid`)) renderDashboard(key);
-  });
 }
 
 /* ============================================================
@@ -5935,21 +5783,31 @@ function renderBrowse(key){
 
 function buildFactRow(key, f){
   const s=getStatus(key,f.id);
+  const starred=getStar(key,f.id);
   const row=document.createElement('div');
   row.className='fact-row';
   row.innerHTML=`
     <div class="fact-text">${f.text}</div>
     <div class="fact-controls">
+      <button class="star-btn ${starred?'starred':''}" data-action="star" title="試験直前チェックに追加">${starred?'★':'☆'}</button>
       <button class="status-btn ${s==='weak'?'sel-weak':''}" data-action="weak">苦手</button>
       <button class="status-btn ${s==='known'?'sel-known':''}" data-action="known">分かった</button>
       <button class="status-btn ${s==='unseen'?'sel-unseen':''}" data-action="unseen">未学習に戻す</button>
       <button class="status-btn edit-btn" data-action="edit">✏️ 編集</button>
     </div>
   `;
-  row.querySelectorAll('.status-btn').forEach(btn=>{
+  row.querySelectorAll('.status-btn, .star-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
       if(btn.dataset.action==='edit'){
         openEditFactModal(key, f);
+        return;
+      }
+      if(btn.dataset.action==='star'){
+        const nowStarred=getStar(key,f.id);
+        setStar(key,f.id,!nowStarred);
+        btn.textContent=!nowStarred?'★':'☆';
+        btn.classList.toggle('starred',!nowStarred);
+        persistProgressDebounced();
         return;
       }
       setStatus(key,f.id,btn.dataset.action);
@@ -5996,6 +5854,7 @@ function startQuiz(key, mode){
   if(mode==='all')      factsPool=FACTS;
   else if(mode==='weak')  factsPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
   else if(mode==='unseen')factsPool=FACTS.filter(f=>getStatus(key,f.id)==='unseen');
+  else if(mode==='star')  factsPool=FACTS.filter(f=>getStar(key,f.id));
 
   if(!factsPool||!factsPool.length){alert('対象となる項目がありません。');showView(key,'dashboard');return;}
   questions=generateQuiz(key,factsPool,Math.min(20,factsPool.length*2));
@@ -6048,11 +5907,22 @@ function answer(key, userAnswer, isSkip){
     bannerText=`不正解…　正しい答えは「${q.isTrue?'○':'×'}」`;
   }
 
+  const starredNow = getStar(key, q.factId);
   document.getElementById(`${key}-feedbackArea`).innerHTML=`
     <div class="result-banner ${bannerClass}">${bannerText}</div>
     <div class="explanation-box"><div class="src">${q.ch}</div>${q.explanation}</div>
+    <div class="quiz-star-row">
+      <button class="star-btn quiz-star ${starredNow?'starred':''}" id="${key}-quizStarBtn">${starredNow?'★ 直前チェック済み':'☆ 直前チェックに追加'}</button>
+    </div>
     <button class="btn-primary" id="${key}-nextBtn">${index+1<questions.length?'次の問題へ':'結果を見る'}</button>
   `;
+  document.getElementById(`${key}-quizStarBtn`).addEventListener('click', function(){
+    const ns = getStar(key, q.factId);
+    setStar(key, q.factId, !ns);
+    this.textContent = !ns ? '★ 直前チェック済み' : '☆ 直前チェックに追加';
+    this.classList.toggle('starred', !ns);
+    persistProgressDebounced();
+  });
   document.getElementById(`${key}-nextBtn`).addEventListener('click',()=>nextQuestion(key));
 }
 
@@ -6350,8 +6220,8 @@ function renderImportModal(box){
     box.querySelector('#importRunBtn').textContent = '閉じる';
     box.querySelector('#importRunBtn').onclick = ()=>{
       document.getElementById('importModalOverlay').classList.remove('show');
-      // 全科目のダッシュボードとサイドバーの件数を更新（未訪問の科目も含む）
-      refreshAllModuleCounts();
+      // 全科目のダッシュボードを更新
+      MODULE_META.forEach(m=>{ if(moduleState[m.key]) renderDashboard(m.key); });
     };
     box.querySelector('#importCancelBtn').style.display = 'none';
   });
@@ -6391,281 +6261,15 @@ function doImport(rawText){
 }
 
 /* ============================================================
-   FULL PROGRESS SYNC — 苦手だけでなく全ステータス・自作項目・
-   間違えた問題・連続正解数までまるごとJSONでやり取りする機能。
-   これを使えば、PCとスマホの「問題数・正答数・苦手数」が
-   常に一致するようになる。
-   ============================================================ */
-const FULL_SYNC_VERSION = 1;
-
-function buildFullSyncPayload(){
-  return {
-    __type: 'takken_quiz_full_sync',
-    version: FULL_SYNC_VERSION,
-    exportedAt: new Date().toISOString(),
-    statusMap: globalStatusMap,
-    wrongPool: globalWrongPool,
-    customStore: customStore,
-    streakMap: correctStreakMap
-  };
-}
-
-function summarizeSyncCounts(){
-  // エクスポート画面に「今の状態」を出すためのサマリー
-  const lines = [];
-  MODULE_META.forEach(meta=>{
-    const FACTS = getFacts(meta.key);
-    const weak = FACTS.filter(f=>getStatus(meta.key,f.id)==='weak').length;
-    const known = FACTS.filter(f=>getStatus(meta.key,f.id)==='known').length;
-    const unseen = FACTS.length - weak - known;
-    lines.push(`${meta.label}：全${FACTS.length}項目（分かった${known}／苦手${weak}／未学習${unseen}）`);
-  });
-  return lines.join('\n');
-}
-
-function openFullExportModal(){
-  const overlay = document.getElementById('fullExportModalOverlay');
-  const box = document.getElementById('fullExportModalBox');
-  overlay.classList.add('show');
-
-  const payload = buildFullSyncPayload();
-  const json = JSON.stringify(payload);
-  const isLarge = json.length > 50000;
-
-  box.innerHTML = `
-    <h3>🔄 進捗全体の書き出し</h3>
-    <p class="hint">
-      苦手／分かった／未学習のステータス、間違えた問題の履歴、
-      自作項目、連続正解数まで<strong>すべて</strong>を1つのデータとして書き出します。<br>
-      これを別の端末の「進捗全体を読み込む」に読み込ませると、
-      問題数・正答数・苦手数が完全に一致するようになります。
-    </p>
-    <div class="export-count" style="white-space:pre-line;line-height:1.7;">${summarizeSyncCounts()}</div>
-    <div class="export-count">データサイズ: ${json.length.toLocaleString()}文字</div>
-    ${isLarge ? `<p style="font-size:11px;color:var(--hanko);line-height:1.7;">
-      ⚠️ データ量が多いため、コピー＆ペーストだと途中で切れて読み込みに失敗することがあります。<br>
-      <strong>「📥 ファイルで保存」→ 相手の端末で「ファイルを選択」</strong>する方法を強くおすすめします。
-    </p>` : ''}
-    <div class="btn-row">
-      <button class="btn-primary" id="dlFullExportBtn" style="background:var(--seal);">📥 ファイルで保存（推奨）</button>
-      <button class="btn-secondary" id="copyFullExportBtn">📋 コピーする</button>
-      <button class="btn-secondary" id="closeFullExportBtn">閉じる</button>
-    </div>
-    <textarea class="export-text" id="fullExportTextarea" readonly style="min-height:100px;font-size:10px;margin-top:10px;">${json}</textarea>
-    <p style="font-size:10.5px;color:var(--unseen);margin-top:8px;">
-      ※ このデータには苦手項目だけでなく「分かった」「未学習」の状態も含まれます。<br>
-      ※ 読み込む側の既存データは<strong>上書き</strong>されます（マージではありません）。最新の状態を書き出してから読み込んでください。
-    </p>
-  `;
-
-  box.querySelector('#copyFullExportBtn').addEventListener('click',()=>{
-    const btn = box.querySelector('#copyFullExportBtn');
-    const done = ()=>{
-      btn.textContent='✓ コピーしました！';
-      setTimeout(()=>btn.textContent='📋 コピーする', 2000);
-    };
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(json).then(done).catch(()=>{
-        const ta = box.querySelector('#fullExportTextarea');
-        ta.focus();
-        ta.select();
-        document.execCommand('copy');
-        done();
-      });
-    } else {
-      const ta = box.querySelector('#fullExportTextarea');
-      ta.focus();
-      ta.select();
-      document.execCommand('copy');
-      done();
-    }
-  });
-
-  box.querySelector('#dlFullExportBtn').addEventListener('click',()=>{
-    const blob = new Blob([json], {type:'application/json;charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = '宅建暗記道場_進捗全体_' + new Date().toLocaleDateString('ja-JP').replace(/\//g,'-') + '.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  });
-
-  box.querySelector('#closeFullExportBtn').addEventListener('click',()=>{
-    overlay.classList.remove('show');
-  });
-}
-
-function applyFullSyncPayload(payload){
-  if(!payload || payload.__type !== 'takken_quiz_full_sync'){
-    throw new Error('invalid');
-  }
-  globalStatusMap = payload.statusMap || {};
-  globalWrongPool = payload.wrongPool || [];
-  customStore = payload.customStore || {};
-  correctStreakMap = payload.streakMap || {};
-  persistProgress();
-}
-
-function openFullImportModal(){
-  const overlay = document.getElementById('fullImportModalOverlay');
-  const box = document.getElementById('fullImportModalBox');
-  overlay.classList.add('show');
-
-  box.innerHTML = `
-    <h3>🔄 進捗全体の読み込み</h3>
-    <p class="hint">
-      <strong>この端末の現在の進捗はすべて上書きされます。</strong>
-    </p>
-    <label>ファイルを選択（推奨）</label>
-    <input type="file" id="fullImportFile" accept="application/json,.json,.txt">
-    <p style="font-size:10.5px;color:var(--unseen);margin:4px 0 0;">
-      「進捗全体を書き出す」で保存した .json ファイルを選んでください。コピー＆ペーストより確実です。
-    </p>
-    <label style="margin-top:14px;">またはテキストを貼り付ける</label>
-    <textarea id="fullImportTextarea" style="min-height:140px;font-size:10px;" placeholder='{"__type":"takken_quiz_full_sync", ...}'></textarea>
-    <div id="fullImportStatusArea"></div>
-    <div class="btn-row" style="margin-top:14px;">
-      <button class="btn-primary" id="fullImportRunBtn">この内容で上書きする</button>
-      <button class="btn-secondary" id="fullImportCancelBtn">キャンセル</button>
-    </div>
-  `;
-
-  box.querySelector('#fullImportFile').addEventListener('change',(e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      box.querySelector('#fullImportTextarea').value = reader.result;
-    };
-    reader.readAsText(file);
-  });
-
-  box.querySelector('#fullImportCancelBtn').addEventListener('click',()=>{
-    overlay.classList.remove('show');
-  });
-
-  box.querySelector('#fullImportRunBtn').addEventListener('click',()=>{
-    const raw = box.querySelector('#fullImportTextarea').value.trim();
-    const statusArea = box.querySelector('#fullImportStatusArea');
-    if(!raw){
-      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">データを貼り付けるかファイルを選択してください。</div>`;
-      return;
-    }
-    const { payload, error, repaired } = parseFullSyncText(raw);
-    if(!payload){
-      statusArea.innerHTML = `
-        <div class="gen-status" style="color:var(--hanko);line-height:1.8;">
-          ⚠️ このテキストは正しい形式ではありません。<br>
-          文字数: ${raw.length.toLocaleString()}文字／末尾: "${raw.slice(-20).replace(/</g,'&lt;')}"<br>
-          エラー詳細: ${(error && error.message || '不明').replace(/</g,'&lt;')}<br><br>
-          スマホでの貼り付けは、長いデータだとコピーが途中で切れたり、
-          引用符が全角に変換されたりして壊れることがあります。<br>
-          <strong>「📥 ファイルで保存」→ スマホ側で「ファイルを選択」</strong>する方法が確実です。お試しください。
-        </div>`;
-      return;
-    }
-    if(repaired){
-      statusArea.innerHTML = `<div class="gen-status" style="color:var(--gold);">貼り付けデータの引用符などを自動修復しました。内容を確認して進めます…</div>`;
-    }
-    if(!confirm('この端末の現在の進捗をすべて上書きします。よろしいですか？')) return;
-    try{
-      applyFullSyncPayload(payload);
-    }catch(e){
-      statusArea.innerHTML = `<div class="gen-status" style="color:var(--hanko);">⚠️ 読み込みに失敗しました。データの形式を確認してください。</div>`;
-      return;
-    }
-    statusArea.innerHTML = `<div class="gen-status" style="color:var(--seal);white-space:pre-line;line-height:1.8;">✓ 読み込みが完了しました。\n${summarizeSyncCounts()}</div>`;
-    box.querySelector('#fullImportRunBtn').textContent = '閉じる';
-    box.querySelector('#fullImportRunBtn').onclick = ()=>{
-      overlay.classList.remove('show');
-      // 全科目のダッシュボードとサイドバーの件数を更新（未訪問の科目も含む）
-      refreshAllModuleCounts();
-      switchModule(currentModule);
-    };
-    box.querySelector('#fullImportCancelBtn').style.display = 'none';
-  });
-}
-
-/* 貼り付けデータを解析する。まず素直にJSON.parseし、失敗したら
-   スマホでの貼り付け・コピーでありがちな文字化け（スマート引用符、
-   コードフェンス、全角記号など）を自動修復してから再挑戦する。 */
-function parseFullSyncText(raw){
-  // 1. そのまま試す
-  try{
-    return { payload: JSON.parse(raw), error: null, repaired: false };
-  }catch(e1){
-    var firstError = e1;
-  }
-
-  // 2. よくある壊れ方を修復してから再挑戦
-  let cleaned = raw;
-  // 先頭のBOMを除去
-  cleaned = cleaned.replace(/^\uFEFF/, '');
-  // ```json ... ``` のようなコードフェンスを除去
-  cleaned = cleaned.replace(/^```[a-zA-Z]*\s*/,'').replace(/```\s*$/,'');
-  // スマート引用符（iOS等の自動変換）を通常の引用符に戻す
-  cleaned = cleaned
-    .replace(/[\u201C\u201D]/g, '"')
-    .replace(/[\u2018\u2019]/g, "'");
-  // 全角の引用符・コロン・カンマ・波括弧が紛れ込んだ場合に戻す
-  cleaned = cleaned
-    .replace(/\uFF02/g, '"')
-    .replace(/\uFF1A/g, ':')
-    .replace(/\uFF0C/g, ',')
-    .replace(/\uFF5B/g, '{')
-    .replace(/\uFF5D/g, '}');
-  cleaned = cleaned.trim();
-
-  try{
-    return { payload: JSON.parse(cleaned), error: null, repaired: cleaned !== raw };
-  }catch(e2){
-    return { payload: null, error: firstError, repaired: false };
-  }
-}
-
-/* ============================================================
    GLOBAL RESET
    ============================================================ */
-function resetAllProgress(){
+document.getElementById('resetAllBtn').addEventListener('click',()=>{
   if(!confirm('全科目の進捗をリセットします。よろしいですか？')) return;
   globalStatusMap={};
   globalWrongPool=[];
   persistProgress();
-  refreshAllModuleCounts();
   switchModule(currentModule);
-}
-document.getElementById('resetAllBtn').addEventListener('click', resetAllProgress);
-
-/* ============================================================
-   表示モード切替（PC版 ⇔ スマホ版）
-   ============================================================ */
-function applyModeToggleUI(){
-  const saved = localStorage.getItem('display_mode');
-  const mode = document.documentElement.classList.contains('mode-mobile') ? 'mobile' : 'desktop';
-  document.querySelectorAll('.mode-toggle button').forEach(b=>{
-    b.classList.toggle('active', b.dataset.mode===mode);
-  });
-}
-function setDisplayMode(mode){
-  // mode: 'mobile' | 'desktop'
-  try{ localStorage.setItem('display_mode', mode); }catch(e){}
-  document.documentElement.classList.remove('mode-mobile','mode-desktop');
-  document.documentElement.classList.add('mode-'+mode);
-  applyModeToggleUI();
-  // モード切替直後は科目タブや下部ナビの表示状態が変わるため、現在の科目を再描画
-  switchModule(currentModule);
-}
-
-/* ============================================================
-   ボトムシート（スマホ版メニュー）
-   ============================================================ */
-function openSheetMenu(){
-  document.getElementById('sheetOverlay').classList.add('show');
-}
-function closeSheetMenu(){
-  document.getElementById('sheetOverlay').classList.remove('show');
-}
+});
 
 /* ============================================================
    INIT
@@ -6676,7 +6280,6 @@ function closeSheetMenu(){
   const mainArea=document.getElementById('mainArea');
   const sidebarModules=document.getElementById('sidebarModules');
   const topnavTabs=document.getElementById('topnavTabs');
-  const bottomNavInner=document.getElementById('bottomNavInner');
 
   // パネルが構築済みかどうかのフラグ
   const panelBuilt={};
@@ -6713,24 +6316,7 @@ function closeSheetMenu(){
       switchModule(key);
     });
     topnavTabs.appendChild(tab);
-
-    // 下部固定ナビ（スマホ版：親指で押しやすい科目切り替え）
-    const bn=document.createElement('button');
-    bn.className='bn-btn';bn.dataset.key=key;
-    bn.innerHTML=`<span class="bn-stamp" style="border-color:${meta.color};color:${meta.color}">${meta.stamp}</span><span class="bn-label">${meta.label}</span><span class="bn-count">${known}/${FACTS.length}</span>`;
-    bn.addEventListener('click',()=>{
-      ensurePanel(key);
-      switchModule(key);
-    });
-    bottomNavInner.appendChild(bn);
   }
-
-  // 下部ナビ：メニュー（⋯）ボタン
-  const bnMenu=document.createElement('button');
-  bnMenu.className='bn-btn bn-menu-btn';
-  bnMenu.innerHTML=`<span class="bn-stamp">⋯</span><span class="bn-label">メニュー</span>`;
-  bnMenu.addEventListener('click', openSheetMenu);
-  bottomNavInner.appendChild(bnMenu);
 
   // 最初の科目（宅建業法）だけ即時構築して表示
   ensurePanel('takken');
@@ -6745,52 +6331,17 @@ function closeSheetMenu(){
       document.getElementById('exportModalOverlay').classList.remove('show');
   });
 
-  // 苦手項目書き出しボタン（サイドバー／モバイル）
+  // 苦手項目書き出しボタン
   document.getElementById('exportWeakBtn').addEventListener('click', openExportModal);
-  document.getElementById('exportWeakBtnMobile').addEventListener('click', openExportModal);
 
-  // 苦手項目インポートボタン（サイドバー／モバイル）
+  // 苦手項目インポートボタン
   document.getElementById('importWeakBtn').addEventListener('click', openImportModal);
-  document.getElementById('importWeakBtnMobile').addEventListener('click', openImportModal);
-
-  // 進捗全体エクスポート／インポートボタン（サイドバー／モバイル）
-  document.getElementById('exportFullBtn').addEventListener('click', openFullExportModal);
-  document.getElementById('exportFullBtnMobile').addEventListener('click', openFullExportModal);
-  document.getElementById('importFullBtn').addEventListener('click', openFullImportModal);
-  document.getElementById('importFullBtnMobile').addEventListener('click', openFullImportModal);
 
   // インポートモーダルの外側クリックで閉じる
   document.getElementById('importModalOverlay').addEventListener('click',(e)=>{
     if(e.target.id==='importModalOverlay')
       document.getElementById('importModalOverlay').classList.remove('show');
   });
-
-  // 進捗全体モーダルの外側クリックで閉じる
-  document.getElementById('fullExportModalOverlay').addEventListener('click',(e)=>{
-    if(e.target.id==='fullExportModalOverlay')
-      document.getElementById('fullExportModalOverlay').classList.remove('show');
-  });
-  document.getElementById('fullImportModalOverlay').addEventListener('click',(e)=>{
-    if(e.target.id==='fullImportModalOverlay')
-      document.getElementById('fullImportModalOverlay').classList.remove('show');
-  });
-
-  // 表示モード切替ボタン（PC版／スマホ版）
-  applyModeToggleUI();
-  document.querySelectorAll('.mode-toggle button').forEach(b=>{
-    b.addEventListener('click', ()=> setDisplayMode(b.dataset.mode));
-  });
-
-  // ボトムシート（スマホ版メニュー）の外側クリックで閉じる
-  document.getElementById('sheetOverlay').addEventListener('click',(e)=>{
-    if(e.target.id==='sheetOverlay') closeSheetMenu();
-  });
-  document.getElementById('sheetExportWeak').addEventListener('click', ()=>{ closeSheetMenu(); openExportModal(); });
-  document.getElementById('sheetImportWeak').addEventListener('click', ()=>{ closeSheetMenu(); openImportModal(); });
-  document.getElementById('sheetExportFull').addEventListener('click', ()=>{ closeSheetMenu(); openFullExportModal(); });
-  document.getElementById('sheetImportFull').addEventListener('click', ()=>{ closeSheetMenu(); openFullImportModal(); });
-  document.getElementById('sheetSwitchDesktop').addEventListener('click', ()=>{ closeSheetMenu(); setDisplayMode('desktop'); });
-  document.getElementById('sheetResetAll').addEventListener('click', ()=>{ closeSheetMenu(); resetAllProgress(); });
 })();
 </script>
 </body>
