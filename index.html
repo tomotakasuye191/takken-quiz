@@ -6089,86 +6089,60 @@ function openProgressExportModal(){
   const data = {
     version: 1,
     exportedAt: new Date().toISOString(),
-    quiz_status_map: JSON.parse(localStorage.getItem('quiz_status_map')||'{}'),
-    quiz_wrong_pool: JSON.parse(localStorage.getItem('quiz_wrong_pool')||'{}'),
-    quiz_streak_map: JSON.parse(localStorage.getItem('quiz_streak_map')||'{}'),
-    quiz_star_map:   JSON.parse(localStorage.getItem('quiz_star_map')||'{}'),
+    quiz_status_map:   JSON.parse(localStorage.getItem('quiz_status_map')||'{}'),
+    quiz_wrong_pool:   JSON.parse(localStorage.getItem('quiz_wrong_pool')||'{}'),
+    quiz_streak_map:   JSON.parse(localStorage.getItem('quiz_streak_map')||'{}'),
+    quiz_star_map:     JSON.parse(localStorage.getItem('quiz_star_map')||'{}'),
     quiz_custom_store: JSON.parse(localStorage.getItem('quiz_custom_store')||'{}'),
   };
-  const json = JSON.stringify(data, null, 2);
-
-  // モーダルが既にあれば再利用
-  let overlay = document.getElementById('progressExportOverlay');
-  if(!overlay){
-    overlay = document.createElement('div');
-    overlay.id = 'progressExportOverlay';
-    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;display:flex;align-items:center;justify-content:center;';
-    overlay.innerHTML=`
-      <div style="background:#fff;border-radius:10px;padding:24px;width:min(92vw,480px);max-height:80vh;display:flex;flex-direction:column;gap:12px;">
-        <h3 style="margin:0;font-size:16px;">📤 進捗を書き出す</h3>
-        <p style="margin:0;font-size:13px;color:#555;">以下のテキストをコピーして保存してください。スマホ等でインポートに使えます。</p>
-        <textarea id="progressExportText" readonly style="flex:1;min-height:200px;font-size:11px;font-family:monospace;border:1px solid #ccc;border-radius:6px;padding:8px;resize:vertical;"></textarea>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <button id="progressExportCopyBtn" style="padding:8px 18px;background:#d4a000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">📋 コピー</button>
-          <button id="progressExportCloseBtn" style="padding:8px 18px;background:#eee;border:none;border-radius:6px;cursor:pointer;font-size:13px;">閉じる</button>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-    document.getElementById('progressExportCopyBtn').addEventListener('click',()=>{
-      const ta = document.getElementById('progressExportText');
-      ta.select(); ta.setSelectionRange(0,99999);
-      navigator.clipboard.writeText(ta.value).then(()=>{
-        document.getElementById('progressExportCopyBtn').textContent='✅ コピーしました';
-        setTimeout(()=>{ document.getElementById('progressExportCopyBtn').textContent='📋 コピー'; },2000);
-      }).catch(()=>{ document.execCommand('copy'); });
-    });
-    document.getElementById('progressExportCloseBtn').addEventListener('click',()=>{ overlay.style.display='none'; });
-    overlay.addEventListener('click',(e)=>{ if(e.target===overlay) overlay.style.display='none'; });
-  }
-  document.getElementById('progressExportText').value = json;
-  overlay.style.display='flex';
+  const json = JSON.stringify(data);
+  // ファイルダウンロード
+  const blob = new Blob([json], {type:'application/json'});
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  const dateStr = new Date().toISOString().slice(0,10).replace(/-/g,'');
+  a.href     = url;
+  a.download = `takken_progress_${dateStr}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
 }
 
 function openProgressImportModal(){
-  let overlay = document.getElementById('progressImportOverlay');
-  if(!overlay){
-    overlay = document.createElement('div');
-    overlay.id = 'progressImportOverlay';
-    overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9000;display:flex;align-items:center;justify-content:center;';
-    overlay.innerHTML=`
-      <div style="background:#fff;border-radius:10px;padding:24px;width:min(92vw,480px);max-height:80vh;display:flex;flex-direction:column;gap:12px;">
-        <h3 style="margin:0;font-size:16px;">📥 進捗を取り込む</h3>
-        <p style="margin:0;font-size:13px;color:#555;">「進捗を書き出す」でコピーしたテキストを貼り付けてください。<br><strong style="color:#c00;">現在の進捗は上書きされます。</strong></p>
-        <textarea id="progressImportText" placeholder="ここにペーストしてください…" style="flex:1;min-height:200px;font-size:11px;font-family:monospace;border:1px solid #ccc;border-radius:6px;padding:8px;resize:vertical;"></textarea>
-        <div style="display:flex;gap:8px;justify-content:flex-end;">
-          <button id="progressImportDoBtn" style="padding:8px 18px;background:#d4a000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;">✅ 取り込む</button>
-          <button id="progressImportCloseBtn" style="padding:8px 18px;background:#eee;border:none;border-radius:6px;cursor:pointer;font-size:13px;">キャンセル</button>
-        </div>
-      </div>`;
-    document.body.appendChild(overlay);
-    document.getElementById('progressImportDoBtn').addEventListener('click',()=>{
-      const raw = document.getElementById('progressImportText').value.trim();
-      try{
-        const data = JSON.parse(raw);
-        if(!data.version) throw new Error('invalid');
-        if(data.quiz_status_map)  localStorage.setItem('quiz_status_map',  JSON.stringify(data.quiz_status_map));
-        if(data.quiz_wrong_pool)  localStorage.setItem('quiz_wrong_pool',  JSON.stringify(data.quiz_wrong_pool));
-        if(data.quiz_streak_map)  localStorage.setItem('quiz_streak_map',  JSON.stringify(data.quiz_streak_map));
-        if(data.quiz_star_map)    localStorage.setItem('quiz_star_map',    JSON.stringify(data.quiz_star_map));
-        if(data.quiz_custom_store) localStorage.setItem('quiz_custom_store', JSON.stringify(data.quiz_custom_store));
-        loadLocal();
-        overlay.style.display='none';
-        alert('✅ 進捗を取り込みました。ページを再描画します。');
-        location.reload();
-      }catch(e){
-        alert('❌ データが正しくありません。書き出したテキストをそのまま貼り付けてください。');
-      }
+  // ファイル選択インプット（非表示）
+  let fileInput = document.getElementById('progressImportFileInput');
+  if(!fileInput){
+    fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.id   = 'progressImportFileInput';
+    fileInput.accept = '.json,.txt';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+    fileInput.addEventListener('change', ()=>{
+      const file = fileInput.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (e)=>{
+        try{
+          const data = JSON.parse(e.target.result);
+          if(!data.version) throw new Error('invalid');
+          if(data.quiz_status_map)   localStorage.setItem('quiz_status_map',   JSON.stringify(data.quiz_status_map));
+          if(data.quiz_wrong_pool)   localStorage.setItem('quiz_wrong_pool',   JSON.stringify(data.quiz_wrong_pool));
+          if(data.quiz_streak_map)   localStorage.setItem('quiz_streak_map',   JSON.stringify(data.quiz_streak_map));
+          if(data.quiz_star_map)     localStorage.setItem('quiz_star_map',     JSON.stringify(data.quiz_star_map));
+          if(data.quiz_custom_store) localStorage.setItem('quiz_custom_store', JSON.stringify(data.quiz_custom_store));
+          alert('✅ 進捗を取り込みました。ページを再読み込みします。');
+          location.reload();
+        }catch(err){
+          alert('❌ ファイルが正しくありません。「進捗を書き出す」で保存したJSONファイルを選んでください。');
+        }
+        fileInput.value='';
+      };
+      reader.readAsText(file, 'utf-8');
     });
-    document.getElementById('progressImportCloseBtn').addEventListener('click',()=>{ overlay.style.display='none'; });
-    overlay.addEventListener('click',(e)=>{ if(e.target===overlay) overlay.style.display='none'; });
   }
-  document.getElementById('progressImportText').value='';
-  overlay.style.display='flex';
+  fileInput.click();
 }
 
 function openExportModal(){
