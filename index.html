@@ -310,6 +310,17 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   .stamp-btn{width:72px;height:72px;font-size:26px;}
   .stamp-btn.wakaranai{padding:8px 14px;font-size:12px;}
 }
+/* UI切り替え強制クラス */
+body.force-mobile .sidebar{display:none!important;}
+body.force-mobile .topnav{display:block!important;}
+body.force-pc .sidebar{display:flex!important;}
+body.force-pc .topnav{display:none!important;}
+/* レイアウト切り替えボタン */
+#layoutToggleBtn{
+  margin-top:8px;font-size:10px;color:var(--ink-soft);background:none;border:1px solid var(--line);
+  border-radius:4px;padding:3px 8px;cursor:pointer;font-family:inherit;display:block;width:100%;text-align:left;
+}
+#layoutToggleBtn:hover{background:var(--bg-warm);}
 </style>
 </head>
 <body>
@@ -320,7 +331,7 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
     <div class="sidebar-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場</div>
       <div class="app-sub">全科目版</div>
-    
+      <button id="layoutToggleBtn">📱 スマホ表示に切り替え</button>
     </div>
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
@@ -336,7 +347,7 @@ footer.note{margin-top:28px;font-size:10.5px;color:var(--unseen);text-align:cent
   <nav class="topnav">
     <div class="topnav-head">
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
-      
+      <button id="layoutToggleBtnMobile" style="font-size:10px;background:none;border:1px solid var(--line);border-radius:4px;padding:3px 7px;cursor:pointer;font-family:inherit;color:var(--ink-soft);white-space:nowrap;">🖥 PC表示</button>
     </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
   </nav>
@@ -6337,6 +6348,48 @@ function doImport(rawText){
 
   return { matched, newWeak, alreadyWeak };
 }
+
+/* ============================================================
+   UI LAYOUT TOGGLE (PC ↔ スマホ)
+   ============================================================ */
+(function(){
+  const LAYOUT_KEY = 'quiz_layout_mode';
+  // 保存済みのモードを復元
+  const saved = localStorage.getItem(LAYOUT_KEY);
+  if(saved === 'mobile') document.body.classList.add('force-mobile');
+  else if(saved === 'pc') document.body.classList.add('force-pc');
+
+  function setLayout(mode){
+    document.body.classList.remove('force-mobile','force-pc');
+    if(mode === 'mobile'){
+      document.body.classList.add('force-mobile');
+      localStorage.setItem(LAYOUT_KEY, 'mobile');
+    } else {
+      document.body.classList.add('force-pc');
+      localStorage.setItem(LAYOUT_KEY, 'pc');
+    }
+    updateBtnLabels();
+  }
+
+  function updateBtnLabels(){
+    const isMobile = document.body.classList.contains('force-mobile');
+    const pcBtn = document.getElementById('layoutToggleBtn');
+    const mobileBtn = document.getElementById('layoutToggleBtnMobile');
+    if(pcBtn) pcBtn.textContent = isMobile ? '🖥 PC表示に切り替え' : '📱 スマホ表示に切り替え';
+    if(mobileBtn) mobileBtn.textContent = isMobile ? '🖥 PC表示' : '📱 スマホ表示';
+  }
+
+  document.getElementById('layoutToggleBtn').addEventListener('click',()=>{
+    const isMobile = document.body.classList.contains('force-mobile');
+    setLayout(isMobile ? 'pc' : 'mobile');
+  });
+  document.getElementById('layoutToggleBtnMobile').addEventListener('click',()=>{
+    const isMobile = document.body.classList.contains('force-mobile');
+    setLayout(isMobile ? 'pc' : 'mobile');
+  });
+
+  updateBtnLabels();
+})();
 
 /* ============================================================
    GLOBAL RESET
