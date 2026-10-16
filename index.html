@@ -6124,8 +6124,7 @@ function exportStarItems(){
     lines.push(`◆ ${meta.label}`);
     lines.push('');
     starred.forEach((f, i) => {
-      lines.push(`${i+1}. ${f.front}`);
-      if(f.back) lines.push(`   → ${f.back}`);
+      lines.push(`${i+1}. 【${f.ch}】 ${f.text}`);
       lines.push('');
     });
     total += starred.length;
