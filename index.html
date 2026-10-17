@@ -78,6 +78,41 @@ body{
 .sidebar-footer{padding:10px 12px;border-top:1px solid var(--line);}
 .sidebar-footer button{font-size:10px;color:var(--ink-soft);text-decoration:underline;background:none;border:none;cursor:pointer;font-family:inherit;display:block;margin-bottom:4px;}
 
+/* SEARCH */
+.sidebar-search{padding:8px 12px;border-bottom:1px solid var(--line);}
+.sidebar-search-wrap{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:5px 10px;}
+.sidebar-search-wrap:focus-within{border-color:var(--gold);}
+.sidebar-search-wrap .search-icon{font-size:13px;flex-shrink:0;color:var(--ink-soft);}
+#globalSearchInput{border:none;outline:none;font-size:12px;font-family:'Noto Sans JP',sans-serif;width:100%;background:transparent;color:var(--ink);}
+#globalSearchInput::placeholder{color:var(--unseen);}
+#globalSearchClear{background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink-soft);padding:0;line-height:1;display:none;}
+
+/* SEARCH RESULTS PANEL */
+#searchResultsPanel{
+  position:fixed;inset:0;background:var(--paper);z-index:500;display:none;flex-direction:column;overflow:hidden;
+}
+#searchResultsPanel.open{display:flex;}
+.srp-head{
+  background:#fff;border-bottom:2px solid var(--line);padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.srp-back{background:none;border:none;cursor:pointer;font-size:22px;line-height:1;color:var(--ink);padding:0 4px 0 0;}
+.srp-title{font-family:'Shippori Mincho',serif;font-size:15px;font-weight:800;flex:1;}
+.srp-count{font-size:11px;color:var(--ink-soft);}
+.srp-body{flex:1;overflow-y:auto;padding:12px 14px 40px;}
+.srp-section{margin-bottom:18px;}
+.srp-section-label{font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--gold);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid var(--line);}
+.srp-item{background:#fff;border:1px solid var(--line);border-radius:4px;padding:10px 12px;margin-bottom:6px;display:flex;gap:8px;align-items:flex-start;}
+.srp-item-text{flex:1;font-size:12.5px;line-height:1.65;}
+.srp-item-text mark{background:#fff3a0;border-radius:2px;padding:0 1px;}
+.srp-item-ch{font-size:10px;color:var(--ink-soft);margin-top:3px;}
+.srp-item-actions{display:flex;flex-direction:column;gap:4px;flex-shrink:0;}
+.srp-star-btn{font-size:11px;padding:3px 7px;border-radius:20px;border:1.5px solid #c8a200;background:#fff;cursor:pointer;color:#c8a200;font-family:inherit;white-space:nowrap;}
+.srp-star-btn.starred{background:#ffd700;border-color:#b8920a;color:#5a4600;}
+.srp-status-badge{font-size:10px;padding:2px 6px;border-radius:10px;border:1px solid var(--line);background:var(--paper-deep);color:var(--ink-soft);text-align:center;white-space:nowrap;}
+.srp-empty{text-align:center;color:var(--ink-soft);font-size:13px;padding:40px 0;}
+/* スマホUI時の検索ボックス（トップナビ内） */
+.topnav-search{padding:6px 12px 4px;display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:20px;margin:0 12px 6px;}
+
 /* SETUP MODAL */
 .modal-overlay{
   display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;
@@ -347,6 +382,13 @@ body.force-pc .layout{display:flex!important;}
       <div class="app-sub">全科目版</div>
       <button id="layoutToggleBtn">📱 スマホ表示に切り替え</button>
     </div>
+    <div class="sidebar-search">
+      <div class="sidebar-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="globalSearchInput" type="search" placeholder="全項目を検索…" autocomplete="off">
+        <button id="globalSearchClear" title="クリア">✕</button>
+      </div>
+    </div>
     <div class="sidebar-modules" id="sidebarModules"></div>
     <div class="sidebar-footer">
       <button id="exportProgressBtn">📤 進捗を書き出す</button>
@@ -364,8 +406,25 @@ body.force-pc .layout{display:flex!important;}
       <div class="app-title"><span class="logo-stamp">宅建</span>暗記道場 全科目</div>
       <button id="layoutToggleBtnMobile">🖥 PC表示</button>
     </div>
+    <div style="padding:6px 12px 4px;">
+      <div class="sidebar-search-wrap">
+        <span class="search-icon">🔍</span>
+        <input id="globalSearchInputMobile" type="search" placeholder="全項目を検索…" autocomplete="off">
+        <button id="globalSearchClearMobile" title="クリア" style="background:none;border:none;cursor:pointer;font-size:14px;color:var(--ink-soft);padding:0;display:none;">✕</button>
+      </div>
+    </div>
     <div class="topnav-tabs" id="topnavTabs"></div>
   </nav>
+
+  <!-- 検索結果パネル -->
+  <div id="searchResultsPanel">
+    <div class="srp-head">
+      <button class="srp-back" id="searchBackBtn">←</button>
+      <span class="srp-title">🔍 検索結果</span>
+      <span class="srp-count" id="searchResultCount"></span>
+    </div>
+    <div class="srp-body" id="searchResultsBody"></div>
+  </div>
 
   <!-- MAIN -->
   <main class="main" id="mainArea"></main>
@@ -6456,6 +6515,120 @@ function doImport(rawText){
 
   // 初回適用
   applyLayout();
+})();
+
+/* ============================================================
+   全科目キーワード検索
+   ============================================================ */
+(function(){
+  const panel  = document.getElementById('searchResultsPanel');
+  const body   = document.getElementById('searchResultsBody');
+  const countEl= document.getElementById('searchResultCount');
+  const backBtn= document.getElementById('searchBackBtn');
+
+  // PC・スマホ両方の入力欄を取得
+  const inputs  = ['globalSearchInput','globalSearchInputMobile'].map(id=>document.getElementById(id)).filter(Boolean);
+  const clears  = ['globalSearchClear','globalSearchClearMobile'].map(id=>document.getElementById(id)).filter(Boolean);
+
+  function highlight(text, q){
+    if(!q) return escHtml(text);
+    const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'), 'gi');
+    return escHtml(text).replace(re, m=>`<mark>${m}</mark>`);
+  }
+  function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function getStatusLabel(key, id){
+    const s = getStatus(key, id);
+    if(s==='weak')  return '<span class="srp-status-badge" style="color:#AE3B33;border-color:#AE3B33;">苦手</span>';
+    if(s==='known') return '<span class="srp-status-badge" style="color:#3F6E5E;border-color:#3F6E5E;">分かった</span>';
+    return '<span class="srp-status-badge">未学習</span>';
+  }
+
+  function runSearch(q){
+    q = q.trim();
+    // クリアボタン表示切替
+    clears.forEach(c=>c.style.display = q ? 'block' : 'none');
+    // 入力欄を同期
+    inputs.forEach(inp=>{ if(inp.value !== q) inp.value = q; });
+
+    if(!q){ closePanel(); return; }
+
+    openPanel();
+
+    const results = {}; // {moduleLabel: [{key,fact}]}
+    MODULE_META.forEach(meta=>{
+      const key = meta.key;
+      const FACTS = getFacts(key);
+      const hits = FACTS.filter(f=> f.text && f.text.includes(q));
+      if(hits.length) results[meta.label] = {key, hits};
+    });
+
+    const totalHits = Object.values(results).reduce((s,r)=>s+r.hits.length,0);
+    countEl.textContent = totalHits ? `${totalHits}件` : '';
+
+    if(totalHits === 0){
+      body.innerHTML = `<div class="srp-empty">「${escHtml(q)}」に一致する項目はありません</div>`;
+      return;
+    }
+
+    body.innerHTML = Object.entries(results).map(([label,{key,hits}])=>`
+      <div class="srp-section">
+        <div class="srp-section-label">◆ ${escHtml(label)}（${hits.length}件）</div>
+        ${hits.map(f=>{
+          const starred = getStar(key, f.id);
+          return `<div class="srp-item" data-key="${key}" data-id="${escHtml(f.id)}">
+            <div style="flex:1;">
+              <div class="srp-item-text">${highlight(f.text, q)}</div>
+              <div class="srp-item-ch">${escHtml(f.ch||'')} ${getStatusLabel(key,f.id)}</div>
+            </div>
+            <div class="srp-item-actions">
+              <button class="srp-star-btn ${starred?'starred':''}" data-action="star" data-key="${key}" data-id="${escHtml(f.id)}">${starred?'★':'☆'}</button>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>`).join('');
+
+    // ★ボタンのイベント
+    body.querySelectorAll('[data-action="star"]').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        e.stopPropagation();
+        const k = btn.dataset.key, id = btn.dataset.id;
+        const newVal = !getStar(k, id);
+        setStar(k, id, newVal);
+        persistProgressDebounced();
+        btn.textContent = newVal ? '★' : '☆';
+        btn.classList.toggle('starred', newVal);
+        // ダッシュボードも更新
+        if(moduleState[k]) renderDashboard(k);
+      });
+    });
+  }
+
+  function openPanel(){
+    panel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePanel(){
+    panel.classList.remove('open');
+    document.body.style.overflow = '';
+    inputs.forEach(inp=>inp.value='');
+    clears.forEach(c=>c.style.display='none');
+    body.innerHTML='';
+    countEl.textContent='';
+  }
+
+  backBtn.addEventListener('click', closePanel);
+
+  let _searchTimer = null;
+  inputs.forEach(inp=>{
+    inp.addEventListener('input', ()=>{
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(()=> runSearch(inp.value), 200);
+    });
+  });
+  clears.forEach(c=>{
+    c.addEventListener('click', ()=>{ closePanel(); });
+  });
 })();
 
 /* ============================================================
