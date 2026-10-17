@@ -5927,6 +5927,31 @@ function generateQuiz(key, factsPool, total){
   }));
 }
 
+// ★直前チェック専用: 各項目から1問だけ選び、全項目分を順番に出題
+function generateQuizStar(key, factsPool){
+  const m = getCustomModule(key);
+  const editedIds = new Set(Object.keys(m.edits||{}));
+  const questions = [];
+  // factsPoolの順序を保持（シャッフルしない）
+  factsPool.forEach((f, i) => {
+    const id = f.id;
+    // その項目に対応する問題候補を集める
+    const builtIn = editedIds.has(id) ? [] :
+      ALL_MODULES[key].questionBank.filter(q=>q.factId===id);
+    const custom = getCustomQuestions(key).filter(q=>q.factId===id);
+    const cands = builtIn.concat(custom);
+    if(!cands.length) return;
+    // 候補からランダムに1問選ぶ
+    const q = cands[Math.floor(Math.random()*cands.length)];
+    questions.push({
+      id:'q'+Date.now()+'_'+i,
+      factId:q.factId, statement:q.statement, isTrue:!!q.isTrue,
+      explanation:q.explanation, ch:q.ch, moduleKey:key
+    });
+  });
+  return questions;
+}
+
 function startQuiz(key, mode){
   showView(key,'quiz');
   const FACTS=getFacts(key);
@@ -5940,13 +5965,20 @@ function startQuiz(key, mode){
     renderQuestion(key);
     return;
   }
-  if(mode==='all')      factsPool=FACTS;
-  else if(mode==='weak')  factsPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
+  if(mode==='all')       factsPool=FACTS;
+  else if(mode==='weak') factsPool=FACTS.filter(f=>getStatus(key,f.id)==='weak');
   else if(mode==='unseen')factsPool=FACTS.filter(f=>getStatus(key,f.id)==='unseen');
-  else if(mode==='star')  factsPool=FACTS.filter(f=>getStar(key,f.id));
+  else if(mode==='star') factsPool=FACTS.filter(f=>getStar(key,f.id));
 
   if(!factsPool||!factsPool.length){alert('対象となる項目がありません。');showView(key,'dashboard');return;}
-  questions=generateQuiz(key,factsPool,Math.min(20,factsPool.length*2));
+
+  // ★直前チェックは全項目1問ずつ・全問出題
+  if(mode==='star'){
+    questions=generateQuizStar(key,factsPool);
+  } else {
+    questions=generateQuiz(key,factsPool,Math.min(20,factsPool.length*2));
+  }
+
   if(!questions.length){alert('対象となる問題がありません。');showView(key,'dashboard');return;}
   moduleState[key].currentQuiz={questions,index:0,answers:[],mode};
   renderQuestion(key);
